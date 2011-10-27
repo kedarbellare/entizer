@@ -51,6 +51,145 @@ trait ParallelCollectionProcessor extends HasLogger {
   // https://github.com/jboner/akka/blob/release-1.2/akka-tutorials/akka-tutorial-second/src/main/scala/Pi.scala
   class Worker extends Actor with HasLogger {
     protected def receive = {
+      case job: Job => {
+        // initialize partial output
+        val partialOutputParams = newOutputParams()
+        // process the work
+        logger.info("Worker[" + self.id + "] received job: " + job)
+        val dboIter = inputColl.find(job.query, job.select).skip(job.skip).limit(job.limit).batchSize(5000)
+        while (dboIter.hasNext) process(dboIter.next(), job.inputParams, partialOutputParams)
+        // reply to master
+        self reply WorkResult(partialOutputParams)
+      }
+    }
+  }
+
+  class Master extends Actor with HasLogger {
+    val nrOfWorkers: Int = math.min(Conf.get[Int]("max-workers", 1), Runtime.getRuntime.availableProcessors())
+    var nrOfMessages: Int = 0
+    var nrOfResults: Int = 0
+    val outputParams = newOutputParams(true)
+
+    // create the workers
+    val workers = Vector.fill(nrOfWorkers)(actorOf(new Worker).start())
+
+    // wrap in load-balancing router
+    val router = Routing.loadBalancerActor(CyclicIterator(workers)).start()
+
+    // phase 1: scatter messages
+    def scatter: Receive = {
+      case job: Job => {
+        // schedule job by iterating over items
+        logger.info("Master received job: " + job)
+        nrOfMessages = nrOfWorkers
+        val batchSize = inputColl.find(job.query, job.select).skip(job.skip).limit(job.limit).count / nrOfMessages
+        def offset(i: Int) = job.skip + i * batchSize
+        for (i <- 0 until nrOfWorkers) {
+          if (i == nrOfWorkers - 1)
+            router ! Job(job.query, job.select, offset(i), math.min(batchSize, job.limit - offset(i)))
+          else
+            router ! Job(job.query, job.select, offset(i), batchSize)
+        }
+        logger.info("Master scattered all objects: #messages=" + nrOfMessages + "; changing to gatherer")
+
+        this become gather(self.channel)
+      }
+    }
+
+    // phase 2: gather results
+    def gather(recipient: Channel[Any]): Receive = {
+      case result: WorkResult => {
+        // merge output params with partial
+        merge(outputParams, result.partialOutputParams)
+        // increment #results
+        nrOfResults += 1
+        if (nrOfResults % debugEvery == 0 || nrOfResults == nrOfMessages) {
+          val percentComplete: Float = (100.0f * nrOfResults) / nrOfMessages
+          logger.info("Master received #results=" + nrOfResults + "/" + nrOfMessages +
+            "; Completed=" + "%.1f".format(percentComplete) + "%")
+        }
+        if (nrOfResults == nrOfMessages) {
+          // send final output params to original job submitter
+          recipient ! JobResult(outputParams)
+          // shut down
+          self.stop()
+        }
+      }
+    }
+
+    // message handler starts at the scattering behavior
+    protected def receive = scatter
+
+    // when we are stopped, stop our team of workers and our router
+    override def postStop() {
+      // send a PoisonPill to all workers telling them to shut down themselves
+      router ! Broadcast(PoisonPill)
+      // send a PoisonPill to the router, telling him to shut himself down
+      router ! PoisonPill
+    }
+  }
+
+  // view on which to run process
+  def inputJob: Job
+
+  // new output parameters (for master/worker)
+  def newOutputParams(isMaster: Boolean = false): Any = null
+
+  // actual work: should be atomic and not change global data structures
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any)
+
+  // merge partial output parameters
+  def merge(outputParams: Any, partialOutputParams: Any) {}
+
+  def run() = {
+    preRun()
+
+    // create master
+    val master = actorOf(new Master).start()
+
+    // start the job
+    val start = now
+
+    // send job to master
+    val outputParams = master.?(inputJob)(timeout = Actor.Timeout(30 days)).await.resultOrException match {
+      // wait for result with a long timeout!! (30 days!!!)
+      case Some(result) => {
+        logger.info("Completed " + parallelName + " in time=" + (now - start) + " millis")
+        result.asInstanceOf[JobResult].outputParams
+      }
+      case None => {
+        logger.error("Failed to complete " + parallelName + " after time=" + (now - start) + " millis")
+        throw new RuntimeException("Job " + inputJob + " -> " + parallelName + " failed!!!")
+      }
+    }
+
+    // return merged output parameters
+    outputParams
+  }
+}
+
+trait ParallelCollectionProcessorOld extends HasLogger {
+
+  import JobCenter._
+
+  def name: String
+
+  def parallelName: String = "parallel[" + name + "]"
+
+  def debugEvery: Int = 1000
+
+  // input collection
+  def inputColl: MongoCollection
+
+  def preRun() {
+    logger.info("")
+    logger.info("Starting " + parallelName)
+  }
+
+  // adapted from akka-tutorial scala (part 2):
+  // https://github.com/jboner/akka/blob/release-1.2/akka-tutorials/akka-tutorial-second/src/main/scala/Pi.scala
+  class Worker extends Actor with HasLogger {
+    protected def receive = {
       case work: Work => {
         // initialize partial output
         val partialOutputParams = newOutputParams()
