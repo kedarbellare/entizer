@@ -1,0 +1,528 @@
+4d1be8f7062b6c0ce57a2b7c
+omni	william	penn	hotel	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c007b2b7c
+lankspur	landing	2*	roseville	rocklin
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c017b2b7c
+courtyard	by	marriott	2.5*	south	natomas
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c027b2b7c
+residence	inn	2.5*	south	natomas
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c037b2b7c
+la	quinta	2*	airport	pit
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c047b2b7c
+homestead	village	2*	south	natomas
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c057b2b7c
+sheraton	san	diego	hotel	and	marina	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c067b2b7c
+westin	horton	plaza	san	diego	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c077b2b7c
+manchester	grand	hyatt	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c087b2b7c
+hilton	gaslamp	quarter	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c097b2b7c
+omni	hotel	san	diego	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c0a7b2b7c
+u	.	s	.	grant	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c0b7b2b7c
+san	diego	marriott	hotel	and	marina	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c0c7b2b7c
+wyndham	emerald	plaza	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c0d7b2b7c
+hilton	san	diego	airport	3*	harbor	island
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c0e7b2b7c
+holiday	inn	3*	greentree
+B-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c0f7b2b7c
+sheraton	suites	san	diego	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c107b2b7c
+embassy	suites	3*	downtown
+B-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c117b2b7c
+radisson	hotel	harbor	view	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c127b2b7c
+holiday	inn	on	the	bay	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c137b2b7c
+residence	inn	san	diego	2.5*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c147b2b7c
+courtyard	by	marriott	san	diego	2.5*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c157b2b7c
+holiday	inn	san	diego	harbor	view	2.5*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c167b2b7c
+comfort	inn	gaslamp	2.5*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c177b2b7c
+ramada	inn	2*	downtown
+B-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c187b2b7c
+loews	bay	resort	4*	coronado
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c197b2b7c
+radisson	3*	greentree
+B-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c1a7b2b7c
+marriott	island	resort	4*	coronado
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c1b7b2b7c
+hotel	del	coronado	4*	coronado
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c1c7b2b7c
+prime	hotel	&	suites	san	diego	3*	mira	sorrento	mesa
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c1d7b2b7c
+wyndham	san	diego	3*	mira	sorrento	mesa
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c1e7b2b7c
+woodfin	suites	2.5*	mira	sorrento	mesa
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c1f7b2b7c
+courtyard	by	marriott	2.5*	mira	sorrento	mesa
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c207b2b7c
+residence	inn	san	diego	2.5*	mira	sorrento	mesa
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c217b2b7c
+homestead	studio	suites	san	diego	2*	mira	sorrento	mesa
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c227b2b7c
+staybridge	suites	2*	mira	sorrento	mesa
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c237b2b7c
+hilton	san	diego	3*	del	mar
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c247b2b7c
+amerisuites	pittsburgh	2.5*	cranberry	township
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c257b2b7c
+san	diego	marriott	3*	del	mar
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c267b2b7c
+doubletree	hotel	san	diego	3*	del	mar
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c277b2b7c
+courtyard	solana	beach	2.5*	del	mar
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c287b2b7c
+hilton	torrey	pines	4*	coastal
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c297b2b7c
+hyatt	regency	la	jolla	4*	coastal
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c2a7b2b7c
+hyatt	regency	islandia	mission	bay	4*	coastal
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c2b7b2b7c
+san	diego	marriott	la	jolla	3*	coastal
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c2c7b2b7c
+embassy	suites	3*	coastal
+B-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c2d7b2b7c
+hotel	la	jolla	at	the	shores	3*	coastal
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c2e7b2b7c
+fairfield	inn	2*	cranberry	township
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c2f7b2b7c
+radisson	la	jolla	3*	coastal
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c307b2b7c
+residence	inn	la	jolla	2.5*	coastal
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c317b2b7c
+holiday	inn	express	mission	bay	2*	coastal
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c327b2b7c
+doubletree	hotel	san	diego	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c337b2b7c
+radisson	san	diego	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c347b2b7c
+san	diego	marriott	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c357b2b7c
+regency	plaza	3*	mission	valley
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c367b2b7c
+red	lion	hanalei	hotel	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c377b2b7c
+hilton	3*	mission	valley
+B-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c387b2b7c
+handlery	hotel	&	resort	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c397b2b7c
+holiday	inn	pittsburgh	2.5*	east	monroeville
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c3a7b2b7c
+holiday	inn	san	diego	stadium	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c3b7b2b7c
+town	and	country	resort	3*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c3c7b2b7c
+residence	inn	2.5*	mission	valley
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c3d7b2b7c
+residence	inn	central	2.5*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c3e7b2b7c
+courtyard	by	marriott	san	diego	2.5*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c3f7b2b7c
+ramada	plaza	hotel	circle	south	2.5*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c407b2b7c
+holiday	inn	select	circle	2.5*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c417b2b7c
+homestead	studio	suites	san	diego	2*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c427b2b7c
+comfort	inn	&	suites	san	diego	zoo	2*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c437b2b7c
+ramada	inn	qualcomm	conference	center	2*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c447b2b7c
+holiday	inn	pittsburgh	2*	north	allegheny	valley
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c457b2b7c
+quality	resort	2*	mission	valley
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c467b2b7c
+ramada	limited	suites	1*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c477b2b7c
+good	nite	inn	1*	mission	valley
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c487b2b7c
+rancho	bernardo	inn	4*	rancho	bernardo
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c497b2b7c
+four	points	sheraton	3*	rancho	bernardo
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4a7b2b7c
+doubletree	golf	resort	3*	rancho	bernardo
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4b7b2b7c
+radisson	suite	hotel	3*	rancho	bernardo
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4c7b2b7c
+residence	inn	carmel	mountain	ranch	2.5*	rancho	bernardo
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4d7b2b7c
+staybridge	suites	2.5*	rancho	bernardo
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4e7b2b7c
+holiday	inn	2*	rancho	bernardo
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4f7b2b7c
+westin	convention	center	pittsburgh	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c507b2b7c
+holiday	inn	select	pittsburgh	at	3*	university	center
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c517b2b7c
+la	quinta	2*	miramar	rancho	penasquitos
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c527b2b7c
+shelter	point	hotel	&	marina	3*	shelter	island	point	loma
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c537b2b7c
+humphreys	half	moon	inn	suites	3*	shelter	island	point	loma
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c547b2b7c
+best	western	island	palms	hotel	&	marina	2.5*	shelter	island	point	loma
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c557b2b7c
+courtyard	2.5*	old	town
+B-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c567b2b7c
+holiday	inn	express	2*	old	town
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c577b2b7c
+la	costa	resort	4*	carlsbad	encinitas	cardiff
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c587b2b7c
+country	inn	by	ayres	-	cardiff	by	the	sea	2.5*	carlsbad	encinitas	cardiff
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c597b2b7c
+fairfield	inn	2*	carlsbad	encinitas	cardiff
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c5a7b2b7c
+holiday	inn	express	2*	carlsbad	encinitas	cardiff
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c5b7b2b7c
+residence	inn	pittsburgh	2.5*	university	center
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c5c7b2b7c
+welk	resort	3*	escondido	vista
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c5d7b2b7c
+castle	creek	inn	2.5*	escondido	vista
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c5e7b2b7c
+comfort	inn	2*	escondido	vista
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c5f7b2b7c
+holiday	inn	express	hotel	&	suites	2*	escondido	vista
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c607b2b7c
+comfort	inn	2*	la	mesa
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c617b2b7c
+wyndham	garden	2.5*	university	center
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c627b2b7c
+marriott	pittsburgh	city	center	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c637b2b7c
+sheraton	station	square	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c647b2b7c
+hilton	pittsburgh	&	towers	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0c657b2b7c
+wyndham	pittsburgh	3*	airport	pit
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c667b2b7c
+crowne	plaza	3*	airport	pit
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c677b2b7c
+hyatt	regency	pittsburgh	3*	airport	pit
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0c687b2b7c
+four	points	barcelo	by	sheraton	pittsburgh	3*	airport	pit
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0ce67a2b7c
+amerisuites	pittsburgh	2.5*	airport	pit
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0ce77a2b7c
+hyatt	regency	sacramento	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0ce87a2b7c
+sheraton	grand	sacramento	4*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0ce97a2b7c
+holiday	inn	capitol	plaza	3*	downtown
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0cea7a2b7c
+hawthorn	suites	sacramento	2.5*	downtown
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0ceb7a2b7c
+la	quinta	2*	downtown
+B-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0cec7a2b7c
+travelodge	1*	downtown
+B-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0ced7a2b7c
+holiday	inn	2.5*	airport	pit
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cee7a2b7c
+doubletree	hotel	sacramento	3*	business	80	arden
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cef7a2b7c
+radisson	hotel	sacramento	3*	business	80	arden
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cf07a2b7c
+hilton	sacramento	west	3*	business	80	arden
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cf17a2b7c
+red	lion	sacramento	3*	business	80	arden
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cf27a2b7c
+lions	gate	hotel	2.5*	business	80	arden
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cf37a2b7c
+holiday	inn	2.5*	business	80	arden
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cf47a2b7c
+la	quinta	sacramento	north	2*	business	80	arden
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cf57a2b7c
+residence	inn	sacramento	cal	expo	2.5*	university
+B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea
+
+4d1be8f9062b6c0cf67a2b7c
+marriott	sacramento	4*	rancho	cordova
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cf77a2b7c
+holiday	inn	3*	rancho	cordova
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cf87a2b7c
+airport	plaza	hotel	2*	airport	pit
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cf97a2b7c
+amerisuites	inn	2.5*	rancho	cordova
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cfa7a2b7c
+courtyard	by	marriott	2.5*	rancho	cordova
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cfb7a2b7c
+residence	inn	2.5*	rancho	cordova
+B-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cfc7a2b7c
+fairfield	inn	sacramento	2*	rancho	cordova
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cfd7a2b7c
+hilton	garden	inn	2.5*	roseville	rocklin
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cfe7a2b7c
+courtyard	by	marriott	2.5*	roseville	rocklin
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+
+4d1be8f9062b6c0cff7a2b7c
+residence	inn	sacramento	2.5*	roseville	rocklin
+B-hotelname	I-hotelname	I-hotelname	B-starrating	B-localarea	I-localarea
+

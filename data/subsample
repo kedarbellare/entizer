@@ -1,0 +1,65 @@
+#!/usr/bin/perl -w
+
+die "subsample <cluster_file> <num_clusters> <record_file> <text_file>\n" unless $#ARGV == 3;
+
+open(CLUST, $ARGV[0]);
+%clust2ids = ();
+while (<CLUST>) {
+  chomp;
+  @parts = split /\t/;
+  $id = $parts[0];
+  $clust = $parts[1];
+  if ($clust2ids{$clust}) {
+    $clust2ids{$clust} = $clust2ids{$clust} . "\t" . $id;
+  } else {
+    $clust2ids{$clust} = $id;
+  }
+}
+close(CLUST);
+
+%sampleids = ();
+$numclust = $ARGV[1];
+open(OCLUST, ">$ARGV[0].$ARGV[1]");
+foreach $clust (keys %clust2ids) {
+  @ids = split(/\t/, $clust2ids{$clust});
+  if ($numclust > 0 && scalar(@ids) > 1) {
+    foreach $id (@ids) {
+      print OCLUST "$id\t$clust\n";
+      $sampleids{$id} = 1;
+    }
+    $numclust--;
+  }
+}
+close(OCLUST);
+
+open(REC, $ARGV[2]);
+open(OREC, ">$ARGV[2].$ARGV[1]");
+while ($id = <REC>) {
+  chomp($id);
+  $words = <REC>;
+  chomp($words);
+  $labels = <REC>;
+  chomp($labels);
+  <REC>;
+  if ($sampleids{$id}) {
+    print OREC $id, "\n", $words, "\n", $labels, "\n\n"; 
+  }
+}
+close(REC);
+close(OREC);
+
+open(TXT, $ARGV[3]);
+open(OTXT, ">$ARGV[3].$ARGV[1]");
+while ($id = <TXT>) {
+  chomp($id);
+  $words = <TXT>;
+  chomp($words);
+  $labels = <TXT>;
+  chomp($labels);
+  <TXT>;
+  if ($sampleids{$id}) {
+    print OTXT $id, "\n", $words, "\n", $labels, "\n\n"; 
+  }
+}
+close(TXT);
+close(OTXT);

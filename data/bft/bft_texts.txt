@@ -1,0 +1,4500 @@
+4d1be8f9062b6c0c007c2b7c
+3*	four	points	barcelo	airport	6/24	-	6/26	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c007d2b7c
+3*	rancho	cordova	holiday	inn	2/4	-	2/6	$45
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c007e2b7c
+no	luck	-	sacramento	3*	for	9/25
+O	O	O	B-hotelname	B-starrating	O	O
+
+4d1be8f9062b6c0c017c2b7c
+3*	four	points	barcelo	airport	-	5/22	-	$27.00
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c017d2b7c
+4*	sheraton	grand	downtown	$65	1/30
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c017e2b7c
+3*	doubletree	hotel	sacramento	$29	+	$5	bonus	6/15	and	6/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c027c2b7c
+4*	omni	william	penn	-	$65	may	10
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c027d2b7c
+2*	downtown	la	quinta	$39	(	1/25	)
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c027e2b7c
+4*	sacramento	sheraton	grand	$38	+$5bonus	12/22	-	23
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c037c2b7c
+3*	hyatt	pittsburgh	ap	,	$27	,	5/16
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c037d2b7c
+2*	rancho	cordova	fairfield	inn	$40	(	1/24	)
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c037e2b7c
+2.5*	amerisuites	rancho	cordova	,	1/17	,	2	rms	,	$29	+	$5	bm
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c047c2b7c
+4*	omni	william	penn	$65	june	1	-	6
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c047d2b7c
+3*	doubletree	arden	2/1	$33
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c047e2b7c
+3*	sacramento	radisson	hotel	$23	+$5	bonus	money	12/15
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c057c2b7c
+3*	pittsburgh	hilton	5/9	-	11/03	$45
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c057d2b7c
+failed	4*	sacramento	downtown	saturday	1/24
+O	B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c057e2b7c
+3*	sacramento	sheraton	grand	10/25	$35	no	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c067c2b7c
+3*	four	points	barcelo	airport	6/10	-	6/12	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c067d2b7c
+4*	rancho	cordova	marriott	$46	4/29	-	5/1
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c067e2b7c
+3*	sacramento	doubletree	11/8	-	11/9	$31	+$5	bonus
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c077c2b7c
+3*	hilton	pittsburgh	dt	4/26	$42
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c077d2b7c
+2.5*	roseville	hilton	garden	inn	$50	1/22
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c077e2b7c
+3*	hilton	downtown	5/28	$45
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c087c2b7c
+4*	omni	william	penn	$65	5/9
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c087d2b7c
+2.5*	pittsburgh	east	holiday	inn	9/26	-	30	$42
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c087e2b7c
+3*	sacramento	doubletree	hotel	$25	10/20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c097c2b7c
+3*	hyatt	pittsburgh	airport	$35	2/2	,	2/3
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c097d2b7c
+2*	larkspur	landing	roseville	3/18	-	3/21	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c097e2b7c
+4*	sacramento	sheraton	12/26	-	28	$35	+	$5	bonus
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c0a7c2b7c
+3*	hyatt	pitts	airport	,	$27	,	5/2
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c0a7d2b7c
+3*	arden	,	radisson	$44	3/26	-	3/28
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c0a7e2b7c
+4*	hyatt	sacramento	dt	aug	17	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0c0b7c2b7c
+3*	westin	convention	center	dt	05/11/03	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c0b7d2b7c
+4*	sheraton	grand	downtown	$65	1/20
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c0b7e2b7c
+3*	**	sacramento	sheraton	-	$45.00	!!	5/26	$and$	5/27	!!
+B-starrating	I-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c0c7c2b7c
+3*	hilton	pittsburgh	dt	6/2	-	6/6	$42
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c0c7d2b7c
+3*	raddison	-	arden	...	6/3	to	6/6	...	$37	/night...	accepted
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c0c7e2b7c
+4*	sacramento	downtown	sheraton	grand	12/31	$50	+	$5	bonus
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c0d7c2b7c
+3*	crowne	plaza	ap	,	$33	,	5/3
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c0d7d2b7c
+3*	radisson	arden	-	sat	.	7/10	-	$38	/rm	(	2	rooms	total	)
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c0d7e2b7c
+4*	sacramento	(	dtown	)	-	hyatt	regency	12/12	$65	+5
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c0e7c2b7c
+3*	four	points	barcelo	airport	9/22	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c0e7d2b7c
+3*	arden	-	$33	doubletree	2/13	-	2/15
+B-starrating	B-localarea	O	O	B-hotelname	O	O	O
+
+4d1be8f9062b6c0c0e7e2b7c
+4*	hyatt	regency	downtown	8/22	-	8/24	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c0f7c2b7c
+3*	westin	convention	center	dt	04/26/03	$42
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c0f7d2b7c
+3*	arden	doubletree	$33	2/14	-	2/16
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c0f7e2b7c
+4*	sacramento	hyatt	regency	dt	$45	july	25th
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0c107c2b7c
+3*	hilton	pittsburgh	dt	4/26	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c107d2b7c
+2.5*	hawthorn	suites	dt	$45	1	-	12	-	04	to	1	-	14	-	04
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c107e2b7c
+4*	sacramento	5/29	-	5/31	rejected
+B-starrating	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c117c2b7c
+3*	sheraton	downtown	-	$41	4/29/03
+B-starrating	B-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0c117d2b7c
+3*	hilton	sacramento	arden	west	1/15	-	1/17	$35
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c117e2b7c
+3*	hilton	arden	west	5/7	-	5/10	$35	/night
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c127c2b7c
+3*	dt	westin	4/26	$41
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c127d2b7c
+3*	arden	doubletree	$33	1/22/04
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c127e2b7c
+3*	pittsburgh	hilton	downtown	4/10	-	16/04	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c137c2b7c
+3*	hyatt	pittsburgh	airport	5/7	-	5/9	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c137d2b7c
+3*	pit	airport	crown	plaza	$29	11/22
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c137e2b7c
+3*	pittsburgh	hilton	$65	4	-	14	to	4	-	16
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c147c2b7c
+3*	hyatt	pitt	airport	-	$27	7/19
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c147d2b7c
+3*	radisson	arden	$37	8/23	-	8/25
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c147e2b7c
+3*	hilton	arden	west	5/7	$35
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c157c2b7c
+3*	four	points	barcelo	airport	-	$27	4/18	-	20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c157d2b7c
+4*	marriott	rancho	cordova	$47	12/27	-	1/1
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c157e2b7c
+2.5*	lions	gate	(	arden	i	-	80	zone	)	8/18	-	8/20	$37
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c167c2b7c
+3*	pit	-	airport	hyatt	$27	4/28
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c167d2b7c
+help	bidding	12/31/03	downtown
+O	O	O	B-localarea
+
+4d1be8f9062b6c0c167e2b7c
+folsom	added	to	sacramento	area	list
+O	O	O	B-hotelname	O	O
+
+4d1be8f9062b6c0c177c2b7c
+3*	airport	-	hyatt	$27	6/20	-	6/22
+B-starrating	B-localarea	O	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c177d2b7c
+2.5*	amerisuites	rancho	cordova	12/26	$35
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c177e2b7c
+3*	radisson	arden	$40	4/23	-	4/25
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c187c2b7c
+3*	westin	dt	$45	4/26
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c187d2b7c
+4*	sheraton	grand	12/12	-	12/14	$55
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c187e2b7c
+3*	hilton	arden	4/23/04	$36
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c197c2b7c
+*3	dt	hilton	4/9/03	$42
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c197d2b7c
+4*	marriott	rancho	cordova	$47	12/16	-	12/18
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c197e2b7c
+4*	all	areas	failed	5/29
+B-starrating	O	O	O	O
+
+4d1be8f9062b6c0c1a7c2b7c
+3*	dt	westin	4/2	-	4/3	$41
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c1a7d2b7c
+2.5*	hawthorn	suites	12/2	-	4	4	rooms	$42
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c1a7e2b7c
+3*	hilton	sacramento	arden	west	$35	8/18	-	9/7
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c1b7c2b7c
+3*	hyatt	pittsburgh	airport	4/9	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c1b7d2b7c
+4*	hyatt	regency	sacramento	12/10	-	12/12	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c1b7e2b7c
+3*	hilton	sacramento	arden	west	$47	4/17	-	4/19
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c1c7c2b7c
+3*	downtown	marriot	city	center	$50	11/22	-	11/24/02
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c1c7d2b7c
+4*	sheraton	dntwn	$60	12/10	-	14
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c1c7e2b7c
+*3	radisson	hotel	sacramento	arden	$51	4/10
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c1d7c2b7c
+3*	four	points	,	pittsburgh	airport	,	$27	,	9/1
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c1d7d2b7c
+2.5*	hawthorn	suites	sacto	dt	$42	-	12/6
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0c1d7e2b7c
+3*	red	lion	sacramento	inn	-	arden	5/30	-	$39
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	B-localarea	O	O	O
+
+4d1be8f9062b6c0c1e7c2b7c
+3*	hyatt	pittsburgh	airport	$27	6/22	to	6/24	(	sun	$and$	mon	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c1e7d2b7c
+2*	fairfield	inn	pittsburgh	-	cranberry	12/19	$25
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c1e7e2b7c
+3*	four	points	sheraton	airport	$30	4/8
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c1f7c2b7c
+3*	four	points	sheraton	airport	1/30	$30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c1f7d2b7c
+2.5*	hawthorne	suites	dt	$42	12/14
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c1f7e2b7c
+4*	marriott	rancho	cordova	5/30	$46
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c207c2b7c
+3*	four	points	barcelo	airport	9/23	$29
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c207d2b7c
+2.5*	rancho	cordova	amerisuites	$33	11/28
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c207e2b7c
+2*	holiday	inn	rancho	cordova	$32	8/5	-	8/6
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c217c2b7c
+3*	crowne	plaza	pittsburgh	airport	$27	6/21
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c217d2b7c
+3*	arden	doubletree	4/5	$33
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c217e2b7c
+4*	sacramento	dt	rejected	bids	7/29
+B-starrating	B-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0c227c2b7c
+3*	four	points	barcelo	airport	4/23	-	4/25	$27	new	3*	hotel
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c227d2b7c
+folsom	is	back
+O	O	O
+
+4d1be8f9062b6c0c227e2b7c
+4*	hyatt	regency	downtown	sacramento	$40	8/3	-	4	sat	-	sun
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c237c2b7c
+3*	hyatt	pittsburgh	airport	5/19	-	5/21	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c237d2b7c
+2.5*	hawthorn	suites	sacramento	dt	-	$45	-	12/6	-	12/8
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c237e2b7c
+4*	sheraton	grand	dt	46$	8/2	-	4
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c247c2b7c
+3*	four	points	barcelo	airport	-	5/14/03	-	5/18/03	-	$30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c247d2b7c
+4*	hyatt	regency	10/7	$78
+B-starrating	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c247e2b7c
+4*	sacramento	downtown	hyatt	$38	+	$5	6/28/02
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c257c2b7c
+3*	hyatt	pittsburgh	airport	3/23	-	25	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c257d2b7c
+4*	hyatt	regency	downtown	9/22	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c257e2b7c
+4*	sacramento	sheraton	grand	5/28/02	$47
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c267c2b7c
+3*	westin	convention	center	dt	,	$41	11/28	-	11/30	,	first	bid
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c267d2b7c
+3*	arden	doubletree	9/26	-	28	$35
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c267e2b7c
+4*	dt	hyatt	regency	$40	sun	8/31/02
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c277c2b7c
+3*	hilton	downtown	pittsburgh	$45	3/19/03
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c277d2b7c
+4*	hyatt	regency	dt	9/19	-	9/21	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c277e2b7c
+3*	red	lion	arden	$	45	9/11	-	9/13
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c287c2b7c
+3*	hyatt	pittsburgh	airport	4/2	-	4/4	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c287d2b7c
+3*	hilton	arden	$40	9/13
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c287e2b7c
+4*	hyatt	regency	dt	$48	8/25/26
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c297c2b7c
+3*	ap	,	crowne	plaza	-	$35	,	7/16
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c297d2b7c
+3*	sheraton	dt	2/1	-	2/2	$43
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c297e2b7c
+3*	pit	four	points	airport	9/20	$30	same	day	check	in
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c2a7c2b7c
+3*	pittsburgh	hilton	downtown	5/28	$and$	5/29	3	rooms	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c2a7d2b7c
+3*	red	lion	sacramento	ardens	3	rooms	10	-	15	-	03	$42
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c2a7e2b7c
+3*	arden	hilton	,	10/10	-	10/13	,	$35
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c2b7c2b7c
+2.5*	amerisuites	cranberry	,	pa	$40	2/16	-	2/17
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c2b7d2b7c
+3*	arden	doubletree	$33	+tax	9/4/03
+B-starrating	B-localarea	B-hotelname	O	O	O
+
+4d1be8f9062b6c0c2b7e2b7c
+4*	marriott	rancho	cordova	6/13	$45
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c2c7c2b7c
+2*	fairfield	inn	pittsburgh	-	cranberry	2/14/2003	$29
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c2c7d2b7c
+4*	hyatt	regency	(	dt	)	$40	(	mon	to	fri	)	9/14	-	19	$and$	9/21	-	26
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c2c7e2b7c
+4*	hyatt	dt	8/18	$40	1	nite
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c2d7c2b7c
+3*	hyatt	pittsburgh	airport	4/12/03	$27.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c2d7d2b7c
+4*	hyatt	regency	dtown	$45	9/2	-	9/6
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c2d7e2b7c
+4*	dt	sheraton	grand	$50	8/20	-	8/22/02
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c2e7c2b7c
+4*	omni	downtown	1/6	-	1/9/2003	$55
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c2e7d2b7c
+4*	hyatt	regency	downtown	8/22/03	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c2e7e2b7c
+3*	doubletree	arden	8/22	$42
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c2f7c2b7c
+3*	hyatt	pittsburgh	airport	3/1	$25
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c2f7d2b7c
+3*	arden	doubletree	8/8	$33
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c2f7e2b7c
+3*	red	lion	sacramento	arden	11/5	-	11/8	$39
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c307c2b7c
+2.5*	ap	,	4	points	barcelo	,	$29	,	3/5
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c307d2b7c
+4*	hyatt	regency	dt	8/19	$37	+$10	(	upgraded	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c307e2b7c
+2.5*	n	.	sacramento	lions	gate	hotel	8/13	$37
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c317c2b7c
+3*	hyatt	pittsburgh	airport	3/20	-	3/23	-	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c317d2b7c
+4*	hyatt	regency	downtown	8/22/03	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c317e2b7c
+note	to	kennethdarling
+O	O	O
+
+4d1be8f9062b6c0c327c2b7c
+3*	holiday	inn	select	pittsburgh	at	university	$50	+$10	4/12
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	B-localarea	O	O	O
+
+4d1be8f9062b6c0c327d2b7c
+4*	hyatt	regency	sacramento	dt	8/19	(	tues	)	$47
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c327e2b7c
+request	4*	or	3*
+O	B-starrating	O	B-starrating
+
+4d1be8f9062b6c0c337c2b7c
+3*	sheraton	dt	2/19	-	2/21	$41
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c337d2b7c
+4*	sheraton	grand	sacramento	hotel	7/26	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c337e2b7c
+how	do	i	get	2	beds	for	the	4	of	us
+O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c347c2b7c
+3*	holiday	inn	greentree	,	$40	2/1
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c347d2b7c
+3*	pittsburgh	hilton	downtown	3/6	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c347e2b7c
+3*	four	points	barcelo	airport	9/20	$29
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c357c2b7c
+3*	sheraton	dt	2/19	-	2/23	$45.00
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c357d2b7c
+3*	hyatt	pit	airport	$35	-	night	of	3	-	21	-	2004
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c357e2b7c
+please	help	aussie	going	on	cruise
+O	O	O	O	O	O
+
+4d1be8f9062b6c0c367c2b7c
+3*	hyatt	pittsburgh	airport	2/2/03	$28.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c367d2b7c
+1*	travelodge	sacramento	dt	$36	aug	.	5th
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c367e2b7c
+marathon	june	6
+O	O	O
+
+4d1be8f9062b6c0c377c2b7c
+3*	hyatt	pit	airport	-	$27	12/25/02
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c377d2b7c
+sacramento	bidding	assistance	1/5/2004
+B-hotelname	O	O	O
+
+4d1be8f9062b6c0c377e2b7c
+arrival	day
+O	O
+
+4d1be8f9062b6c0c387c2b7c
+2*	laquinta	ap	,	$27	11/30
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c387d2b7c
+2.5*	amerisuites	rancho	cordova	12/27	-	$34
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c387e2b7c
+want	to	make	reservations	vday	weekend	...	but	...
+O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c397c2b7c
+3*	hyatt	pit	airport	1/2/03	$28
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c397d2b7c
+2*	la	quinta	inn	sacramento	dt	$34	aug	.	1st
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c397e2b7c
+how	do	we	get	bonus	money	?
+O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c3a7c2b7c
+4*	omni	downtown	pittsburgh	$40	12/4	-	12/6
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c3a7d2b7c
+rejected	$51	for	4*	in	downtown	,	8/8	(	fri	)
+O	O	O	B-starrating	O	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c3a7e2b7c
+bidding	question
+O	O
+
+4d1be8f9062b6c0c3b7c2b7c
+2.5*	wyndham	garden	university	center	12/11	-	12/14	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c3b7d2b7c
+3*	hilton	arden	7/9	-	7/18/2004	$40
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c3b7e2b7c
+bidding	assistance	requested
+O	O	O
+
+4d1be8f9062b6c0c3c7c2b7c
+4*	omni	william	penn	$40	11/29	-	12/1
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c3c7d2b7c
+2.5*	dt	hawthorn	suites	5/15	1	night	$55
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c3c7e2b7c
+hotel	bidding	assistance
+O	O	O
+
+4d1be8f9062b6c0c3d7c2b7c
+3*	hilton	dt	pittsburgh	$47	1/15
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c3d7d2b7c
+4*	marriott	rancho	cordova	$44	7/16	-	7/18
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c3d7e2b7c
+is	a	zone	with	resort	only	a	free	rebid	when	bidding	4*
+O	O	O	O	O	O	O	O	O	O	O	B-starrating
+
+4d1be8f9062b6c0c3e7c2b7c
+3*	westin	conv	ctr	dt	5/24	-	5/26/03	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c3e7d2b7c
+4*	marriott	rancho	cordova	7/14	$47.00
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c3e7e2b7c
+advice	needed	5/29	-	-	31	memorial	day	weekend
+O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c3f7c2b7c
+many	winning	bids	-	hilt	/west/omni/marr/sher/hi/resinn
+O	O	O	O	O	O
+
+4d1be8f9062b6c0c3f7d2b7c
+4*	sheraton	grand	over	hyatt	?	help	please	!
+B-starrating	B-hotelname	I-hotelname	O	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c3f7e2b7c
+3*	pittsburgh	hilton	downtown	7/16	-	7/18	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c407c2b7c
+3*	hyatt	(	pit	airport	)	12	-	13	-	03	$35.00
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c407d2b7c
+3*	hilton	pitt	$43	1	-	16/1	-	18
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c407e2b7c
+amazing	-	bargains
+O	O	O
+
+4d1be8f9062b6c0c417c2b7c
+3*	hyatt	pit	airport	11/25	$28
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c417d2b7c
+4*	marriott	rancho	cordova	$45	7/4	(	fri	)
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c417e2b7c
+coastal
+B-localarea
+
+4d1be8f9062b6c0c427c2b7c
+4*	omni	william	penn	$43	+$10	bonus	12/6	-	12/8	(	weekend	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c427d2b7c
+4*	,	rancho	cordova	,	marriott	,	6/30	,	$54
+B-starrating	I-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c427e2b7c
+bidding	assistance	coastal
+O	O	B-localarea
+
+4d1be8f9062b6c0c437c2b7c
+3*	pittsburgh	university	center	holiday	inn	select	$75	10/24
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c437d2b7c
+3*	sacramento	doubletree	80	-	arden	$34	july	19th
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c437e2b7c
+bidding	for	coronado
+O	O	B-localarea
+
+4d1be8f9062b6c0c447c2b7c
+3*	westin	convention	center	pittsburgh	10/13	$42
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c447d2b7c
+2.5*	amerisuites	rancho	cordova	$40	7/17	-	7/20
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c447e2b7c
+resort	and	4*	coronado	rejected	to	$110	for	5/22	-	one	nite
+O	O	B-starrating	B-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c457c2b7c
+3*	westin	dt	pittsburgh	10/15	$45
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c457d2b7c
+4*	rancho	cordova	marriott	6/19	$47
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c457e2b7c
+4*	coronado	bid	failure	11/14	-	17
+B-starrating	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c467c2b7c
+3*	hilton	dt	pittsburgh	$44	10/27	-	10/29
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c467d2b7c
+3*	doubletree	hotel	sacramento	7/5	$34
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c467e2b7c
+bidding	for	4*	coronado	11/16	-	11/18
+O	O	B-starrating	B-localarea	O	O	O
+
+4d1be8f9062b6c0c477c2b7c
+3*	crowne	plaza	pit	airport	1/13/03	-	1/15/03	$35
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c477d2b7c
+2.5*	hawthorne	suites	dt	sac	.	7/9	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c477e2b7c
+coronado	-	unable	to	obtain	at	$135	!
+B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c487c2b7c
+3*	westin	convention	ctr	for	sat	11/23	$40	accepted	4th	bid
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c487d2b7c
+4*	marriott	rancho	cordova	7/2	$46
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c487e2b7c
+bidding	assistance	-	san	diego	/mission	valley
+O	O	O	O	B-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0c497c2b7c
+3*	hilton	dt	pittsburgh	10/21	-	10/23	$47
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c497d2b7c
+3*	holiday	inn	-	rancho	cordova	$60	6/10
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c497e2b7c
+bidding	assistance	-	downtown
+O	O	O	B-localarea
+
+4d1be8f9062b6c0c4a7c2b7c
+4*	pit	downtown	omni	william	penn	hotel	11	-	30	$41
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c4a7d2b7c
+4*	rancho	cordova	marriott	,	$48	6/23
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c717b2b7c
+san	diego	resorts
+B-hotelname	I-hotelname	O
+
+4d1be8f9062b6c0c4a7e2b7c
+4*	omni	william	penn	(	downtown	)	9/13	(	sat	)	@	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c4b7c2b7c
+3*	pit	airport	hyatt	-	$35	-	2/1/04
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c4b7d2b7c
+2.5*	university	wyndham	garden	1/26	-	2/1	$45
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c4b7e2b7c
+bidding	assistance	4*	dt	12/27	-	29
+O	O	B-starrating	B-localarea	O	O	O
+
+4d1be8f9062b6c0c4c7c2b7c
+3*	hilton	dt	pittsburgh	11/8	-	10	$41
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c4c7d2b7c
+3*	holiday	inn	-	rancho	cordova	$42	6/22	-	6/25
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c4c7e2b7c
+failed	4*	for	11/16	-	11/17	-	dt
+O	B-starrating	O	O	O	O	O	B-localarea
+
+4d1be8f9062b6c0c4d7c2b7c
+2.5*	amerisuites	cranberry	$35	sept	.	6
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c4d7d2b7c
+4*	hyatt	regency	dt	$55	+$10	bonus	6/16
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c4d7e2b7c
+2.5*	escondido	-	vista	-	7/19	-	20	-	rejected
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c4e7c2b7c
+3*	airport	hyatt	8/28	-	30	-	$28
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c4e7d2b7c
+3*	doubletree	hotel	sacramento	6/13	$36.00
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c4e7e2b7c
+free	rebid	in	miramar	?
+O	O	O	B-localarea	I-localarea
+
+4d1be8f9062b6c0c4f7c2b7c
+3*	airport	hyatt	8/29	$27
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c4f7d2b7c
+3*	holiday	inn	dt	sacramento	6/19	$55
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c4f7e2b7c
+1*	/2*	oceanside	6/4	-	6/5	(	fri	-	sat	)	$36	failed	bid
+B-starrating	I-starrating	B-localarea	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c507c2b7c
+3*	hyatt	airport	$28	9/3
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c507d2b7c
+4*	marriott	-	rancho	cordova	(	sacramento	)	$47	5/27
+B-starrating	B-hotelname	O	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c507e2b7c
+bidding	assistance	request	for	shelter	island
+O	O	O	O	B-localarea	I-localarea
+
+4d1be8f9062b6c0c517c2b7c
+2.5*	residence	inn	pittsburgh	(	university	center	)	9/6	-	8	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c517d2b7c
+2*	la	quinta	,	sacramento	,	i	-	80	corridor	,	9/25	,	$35
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c517e2b7c
+3*	rancho	bernardo	-	doubletree	golf	resort	$46	4/23
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c527c2b7c
+4*	omni	william	penn	8/10	$41	(	1	nite	,	1	room	,	1	person	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c527d2b7c
+need	help	downtown	5/24	4*
+O	O	B-localarea	O	B-starrating
+
+4d1be8f9062b6c0c527e2b7c
+2.5*	best	west	.	island	palms	hotel	-	shelter	isl	.	-	3/29	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c537c2b7c
+3*	hyatt	regency	pittsburgh	airport	8/11	$28
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c537d2b7c
+2.5*	arden	/i80	-	lions	gate	hotel	5/31	$36
+B-starrating	B-localarea	I-localarea	O	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c537e2b7c
+3*	rancho	bernardo	,	carmel	highland	doubletree	$47	3/13
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c547c2b7c
+3*	-	airport	hyatt	-	08	-	02	-	02	-	&gt	;	08	-	04	-	02
+B-starrating	O	B-localarea	B-hotelname	O	O	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c547d2b7c
+2.5*	rancho	cordova	amerisuites	$35	(	tuesday	,	may	20	)
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c547e2b7c
+3*	carmel	highland	doubletree	,	rancho	bernardo	,	5/15	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c557c2b7c
+parkway	east	-	holiday	inn	-	7/27	-	7/29	2	rooms	$31	each
+B-localarea	I-localarea	O	B-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c557d2b7c
+4*	marriott	-	rancho	cordova	5/26	$47
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c557e2b7c
+4*	dt	failed	at	$62	(	10/24	to	10/26	)
+B-starrating	B-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c567c2b7c
+2.5*	pittsburgh	east	holiday	inn	3/8/04
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O
+
+4d1be8f9062b6c0c567d2b7c
+3*	downtown	sheraton	station	square	9/9/03	same	day	$50
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c567e2b7c
+2.5*	castle	creek	inn	5/9	-	5/14	,	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c577c2b7c
+3*	pit	airport	four	points	12/29/03	$29
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c577d2b7c
+4*	sheraton	grand	dt	$65	7/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c577e2b7c
+2.5*	escondido	-	vista	-	castle	creek	inn	resort	and	spa	$54
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O
+
+4d1be8f9062b6c0c587c2b7c
+omni	william	penn	7/26	$41.00	2	rooms
+B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c587d2b7c
+3*	red	lion	arden	5/14	/	to	5/16	$38
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c587e2b7c
+2*	comfort	inn	escondido	$45	2/24	-	2/26/04
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c597c2b7c
+4*	omni	william	penn	8/26	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c597d2b7c
+2.5*	dt	sacramento	hawthorn	suites	5/16	-	18	$40
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c597e2b7c
+2.5*	country	inn	cardiff	$60	3/28
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c5a7c2b7c
+3*	hyatt	pit	airport	1/22/03	$28
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c5a7d2b7c
+3*	hilton	arden	5/16	$30	+	$10	bonus	money
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c5a7e2b7c
+2.5*	country	inn	cardiff	$60	27	-	29mar
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c5b7c2b7c
+3*	marriott	pittsburgh	city	center	(	downtown	)	@$45	on	9/7/02
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c5b7d2b7c
+3*	doubletree	arden	/i	-	80	july	9	-	11	$33
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c5b7e2b7c
+2.5*	country	inn	by	ayres	carlsbad	/cardiff	5/9	-	12	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c5c7c2b7c
+3*	hyatt	pit	airport	10/3	$28
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c5c7d2b7c
+3*	red	lion	arden	$28	+$10	bonus	5/13	-	5/15
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c5c7e2b7c
+2.5*	countryinnbyayres	-	cardiffbythesea	:	carlsbad	6/5	-	6/7	$57
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c5d7c2b7c
+2*	holiday	inn	north	,	$35	,	9/21
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c5d7d2b7c
+3*	hilton	arden	/i	-	80	july	18	-	22	$23	+10	bonus
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c5d7e2b7c
+2.5*	courtyard	mira	mesa	4/7	$45
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c5e7c2b7c
+3*	airport	hyatt	-	$29	-	08	-	08	-	02	-	&gt	;	08	-	10	-	02
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c5e7d2b7c
+3*	hilton	arden	$28	+	$10	bonus	5/15	-	5/18
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c5e7e2b7c
+2.5*	courtyard	mira	mesa	4/8	$45
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c5f7c2b7c
+4*	omni	william	penn	7/18	-	7/20	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c5f7d2b7c
+3*	arden	radisson	4/23	same	day	$45
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c5f7e2b7c
+2.5*	courtyard	mira	mesa	4/10	-	11	$45
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c607c2b7c
+3*	holiday	inn	greentree	7/15	-	7/18	$39
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c607d2b7c
+3*	hilton	arden	west	-	$34	(	same	day	)
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c607e2b7c
+4*	westin	convention	ctr	dt	$45	8/30	-	9/1
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c617c2b7c
+3*	hyatt	pittsburgh	airport	7/27	-	7/31	$35
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c617d2b7c
+3*	dt	pittsburgh	hilton	-	2/14	-	2/15	$42
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c617e2b7c
+2.5*	old	town	courtyard	$43	4/5	-	7/04
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c627c2b7c
+3*	pit	airport	crown	plaza	12/12/03	1	night	$30
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c627d2b7c
+2.5*	courtyard	marriott	rancho	cordova	$43	4/14
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c627e2b7c
+2.5*	courtyard	old	town	3/27	-	29	$43
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c637c2b7c
+4*	omni	william	penn	7/4	-	7/6	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c637d2b7c
+2.5*	amerisuites	rancho	cordova	$45	4/15
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c637e2b7c
+2.5*	old	town	courtyard	$40	2/17/04
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c647c2b7c
+4*	pit	downtown	omni	william	penn	8/17	(	sat	)	$41	nb
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c647d2b7c
+4*	marriott	-	rancho	cordova	4/16	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c647e2b7c
+2.5*	courtyard	old	town	/sports	arena	$45	3/7	-	3/11
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c657c2b7c
+3*	hilton	downtown	$36	+$5	bonus	7/18	-	7/21/02
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c657d2b7c
+3*	doubletree	arden	$34	4/19	-	4/22
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c657e2b7c
+2.5*	courtyard	by	marriott	old	town	thur	1/29	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c667c2b7c
+3*	marriott	pittsburgh	city	center	$42	7/26	-	7/28	,	3	rooms
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c667d2b7c
+3*	red	lion	arden	$32	4/11	1	night
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c667e2b7c
+2.5*	courtyard	by	marriott	old	town	1/23	-	1/26	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c677c2b7c
+4*	omni	william	penn	7/20	$42
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c677d2b7c
+4*	sheraton	grand	downtown	4/18/03	(	fri	)	$47
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c677e2b7c
+2.5*	courtyard	by	marriott	sorrento	mesa	$36	12/21
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c687c2b7c
+2.5*	ap	,	4	points	barcelo	,	$29	,	3/8
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c687d2b7c
+3*	red	lion	sac	.	inn	4/9	-	4/11	.	$33
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c687e2b7c
+2.5*	courtyard	marriott	mira	mesa	5/7/04	-	5/9/04	$45.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c697b2b7c
+2.5*	holiday	inn	monroeville	$39	6/7
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c697c2b7c
+2*	holiday	inn	,	pittsburgh	north	,	$27	,	6/17	+6/18
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c697d2b7c
+3*	doubletree	arden	$40	6/11	-	14	ncaa	track	meet
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c697e2b7c
+2.5*	courtyard	marriott	sorrento	mesa	/mira	mesa	2/9	-	2/16	$50
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6a7b2b7c
+4*	omni	william	penn	downtown	3/27	-	3/29	$65
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6a7c2b7c
+3*	hyatt	pittsburgh	airport	-	$29	-	9/15
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6a7d2b7c
+2.5*	dt	sacramento	hawthorn	suites	4/10	-	12	$45
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c6a7e2b7c
+2.5	star	courtyard	,	mira	mesa	/sorrento	mesa	,	5/12	$45
+B-starrating	I-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c6b7b2b7c
+3*	four	points	barcelo	airport	7/21	-	7/23	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6b7c2b7c
+3*	marriott	pittsburgh	city	center	8/3	$40	+$5	bonus	accepted
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c6b7d2b7c
+3*	red	lion	arden	/i	80	$35	4/25	-	4/27
+O	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6b7e2b7c
+4*	dt	pitt	omni	wm	penn	$65	8/16
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c6c7b2b7c
+2.5*	residence	inn	la	jolla	,	4/2	,	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c6c7c2b7c
+3*	four	pts	barcelo	pit	airport	$27	7/3
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c6c7d2b7c
+3*	four	points	sheraton	airport	$30	5/1	-	5/3
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6c7e2b7c
+2.5*	courtyard	/old	town	4/3	-	4/5	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6d7b2b7c
+2.5*	residence	inn	marriott	sd	coastal	2/2	-	1/6	$42
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6d7c2b7c
+3*	four	points	pit	1/4/03	29$
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c6d7d2b7c
+3*	red	lion	inn	sacramento	04/04	$33
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c6d7e2b7c
+3*	double	tree	del	mar	5/11	-	5/14	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c6e7b2b7c
+2.5*	residence	inn	sd	central	$39	12/26	-	12/29
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c6e7c2b7c
+2*	fairfield	inn	cranberry	township	5/31	$32
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c6e7d2b7c
+2	1/2	*	hawthorne	suites	dwtn	sac	.	6/12	$45
+B-starrating	I-starrating	I-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c6e7e2b7c
+3*	double	tree	del	mar	9	/	14	-	17	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c6f7b2b7c
+2.5	star	residence	inn	,	2/2	$44
+B-starrating	I-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c6f7c2b7c
+4*	omni	wm	penn	6/28	-	6/29	(	fri	/sat	)	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c6f7d2b7c
+4*	sheraton	grand	sacramento	3/19	-	3/21	-	$65	(	same	day	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c6f7e2b7c
+3*	double	tree	mission	valley	3/20	-	21	$55
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c707b2b7c
+3*	rejected	bids	for	san	diego	for	5/1
+B-starrating	O	O	O	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c707c2b7c
+3*	westin	convention	center	pittsburgh	$50	5/24	-	5/26
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c707d2b7c
+4*	dt	sheraton	grand	sacramento	hotel	3/23	-	3/24	for	$50
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c707e2b7c
+3*	double	tree	,	sd	mission	valley	,	$65	,	24	-	27	jun	04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c717c2b7c
+4*	downtown	omni	william	penn	6/10	-	11	$45
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c717d2b7c
+3*	hilton	sacramento	arden	west	$34.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O
+
+4d1be8f9062b6c0c717e2b7c
+doubletree	12/31	$42
+B-hotelname	O	O
+
+4d1be8f9062b6c0c727b2b7c
+beach	front	hotels	in	san	diego	area
+O	O	O	O	B-hotelname	I-hotelname	O
+
+4d1be8f9062b6c0c727c2b7c
+2*	holiday	inn	parkway	east	$26	no	bonus	3/16	$and$	3/17
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c727d2b7c
+4*	hyatt	regency	sacramento	(	downtown	)	3/12	$48
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c727e2b7c
+3*	doubletree	del	mar	$60	2/7	-	2/11
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c737b2b7c
+bidding	assistance	san	diego	4*
+O	O	B-hotelname	I-hotelname	B-starrating
+
+4d1be8f9062b6c0c737c2b7c
+3*	hilton	downtown	5/25/02	(	memorial	day	wknd	)	$45
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c737d2b7c
+4*	marriott	in	rancho	cordova	$40	3/15	(	sat	.	)
+B-starrating	B-hotelname	O	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c737e2b7c
+3*	doubletree	del	mar	$60	6/5
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c747b2b7c
+san	diego	bid	assistance
+B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c747c2b7c
+2*	pitts	.	n	.	holiday	inn	north	hills	,	$25	+5	,	6/28	-	30
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c747d2b7c
+4*	sheraton	grand	downtown	4/18	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c747e2b7c
+3*	del	mar	doubletree	9/23	-	9/27	$46
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c757b2b7c
+bidding	assistance	for	4*	coastal	san	diego	5/17	-	5/21
+O	O	O	B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c757c2b7c
+3*	crowne	plaza	airport	$28	+5b	7/19	-	7/21
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c757d2b7c
+4*	hyatt	regency	downtown	9/30	-	10/2	$44
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c757e2b7c
+3*	doubletree	del	mar	coastal	-	5/24	-	5/26	$55
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c767b2b7c
+3*	westin	downtown	sat	.	6/28	$41
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c767c2b7c
+2.5*	cranberry	township	amerisuites	5/5	-	5/10	$35
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c767d2b7c
+3*	doubletree	arden	3/13	$37.00
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c767e2b7c
+3*	hyatt	pit	airport	8/25	$27
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c777b2b7c
+bidding	assistance	5/28	-	5/31	,	3*	san	diego	coastal
+O	O	O	O	O	O	B-starrating	B-hotelname	I-hotelname	B-localarea
+
+4d1be8f9062b6c0c777c2b7c
+cranberry	amerisuites	;	5/18/02	;	$33
+B-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c777d2b7c
+2.5*	holiday	inn	pittsburgh	airport	4/22	-	4/25	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c777e2b7c
+3*	doubletree	mission	valley	5/16	-	5/20	$65
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c787b2b7c
+san	diego	coastal	help	and	a	-	b	link
+B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c787c2b7c
+2*	fairfield	inn	-	cranberry	12/24	$26
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	O	O
+
+4d1be8f9062b6c0c787d2b7c
+3*	arden	hilton	4/10	$34.00
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c787e2b7c
+3*	doubletree	mission	valley	1/08	-	1/10/04	$42
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c797b2b7c
+san	diego	coronado	help
+B-hotelname	I-hotelname	B-localarea	O
+
+4d1be8f9062b6c0c797c2b7c
+4*	downtown	omni	william	penn	6/22	-	23	$40	+$5	bonus
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c797d2b7c
+4*	marriott	sacramento	in	rancho	codova	feb	21	(	fri	)	$61
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c797e2b7c
+*3	doubletree	mission	valley	$49
+B-starrating	B-hotelname	B-localarea	I-localarea	O
+
+4d1be8f9062b6c0c7a7b2b7c
+advice	re	san	diego	downtown	bid
+O	O	B-hotelname	I-hotelname	B-localarea	O
+
+4d1be8f9062b6c0c7a7c2b7c
+4*	omni	penn	6/21	-	$50
+B-starrating	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c7a7d2b7c
+3*	sacramento	hilton	arden	west	2/17	$37.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c7a7e2b7c
+3*	mission	valley	doubletree	-	12/15	-	18	$42
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c7b7b2b7c
+san	diego	downtown	4*	$80	refused	6/23/04
+B-hotelname	I-hotelname	B-localarea	B-starrating	O	O	O
+
+4d1be8f9062b6c0c7b7c2b7c
+2*	laquinta	pittsburgh	ap	,	$28	,	7/23
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c7b7d2b7c
+3*	arden	hilton	2/20	$34
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c7b7e2b7c
+3*	mission	valley	doubletree	$70	12/31	-	1/3
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c7c7b2b7c
+failed	2*	for	downtown	san	diego	at	$65	(	4/11	-	4/13	)
+O	B-starrating	O	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c7c7c2b7c
+4*	downtown	omni	william	penn	6/15	-	17	$45
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c7c7d2b7c
+3*	doubletree	arden	2/21/03	$40	2	rooms
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c7c7e2b7c
+3*	doubletree	mission	valley	2/25	-	3/1	$41
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c7d7b2b7c
+failed	bid	:	downtown	san	diego	4*	5/1	$110
+O	O	O	B-localarea	B-hotelname	I-hotelname	B-starrating	O	O
+
+4d1be8f9062b6c0c7d7c2b7c
+3*	sheraton	station	square	3/16	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c7d7d2b7c
+bidding	assistance	-	downtown	sacramento	2/15/03
+O	O	O	B-localarea	B-hotelname	O
+
+4d1be8f9062b6c0c7d7e2b7c
+3*	doubletree	mission	valley	3/25	$45
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c7e7b2b7c
+failed	bid	:	downtown	san	diego	4*	5/23	-	5/25	$70
+O	O	O	B-localarea	B-hotelname	I-hotelname	B-starrating	O	O	O	O
+
+4d1be8f9062b6c0c7e7c2b7c
+3*	pittsburgh	airport	crowne	plaza	3/20/02	$28
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c7e7d2b7c
+3*	arden	/i	-	80	doubletree	2/14	-	2/16	$33
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c7f7b2b7c
+4*	san	diego	coastal	-	hilton	san	diego	resort	11/16	-	11/18	$52
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c7f7c2b7c
+3*	westin	convention	center	$37	+	$5	bonus	7/20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c7f7d2b7c
+3*	radisson	arden	2/21	$40	3	rooms
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c807b2b7c
+4*	coastal	-	san	diego	hilton	-	$75	-	1/30/04	-	2/4/04
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c807c2b7c
+3*	holiday	inn	greentree	,	$29	,	2/11	,	2/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c807d2b7c
+3*	arden	/i	-	80	red	lion	1/18	-	1/19	$35
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c817b2b7c
+3*	westin	conv	ctr	downtown	-	8/15	-	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c817c2b7c
+2*	holiday	inn	airport	,	$22	+5	,	1/18
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c817d2b7c
+4*	sheraton	grand	downtown	$50	2	-	6	to	2	-	08
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c827b2b7c
+3*	san	diego	coastal	hilton	del	mar	12/28	-	12/31	$35
+B-starrating	B-hotelname	I-hotelname	O	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c827c2b7c
+3*	four	points	barcelo	airport	10/4	$29	same	day	bid
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c827d2b7c
+2.5*	holiday	inn	pittsburgh	airport	5/30	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c837b2b7c
+3*	san	diego	coastal	del	mar	hilton	3/1	-	3/10	9	nights	$33
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	B-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c837c2b7c
+3*	four	points	barcelo	airport	12/6	$30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c837d2b7c
+declined	4*	downtown	$60	for	1/22/03
+O	B-starrating	B-localarea	O	O	O
+
+4d1be8f9062b6c0c847b2b7c
+3*	san	diego	coastal	del	mar	hilton	12/4	-	12/6	$35
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c847c2b7c
+3*	holiday	inn	greentree	,	$23	+5	,	12/7	-	9
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c847d2b7c
+2*	sacramento	dt	03/13/03	-	$34	-	laquinta
+B-starrating	B-hotelname	B-localarea	O	O	O	O	B-hotelname
+
+4d1be8f9062b6c0c857b2b7c
+3*	san	diego	coastal	del	mar	hilton	12/23	$38
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c857c2b7c
+4*	downtown	omni	wm	penn	3/30	$42
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c857d2b7c
+4*	sheraton	grand	dt	$70	2/19	-	2/22
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c867b2b7c
+3*	san	diego	del	mar	hilton	12/21	(	sun	)	$35.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c867c2b7c
+pittsburgh	airport	crowne	plaze	3*	2	-	17	-	02	$28
+B-hotelname	B-localarea	B-hotelname	I-hotelname	B-starrating	O	O	O	O	O	O
+
+4d1be8f9062b6c0c867d2b7c
+4*	sheraton	grand	downtown	1/18	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0c877b2b7c
+3*	san	diego	del	mar	hilton	12/29	-	12/31	$38
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c877c2b7c
+3*	crowne	plaza	airport	,	8/10/02	,	$29
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c877d2b7c
+declined	-	$48	,	4*	,	downtown	sac
+O	O	O	O	B-starrating	I-starrating	B-localarea	B-hotelname
+
+4d1be8f9062b6c0c887b2b7c
+3*	san	diego	del	mar	hilton	-	1	night	(	1/31	)	$51.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c887c2b7c
+3*	sheraton	station	square	dt	$46	10/6	-	10/8
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c887d2b7c
+3*	sacramento	/arden	red	lion	$37	1/10	-	12
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c897b2b7c
+3*	san	diego	del	mar	hilton	1/4	-	1/8	(	sun	-	thu	)	$40.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c897c2b7c
+3*	crowne	plaza	ap	$24	+	$5	july	20	,	2002	(	1	night	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c897d2b7c
+4*	sheraton	grand	downtown	jan	31	(	fri	)	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c8a7b2b7c
+3*	san	diego	del	mar	hilton	$45	2/28	-	2/29
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8a7c2b7c
+4*	downtown	omni	william	penn	7/9	-	7/11	$42
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8a7d2b7c
+4*	hyatt	sacramento	12/30	-	12/31	$48
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8b7b2b7c
+3*	san	diego	del	mar	hilton	$45	nov	.	22	-	26
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c8b7c2b7c
+2.5*	amerisuites	cranberry	twp	12/7	$31	+$5
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c8b7d2b7c
+4*	hyatt	dt	sacramento	4/9	to	4/13	$48
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8c7b2b7c
+2.5*	residence	inn	university	$50	6/21	-	6/23
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0c8c7c2b7c
+omni	william	penn	6/14	-	6/16	$45
+B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8c7d2b7c
+2*	homestead	suites	south	natomas	$30	(	mon	,	dec	30	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c8d7b2b7c
+3*	san	diego	hilton	del	mar	$47	3/18	-	3/20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c8d7c2b7c
+3*	westin	convention	center	pittsburgh	6/10	-	6/12	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8d7d2b7c
+3*	crowne	plaza	pit	airport	12/8	$29
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c8e7b2b7c
+3*	san	diego	del	mar	hilton	/	12/28	-	12/30	/	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c8e7c2b7c
+3*	crowne	plaza	pit	airport	12/15	-	12/17	$29
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c8e7d2b7c
+4*	dt	sacramento	sheraton	1/8	-	1/12	$60
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c8f7b2b7c
+3*	san	diego	del	mar	hilton	12/25	$32
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0c8f7c2b7c
+2*	holiday	inn	parkway	east	$31	04/06/02
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c8f7d2b7c
+4*	dt	sheraton	grand	$48	1/04	-	1/05
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c907b2b7c
+3*	san	diego	del	mar	hilton	coastal	$41	4/5	-	4/9/04
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c907c2b7c
+2*	crowne	plaza	ap	,	$24	+5	,	7/11	$and$	7/17
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c907d2b7c
+2.5*	courtyard	sacramento	south	natomas	1/16	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c917b2b7c
+3*	san	diego	coastal	del	mar	hilton	,	2/16	-	2/18	,	$32
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c917c2b7c
+3*	westin	pittsburgh	dt	$32	+	$10	bonus	4/4	-	4/6	(	fri	-	sun	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c917d2b7c
+4*	hyatt	regency	sacramento	12/22	-	12/24	$48
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c927b2b7c
+3*	san	diego	hilton	,	del	mar	6/16	-	21	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c927c2b7c
+westin	3*	con	.	cent	.	37$+5	12	-	8	-	01
+B-hotelname	B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c927d2b7c
+4*	dt	sheraton	grand	$48	12/27	-	12/28
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c937b2b7c
+3*	san	diego	mission	valley	holiday	inn	$41	march	4	-	6
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c937c2b7c
+3*	crowne	plaza	ap	,	$20	+5	,	10/12	-	14
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c937d2b7c
+2*	homestead	village	south	natomas	$30	12/23	(	monday	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c947b2b7c
+4*	san	diego	coastal	-	hyatt	regency	islandia	1/14	-	1/19	$67
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c947c2b7c
+rejected	bids	for	12/3	-	4	-	downtown	3*	$and$	4*	$30	+5	bonus
+O	O	O	O	O	O	O	B-localarea	B-starrating	O	B-starrating	O	O	O
+
+4d1be8f9062b6c0c947d2b7c
+2*	homestead	village	south	natomas	$30	12/20	-	12/22
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c957b2b7c
+4*	san	diego	coastal	,	hyatt	regency	islandia	6/4	-	6/6	$67
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c957c2b7c
+3*	radisson	green	tree	$36	+5	bonus	for	10/6
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c957d2b7c
+4*	hyatt	regency	downtown	sac	$48	12/19	one	night
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c967b2b7c
+4*	coastal	san	diego	-	la	jolla	hyatt	$55	3/31	-	04/05
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c967c2b7c
+3*	holiday	inn	greentree	,	$25	+5	,	9/22
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c967d2b7c
+4*	marriott	rancho	cordova	3/29	(	sat	)	$40
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c977b2b7c
+2.5*	residence	inn	university	area	8/7	-	8/11	$50
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c977c2b7c
+3*	omni	downtown	$37	+5	11/17
+B-starrating	B-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0c977d2b7c
+2.5*	courtyard	sacramento	south	natomas	12/19	-	12/20	$41
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0c987b2b7c
+4*	san	diego	manchester	grand	hyatt	4/17	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c987c2b7c
+3*	radisson	greentree	9/28	$37	+	$5	bonus
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c987d2b7c
+bidding	assistance	3	-	4*	dt	2/13	-	2/15	,	$70	max
+O	O	O	O	O	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c997b2b7c
+4*	san	diego	downtown	manchester	grand	hyatt	3/20	$70
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c997c2b7c
+2.5*	university	wyndham	garden	1/8	$45
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c997d2b7c
+2*	south	natomas	homestead	suites	$28	12/14
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0c9a7b2b7c
+4*	san	diego	dt	manchester	grand	hyatt	$81	(	10/14	-	16	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0c9a7c2b7c
+3*	crowne	plaza	airport	25+5	-	12/27	-	12/29
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c9a7d2b7c
+$35	failed	bid	-	-	2*	south	natomas	/downtown	-	-	12/11	-	12/13
+O	O	B-starrating	I-starrating	I-starrating	I-starrating	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c9b7b2b7c
+4*	san	diego	sheraton	hotel	and	marina	$80	5/14	-	5/20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c9b7c2b7c
+3*	marriott	city	center	$37	+	$5	bonus	8/18	-	20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c9b7d2b7c
+2.5*	courtyard	sacramento	south	natomas	$52	12/7
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c9c7b2b7c
+4*	san	diego	coastal	-	-	torrey	pines	hilton	9/4	-	9/6/04	$51
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c9c7c2b7c
+3*	holiday	inn	greentree	$30	+$5	9/10	-	9/14
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0c9c7d2b7c
+$43	rejected	4*	downtown	sat	.	12/7	,	one	night
+O	O	B-starrating	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0c9d7b2b7c
+need	help	to	bid	for	3*	hotel	at	san	diego	(	delmar	)	5/20	-	5/22
+O	O	O	O	O	B-starrating	O	O	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0c9d7c2b7c
+2.5*	amerisuites	(	airport	)	$29	+	$5	b	.	7/5	-	6
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c9d7d2b7c
+2.5*	holiday	inn	sacramento	northeast	arden	$40	11/23
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0c9e7b2b7c
+3*	coastal	san	diego	/del	mar	doubletree	1/21	-	1/23	$50
+B-starrating	B-localarea	B-hotelname	B-localarea	I-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0c9e7c2b7c
+3*	omni	w	penn	dt	$39	+5	th	/fr	12/13	-	15
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0c9e7d2b7c
+4*	dowtown	sac	$44	12/6	one	night	-	sheraton
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	B-hotelname
+
+4d1be8f9062b6c0c9f7b2b7c
+4*	san	diego	-	coastal	,	hilton	torrey	pines	,	$47	,	12/24	-	12/26
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0c9f7c2b7c
+2*	holiday	inn	parkway	east	$24	+5	10/8/01
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0c9f7d2b7c
+3*	holiday	inn	rancho	cordova	-	-	$32	-	-	fri	nov	22
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ca07b2b7c
+is	the	wildfire	situation	affecting	sd	hotel	requests	?
+O	O	O	O	O	B-hotelname	O	O	O
+
+4d1be8f9062b6c0ca07c2b7c
+3*	westin	conv	.	ctr	,	7/28	,	$37	+$5	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0ca07d2b7c
+4*	sheraton	grand	dt	$50	/night	11/22	to	11/25
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0ca17b2b7c
+4*	sd	coastal	-	hyatt	la	jolla	3	-	28	to	3	-	31	$52.00
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ca17c2b7c
+3*	westin	downtown	pittsburgh	$37	+	$5	bonus	7/20	-	22
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ca17d2b7c
+4*	hyatt	dt	12/10	for	$50
+B-starrating	B-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0ca27b2b7c
+3*	four	points	barcelo	airport	6/26	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ca27c2b7c
+2.5*	amerisuites	cranberry	twp	12/21	$28	+$5
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0ca27d2b7c
+3*	doubletree	hotel	sacramento	i	-	80	12/6	-	$37
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0ca37b2b7c
+4*	sd	coastal	-	hyatt	la	jolla	4	-	1	$52.00
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ca37c2b7c
+3*	sheraton	station	square	4/8	,	$31	+$20	amex
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0ca37d2b7c
+3*	four	points	sheraton	airport	3/13	$30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ca47b2b7c
+2.5*	sd	old	town	courtyard	by	marriott	4/4	40$
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ca47c2b7c
+3*	crowne	plaza	pit	airport	11/18	$29
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ca47d2b7c
+3*	hyatt	pit	airport	10/06	$28.00
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ca57b2b7c
+2.5*	sd	old	town	courtyard	by	marriott	2/28	-	3/16	40$
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ca57c2b7c
+3*	sheraton	station	square	7/3	-	7/5	$37	+5
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0ca57d2b7c
+4*	downtown	sacramento	rejected	up	to	$75	12	-	7	-	02
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ca67b2b7c
+3*	sd	downtown	-	raddison	harbor	view	$59	1/16	-	1/18
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ca67c2b7c
+2*	holiday	inn	parkway	east	,	$24	+5	7/18
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0ca67d2b7c
+2*	la	quinta	dt	11/13	-	14/02	$40	(	4*	dt	$70	rejected	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	B-starrating	I-starrating	B-localarea	O	O	O
+
+4d1be8f9062b6c0ca77b2b7c
+3*	sd	coastal	del	mar	hilton	$35	fri	12/12
+B-starrating	B-hotelname	O	B-localarea	I-localarea	B-hotelname	O	O	O
+
+4d1be8f9062b6c0ca77c2b7c
+3*	crowne	plaza	ap	,	$22	+5	,	1/8
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0ca77d2b7c
+3*	holiday	inn	rancho	cordova	11/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O
+
+4d1be8f9062b6c0ca87b2b7c
+3*	sd	coastal	hilton	del	mar	1/26	$42
+B-starrating	B-hotelname	O	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ca87c2b7c
+2.5*	four	points	airport	8/10	-	8/12	$27	+	$5
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0ca87d2b7c
+4*	sheraton	grand	dt	11/9	-	11/11	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ca97b2b7c
+3*	sd	coastal	hilton	del	mar	$34	1/15
+B-starrating	B-hotelname	O	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ca97c2b7c
+downtown	hilton	3*	-	$30	+$20	amex	,	3/30
+B-localarea	B-hotelname	B-starrating	O	O	O	O	O	O
+
+4d1be8f9062b6c0ca97d2b7c
+4*	hyatt	regency	downtown	.	11/6	-	$50
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0caa7b2b7c
+3*	sd	coastal	hilton	del	mar	$32	1/13	-	1/15
+B-starrating	B-hotelname	O	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0caa7c2b7c
+4*	omni	william	penn	$37	+$5b
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0caa7d2b7c
+4*	hyatt	regency	downtown	.	10/30	-	11/1	.	3	rooms	.	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cab7b2b7c
+3*	sd	coastal	-	del	mar	hilton	$41	01/24
+B-starrating	B-hotelname	O	O	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0cab7c2b7c
+new	renaissance	opens	in	dt
+O	O	O	O	B-localarea
+
+4d1be8f9062b6c0cab7d2b7c
+4*	hyatt	regency	downtown	sac	.	$40	11/4/02	to	11/6/02
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cac7b2b7c
+4*	sd	hilton	gaslamp	$63	1/23/04	(	friday	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cac7c2b7c
+2*	holiday	inn	airport	,	$24	+$5	5/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cac7d2b7c
+4*	hyatt	regency	downtown	sacramento	11/6/02	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0cad7b2b7c
+3*	crowne	plaza	pittsburgh	intl	airport	7/5	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cad7c2b7c
+3*	holiday	inn	greentree	,	$30	+$5	5/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cad7d2b7c
+4*	hyatt	regency	dt	$40	10/31/02
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cae7b2b7c
+4*	sd	coastal	hilton	mission	bay	2/13	$55
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cae7c2b7c
+3*	downtown	hilton	5/12	$45	plus	$5	bonus
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cae7d2b7c
+*	red	lion	sacramento	$37	11/21/03
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0caf7b2b7c
+4*	sd	coastal	hilton	torrey	pine	5/24	-	26	$53
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0caf7c2b7c
+3*	dt	hilton	$55	11/14/03
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0caf7d2b7c
+2.5*	residence	inn	university	center	$50	10/4/03
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cb07b2b7c
+4*	sd	coastal	-	hilton	torrey	pines	10/31	$50
+B-starrating	B-hotelname	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cb07c2b7c
+2*	crowne	plaza	pittsburgh	airport	$9	+	amex
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cb07d2b7c
+4*	hyatt	regency	dt	$40	11/1
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cb17b2b7c
+4*	sd	coastal	hilton	torrey	pines	$47	11/24	-	26
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cb17c2b7c
+3*	sheraton	station	sq	.	-	12/31	$30	+$20	amex
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb17d2b7c
+4*	hyatt	regency	dt	$40	10/14	-	10/15
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cb27b2b7c
+4*	sd	coastal	:	hilton	torrey	pines	10/25	-	10/29	-	$50
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb27c2b7c
+4*	in	pittsburgh	????
+B-starrating	O	B-hotelname	I-hotelname
+
+4d1be8f9062b6c0cb27d2b7c
+3*	hyatt	regency	sacramento	10/11	-	10/12	$40	bid	accepted
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0cb37b2b7c
+3*	sd	coastal	del	mar	hilton	,	1/30	-	2/1	,	$40
+B-starrating	B-hotelname	O	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb37c2b7c
+3*	hyatt	pittsburgh	airport	10/9	$27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cb37d2b7c
+4*	hyatt	regency	downtown	$40	10/8	-	10/9
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cb47b2b7c
+3*	,	sd	coastal	,	del	mar	hilton	,	$35	,	12/4	-	12/5
+B-starrating	I-starrating	B-hotelname	O	O	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb47c2b7c
+3*	marriott	city	center	dt	$39	+	$5	7/20	-	7/22/01
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cb47d2b7c
+3*	red	lion	sacramento	$42	10/05
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cb57b2b7c
+3*	,	sd	coastal	,	del	mar	hilton	,	$45	,	12/25	-	1/1
+B-starrating	I-starrating	B-hotelname	O	O	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb57c2b7c
+list	of	hotel
+O	O	O
+
+4d1be8f9062b6c0cb57d2b7c
+3*	red	lion	sacramento	arden	10/9	$	40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0cb67b2b7c
+3*	,	sd	coastal	,	del	mar	hilton	,	$35	,	12/8	-	12/12
+B-starrating	I-starrating	B-hotelname	O	O	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb67c2b7c
+2*	crowne	plaza	airport	,	$10	+20	12/11
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cb67d2b7c
+3*	red	lion	$37	9/28
+B-starrating	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cb77b2b7c
+3*	sd	coastal	,	del	mar	hilton	,	$35	,	12/28	-	12/30
+B-starrating	B-hotelname	O	O	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb77c2b7c
+2*	crowne	plaza	airport	$9	+amex	5/15
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0cb77d2b7c
+*	sacremento	hyatt	10	-	2/10	-	5	$40
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0cb87b2b7c
+3*	airport	hyatt	$27	for	7/20
+B-starrating	B-localarea	B-hotelname	O	O	O
+
+4d1be8f9062b6c0cb87c2b7c
+3*	holiday	inn	greentree	,	$25	+	$5	bonus	,	7/13
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cb87d2b7c
+4*	hyatt	regency	dt	$40	fri	9/13/02
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0cb97b2b7c
+4*	sd	coastal	hilton	-	torrey	pines	$47	,	12/24	-	12/28
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cb97c2b7c
+2*	crowne	plaza	airport	3/8	$11	+	$20	amex
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0cb97d2b7c
+4*	hyatt	regency	dt	$55	10/1	-	10/3
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cba7b2b7c
+4*	sd	coastal	hilton	-	torrey	pines	$47	,	12/20	-	12/26
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cba7c2b7c
+3*	dt	hilton	11/21	$45
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0cba7d2b7c
+3*	pittsburgh	airport	four	points	5/15	one	night	$35
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cbb7b2b7c
+4*	sd	coastal	hyatt	la	jolla	3/30	-	4/3	$49
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cbb7c2b7c
+3*	holiday	inn	greentree	,	$20	+20	3/26
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cbb7d2b7c
+note	to	ihan
+O	O	O
+
+4d1be8f9062b6c0cbc7b2b7c
+4*	sd	coastal	hyatt	la	jolla	1/24	-	1/27	$49
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cbc7c2b7c
+holiday	inn	greentree	,	3*	,	$20	+20	,	10/27	-	29
+B-hotelname	I-hotelname	B-localarea	I-localarea	B-starrating	I-starrating	O	O	O	O	O	O
+
+4d1be8f9062b6c0cbc7d2b7c
+4*	downtown	rejected	$40	-	$50
+B-starrating	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cbd7b2b7c
+4*	sd	coastal	hyatt	la	jolla	$65	1/21/04
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cbd7c2b7c
+beware	2*	at	the	airport	!!!!
+O	B-starrating	O	O	B-localarea	I-localarea
+
+4d1be8f9062b6c0cbd7d2b7c
+2.5*	hawthorne	suites	d	/t	11/21	-	25	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cbe7b2b7c
+4*	sd	coastal	hyatt	regency	$60	12/27
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cbe7c2b7c
+successful	bid	at	pittsburgh	airport
+O	O	O	B-hotelname	B-localarea
+
+4d1be8f9062b6c0cbe7d2b7c
+3*	holiday	inn	rancho	cordova	$	42	10/27
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cbf7b2b7c
+4*	sd	coastal	hyatt	regency	la	jolla	12/28	-	12/31	$65
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cbf7c2b7c
+$25	winning	bid	at	holiday	inn	select	univ	.	ctr	.
+O	O	O	O	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea
+
+4d1be8f9062b6c0cbf7d2b7c
+3*	hilton	arden	10/29	-	10/31	$36	3	nights
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cc07b2b7c
+4*	sd	coastal	hyatt	regency	la	jolla	12/10/03	$49
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cc07c2b7c
+radisson	greentree	3*	/	$20	+25	bonus	9/16
+B-hotelname	B-localarea	B-starrating	O	O	O	O	O
+
+4d1be8f9062b6c0cc07d2b7c
+4*	bid	rejected	-	downtown	$64	9	nts
+B-starrating	O	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cc17b2b7c
+4*	sd	coastal	,	hyatt	regency	la	jolla	,	$49	,	12/20	-	22	sat	-	mon
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cc17c2b7c
+pittsburgh	north	hotel	accepted	-	$45
+B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cc17d2b7c
+2.5*	amerisuites	rancho	cordova	10/17/2003	$35
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cc27b2b7c
+3*	,	sd	coastal	,	marriott	del	mar	,	$50	,	12/31
+B-starrating	I-starrating	B-hotelname	O	O	B-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cc27c2b7c
+dt	3*	:	marriott	city	center	-	$32	+	amex	(	10/13	-	15/00	)
+B-localarea	B-starrating	I-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cc27d2b7c
+3	star	arden	doubletree	..	$33	12/18
+B-starrating	I-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O
+
+4d1be8f9062b6c0cc37b2b7c
+2.5*	monroeville	holiday	inn	parkway	east	6/30	$40.00
+B-starrating	B-localarea	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cc37c2b7c
+2*	crowne	plaza	airport	$9	+	$20	bonus	2/17
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0cc37d2b7c
+4	star	sheraton	downtown	1/11/03	2	rooms	$65.00
+B-starrating	I-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cc47b2b7c
+4*	sd	coastal	torrey	pines	hilton	11/21	-	23	$47
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cc47c2b7c
+help	for	dt	3*	2/28/01	-	3/03/01
+O	O	B-localarea	B-starrating	O	O	O
+
+4d1be8f9062b6c0cc47d2b7c
+4*	hyatt	regency	sacto	.	10/31/03	$47	/nt.
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cc57b2b7c
+4*	sd	coastal	torrey	pines	hilton	$47	12/19	-	12/22
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cc57c2b7c
+3*	4	pts	sheraton	airport	3/14	to	3/20	$30	/night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0cc57d2b7c
+3*	hilton	dt	9/20	$60
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cc67b2b7c
+4*	sd	coastal	torrey	pines	hilton	$55	12/6
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cc67c2b7c
+3*	pit	airport	hyatt	-	$35	12/27	same	night
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cc67d2b7c
+bid	rejected	-	10/18	-	4*
+O	O	O	O	O	B-starrating
+
+4d1be8f9062b6c0cc77b2b7c
+4*	sd	coastal	:	torrey	pines	hilton	10/25/03	$55
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cc77c2b7c
+3*	marriott	pittsburgh	city	center	$37	+	5	-	1/26/02
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cc77d2b7c
+3*	4*	downtown	/	arden	-	arden	$40	1/24/04	accepted
+B-starrating	I-starrating	B-localarea	O	B-localarea	O	B-localarea	O	O	O
+
+4d1be8f9062b6c0cc87b2b7c
+4*	,	sd	coastal	,	torrey	pines	hilton	,	$50	,	11/13	-	15
+B-starrating	I-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cc87c2b7c
+3*	westin	william	penn	dt	,	2/2	-	7	,	$60	no	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cc87d2b7c
+4*	hyatt	regency	downtown	10	-	12	-	03	2	rooms	$50
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cc97b2b7c
+3*	shelter	point	hotel	$and$	marina	$85	3/11	-	3/13
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cc97c2b7c
+holiday	inn	greentree	,	$30	+	20	bonus	,	9/13
+B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cc97d2b7c
+3*	arden	doubletree	$33	2/8
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0cca7b2b7c
+4*	dt	sheraton	$83	3/11/04	-	3/13/04
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cca7c2b7c
+3*	holiday	inn	north	-	mcknight	rd	,	$10	+20	,	1/19
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cca7d2b7c
+4*	hyatt	regency	dt	6/28	sat	.	$65
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ccb7b2b7c
+4*	sheraton	dt	$105	6/24
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ccb7c2b7c
+3*	four	points	barcelo	hotel	pit	airport	$28	10/18	-	21
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0ccb7d2b7c
+4*	dt	sheraton	grand	$37	+	$10	11/28
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ccc7b2b7c
+4*	dt	sheraton	hotel	and	marina	$82	12	-	29	-	03	3	nights
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ccc7c2b7c
+2.5*	pittsburgh	east	holiday	inn	5/7	-	5/9	$39
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ccc7d2b7c
+3*	arden	,	red	lion	sacramento	inn	,	11/17	$45
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ccd7b2b7c
+4*	sheraton	hotel	and	marina	dt	5/22	-	5/24	5/26	-	5/28	$83
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ccd7c2b7c
+pitts	.	u	.	center	3*	holiday	inn	sun	5/2	$and$	mon	5/3	$51
+B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0ccd7d2b7c
+3*	hilton	sacramento	arden	west	12/24	$35	+
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O
+
+4d1be8f9062b6c0cce7b2b7c
+3*	airport	hyatt	$27	for	6/5/03
+B-starrating	B-localarea	B-hotelname	O	O	O
+
+4d1be8f9062b6c0cce7c2b7c
+sheraton	station	square	3*	$30	+20	,	1/22
+B-hotelname	I-hotelname	I-hotelname	B-starrating	O	O	O	O
+
+4d1be8f9062b6c0cce7d2b7c
+2.5*	courtyard	sacramento	south	natomas	2/14	$43
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ccf7b2b7c
+4*	sheraton	hotel	$and$	marina	dt	3/24	-	3/27	$80
+B-starrating	B-hotelname	I-hotelname	O	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ccf7c2b7c
+bidding	assistance	-	pittsburgh	east	/monroeville	04	-	10	-	04
+O	O	O	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0ccf7d2b7c
+4*	hyatt	regency	$	40	for	8/7
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd07b2b7c
+dt	4*	sheraton	marina	2/22	sun	$81
+B-localarea	B-starrating	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cd07c2b7c
+$42	winning	bid	at	station	square	sheraton
+O	O	O	O	B-hotelname	I-hotelname	I-hotelname
+
+4d1be8f9062b6c0cd07d2b7c
+help	with	cranberry	bidding
+O	O	B-localarea	O
+
+4d1be8f9062b6c0cd17b2b7c
+4*	sheraton	san	diego	harbor	hotel	12/11	-	12/13	$89
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd17c2b7c
+2*	pitt	-	cranberry	fairfield	inn	$26	feb	.	14
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd17d2b7c
+3*	red	lion	arden	$40	6/29
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cd27b2b7c
+4*	sheraton	san	diego	hotel	and	marina	5/15	,	5/16	$80
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd27c2b7c
+3*	four	points	barcelo	hotel	pittsburgh	7/2/03	fri	$30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cd27d2b7c
+2*	homestead	village	suites	-	sacramento	6/1	(	sat	)	$28
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cd37b2b7c
+4*	sheraton	san	diego	hotel	$and$	marina	$80	6/22	-	6/27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd37c2b7c
+3*	westin	convention	ctr	dt	9/13	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cd37d2b7c
+sacramento	4*	hyatt	6/18	$44
+B-hotelname	B-starrating	B-hotelname	O	O
+
+4d1be8f9062b6c0cd47b2b7c
+4*	sheraton	san	diego	hotel	,	4/24	$and$	4/25	,	$80
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cd47c2b7c
+3*	holiday	inn	green	tree	$39	,	5/10	-	5/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0cd47d2b7c
+3*	sacramento	/arden	red	lion	6/29	-	30	$34
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd57b2b7c
+4*	downtown	-	sheraton	sd	hotel	and	marina	-	$85	-	2/21/04
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd57c2b7c
+2.5*	pittsburgh	airport	holiday	inn	$28	may	13th
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cd57d2b7c
+2*	sacramento	laquinta	$36	6/4/02
+B-starrating	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cd67b2b7c
+4*	dt	sheraton	sd	hotel	and	marina	$80	1/29	-	2/1/04
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd67c2b7c
+3*	crowne	plaza	pit	airport	3/19	-	3/21	$35
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cd67d2b7c
+3*	sacramento	/arden	red	lion	6/22	$34
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cd77b2b7c
+4*	dt	sheraton	sd	hotel	and	marina	1/23	-	1/25	$85
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd77c2b7c
+4*	sheraton	grand	dt	5/19	-	5/22	$80
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cd77d2b7c
+4*	sacramento	sheraton	grand	6/14	(	fri	)	$41	+	$5	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cd87b2b7c
+3*	sheraton	suites	dt	sd	$70	10/17	-	19
+B-starrating	B-hotelname	I-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd87c2b7c
+3*	hilton	arden	west	$36	5/14	-	5/16
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cd87d2b7c
+4*	sacramento	sheraton	grand	6/21	$38
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cd97b2b7c
+3*	four	points	sheraton	airport	-	$35	1/29
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8f9062b6c0cd97c2b7c
+downtown	sacramento	rates
+B-localarea	B-hotelname	O
+
+4d1be8f9062b6c0cd97d2b7c
+4*	sacramento	downtown	hyatt	regency	10/3	-	10/7	$41
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cda7b2b7c
+3*	airport	four	points	sheraton	6/14	-	$27
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cda7c2b7c
+note	to	acesnot
+O	O	O
+
+4d1be8f9062b6c0cda7d2b7c
+4*	sacramento	hyatt	regency	downtown	$43	6/29	-	6/30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cdb7b2b7c
+4*	torrey	pines	hilton	$51	3/3/2004
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cdb7c2b7c
+3*	doubletree	sacramento	(	i	-	80/arden	)	$35	3/17
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cdb7d2b7c
+need	assistance	for	4*	in	downtown	pittsburgh	10/8	-	10/12
+O	O	O	B-starrating	O	B-localarea	B-hotelname	O	O	O
+
+4d1be8f9062b6c0cdc7b2b7c
+4*	torrey	pines	hilton	2/7	$64
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cdc7c2b7c
+3*	hilton	dt	1/8	-	1/10	$45
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cdc7d2b7c
+2*	sacramento	south	natomas	homestead	village	5/21	-	5/24	$29
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cdd7b2b7c
+4*	torrey	pines	hilton	$57	2/15
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cdd7c2b7c
+3*	hilton	arden	west	4/2	$35	(	w	/bidding	history	)
+B-starrating	B-hotelname	B-localarea	B-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cdd7d2b7c
+3*	arden	hilton	4/27	$35
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0cde7b2b7c
+4*	torrey	pines	hilton	$51	5/28	-	5/30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cde7c2b7c
+2.5*	amerisuites	rancho	cordova	$33	3/26
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cde7d2b7c
+sacramento	4*	4/17/02	-	4/18/02	$55	sheraton
+B-hotelname	B-starrating	O	O	O	O	B-hotelname
+
+4d1be8f9062b6c0cdf7b2b7c
+4*	torrey	pines	hilton	$55	6/29	-	7/4
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cdf7c2b7c
+4*	marriott	sacramento	rancho	cordova	4/30	-	5/02/04	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cdf7d2b7c
+3*	arden	radisson	hotel	sacramento	$35	5/11
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ce07b2b7c
+4*	torrey	pines	hilton	$55	7/6/04	(	tues	.	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce07c2b7c
+3*	radisson	arden	$47	4/26
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ce07d2b7c
+3*	red	lion	sacramento	arden	5/4	$36
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ce17b2b7c
+4*	torrey	pines	hilton	coastal	7/31	-	8/3	$55	6	rooms
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce17c2b7c
+3*	radisson	hotel	sacramento	50.00	4/6
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ce17d2b7c
+3*	doubletree	sacramento	arden	$28	+$5	bonus	5/18
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ce27b2b7c
+4*	torrey	pines	hilton	coastal	10/6	-	10/9	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ce27c2b7c
+4*	marriott	rancho	cordova	$46	3/18
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ce27d2b7c
+sacramento	4*	sheraton	grand	,	4/8	,	one	night	,	$40
+B-hotelname	B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce37b2b7c
+4*	torrey	pines	hilton	coastal	4/30	-	5/2	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ce37c2b7c
+4*	downtown	hyatt	regency	2/27	,	$50
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0ce37d2b7c
+2*	sacramento	/s.	natomas	-	homestead	village	,	$30	,	4/9/02
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	B-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0ce47b2b7c
+4*	torrey	pines	hilton	la	jolla	$55	7/31/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ce47c2b7c
+3*	red	lion	sacramento	(	i	-	80/arden	)	$40	3/17	-	19
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce47d2b7c
+4*	sheraton	grand	sacramento	downtown	$40	3/8	-	10
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ce57b2b7c
+3*	four	points	barcelo	airport	7/7	-	7/9	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0ce57c2b7c
+2.5*	hawthorn	suites	dt	2/14	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ce57d2b7c
+3*	sacremento	doubletree	$35	no	bonus	may	7/02
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0ce67b2b7c
+4*	torrey	pines	hilton	la	jolla	$55	7/31/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ce67c2b7c
+3*	sacramento	-	arden	red	lion	3/11/04	-	-	3/14/04	-	-	$38
+B-starrating	B-hotelname	O	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce67d2b7c
+3*	holiday	inn	@	univ	.	center	,	8/11	-	16	,	$50
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0ce77b2b7c
+4*	tp	hilton	12/27	-	31	$55	;
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0ce77c2b7c
+2*	fairfield	inn	pittsburgh	-	cranberry	$24	1/14/04	1	night
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0ce77d2b7c
+4*	sacramento	sheraton	grand	$75	2/19
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ce87b2b7c
+4*	downtown	westin	$75	+10bonus	1/22/04	-	1/25/04	$and$0
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce87c2b7c
+4*	sheraton	grand	dt	3/19/04	$79
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0ce87d2b7c
+3*	arden	red	lion	sacramento	inn	$40	4/5
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ce97b2b7c
+4*	westin	horton	plaza	-	downtown	-	sat	.	-	6/26	-	$85
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0ce97c2b7c
+4*	rancho	cordova	marriott	$46	3/18
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0ce97d2b7c
+4*	sheraton	sacramento	grand	3/6	-	8	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cea7b2b7c
+4*	westin	horton	plaza	$80	+	$10	bonus	4/30	-	5/8/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cea7c2b7c
+4*	sheraton	grand	-	downtown	sac	-	3/27	-	$68
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cea7d2b7c
+3*	arden	red	lion	sacramento	inn	$40	3/19
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ceb7b2b7c
+4*	downtown	westin	horton	plaza	10/24	$81
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0ceb7c2b7c
+3*	sacramento	downtown	,	s	natomas	,	university	$50	failed
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0ceb7d2b7c
+4*	hotel	sacramento	,	june	26th	-	june	28th	-	not	accepted
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cec7b2b7c
+4*	westin	horton	plaza	dt	1/14	-	1/16	$85
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cec7c2b7c
+bidding	assistance	...	thanks
+O	O	O	O
+
+4d1be8f9062b6c0cec7d2b7c
+2.5*	rancho	cordova	amerisuites	11/17	$30	+$5	bonus
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ced7b2b7c
+4*	dt	westin	horton	plaza	7/6	-	7/11	$85
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0ced7c2b7c
+4*	dt	hyatt	regency	08/25	to	08/27	~	$58
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0ced7d2b7c
+sheraton	grand	sacramento	4*	35	+5	,	12/30
+B-hotelname	I-hotelname	I-hotelname	B-starrating	O	O	O	O
+
+4d1be8f9062b6c0cee7b2b7c
+4*	westin	horton	plaza	/	dt	$and$hi	$85	for	7/18	-	7/21/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0cee7c2b7c
+3*	holiday	inn	rancho	cordova	$50	3/3/04
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cee7d2b7c
+sacramento	3*	red	lion	$30	+5bonus	,	2/8
+B-hotelname	B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cef7b2b7c
+2.5*	woodfin	suite	mira	mesa	5/20/04	-	5/23/04	$45.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cef7c2b7c
+3*	red	lion	inn	sacramento	(	arden	)	3/4	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cef7d2b7c
+4*	sheraton	sacramento	grand	$35	+5	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cf07b2b7c
+3*	hyatt	pittsburgh	airport	3/11	-	13	$27
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cf07c2b7c
+2.5*	rancho	cordova	amerisuites	$35	(	2/14	)
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cf07d2b7c
+3*	sacramento	red	lion	1/31	$35	+5
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cf17b2b7c
+3*	wyndam	north	-	sorrento	mesa	$59	8/26	-	8/28	4	rooms
+B-starrating	B-hotelname	B-localarea	O	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cf17c2b7c
+2.5*	residence	inn	sac	/south	natomas	$42	(	3/5	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cf17d2b7c
+3*	dt	hilton	11/1	-	3	$50
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cf27b2b7c
+3*	wyndam	san	diego	/mira	mesa	12/27	-	$49.00
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8f9062b6c0cf27c2b7c
+park	and	fly	at	sheraton	four	points	barcelo	?
+O	O	O	O	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname
+
+4d1be8f9062b6c0cf27d2b7c
+4*	sacramento	sheraton	grand	dt	$50	+$5	bonus	2/6	-	2/8
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cf37b2b7c
+3*	wyndham	sd	/mira	mesa	12/28	$45.00
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cf37c2b7c
+2.5*	roseville	hilton	garden	inn	$50	(	2/13	)
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cf37d2b7c
+sacramento	ca	-	3*	$95	+20b	5/24
+B-hotelname	O	O	B-starrating	O	O	O
+
+4d1be8f9062b6c0cf47b2b7c
+3*	wyndham	emerald	plaza	$100	5/29	-	5/31	sat	check	-	in
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cf47c2b7c
+4*	sheraton	grand	-	downtown	sac	-	4/4	-	4/6	$99
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cf47d2b7c
+2*	laquinta	sacramento	1/23	$30	+$20	bonus
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cf57b2b7c
+3*	wyndham	san	diego	north	-	mira	mesa	,	may	28	-	29	$58
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	B-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8f9062b6c0cf57c2b7c
+4*	rancho	cordova	,	marriott	$50	2/14
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8f9062b6c0cf57d2b7c
+sacramento	2*	5/23	$50	no	bonus	money	amerisuites
+B-hotelname	B-starrating	O	O	O	O	O	B-hotelname
+
+4d1be8f9062b6c0cf67b2b7c
+4*	coastal	zone	-	hyatt	regency	la	jolla	-	1/14	-	$49
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cf67c2b7c
+4*	sacramento	sheraton	$65	feb	13th
+B-starrating	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cf67d2b7c
+3*	doubletree	arden	(	sacto	)	5/25	$35	+	$5	bonus
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cf77b2b7c
+2.5*	residence	inn	university	center	$51	6/6	-	8
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8f9062b6c0cf77c2b7c
+3*	holiday	inn	capitol	plaza	dt	3/14	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cf77d2b7c
+3*	sacramento	sheraton	grand	8/30	-	9/1	$42	+	$5	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8f9062b6c0cf87b2b7c
+3*	holiday	inn	greentree	$40	6/7/03
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cf87c2b7c
+4*	dt	-	hyatt	regency	2/27	-	$50
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cf87d2b7c
+3*	sacramento	sheraton	grand	$40	+5	bonus	10/29	$and$	30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0cf97b2b7c
+3*	pittsburgh	downtown	city	center	marriott	5/7	$50
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cf97c2b7c
+3*	hilton	arden	$35	2/9
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cf97d2b7c
+3*	sacramento	sheraton	grand	9/9	-	9/12	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cfa7b2b7c
+3*	hyatt	airport	june	13	,	1	night	$27
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O
+
+4d1be8f9062b6c0cfa7c2b7c
+2.5*	amerisuites	rancho	cordova	3/5	$35.00
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8f9062b6c0cfa7d2b7c
+3*	sacramento	sheraton	grand	$62	no	bonus	10/5
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cfb7b2b7c
+3*	four	points	barcelo	airport	6/25	-	6/28	$30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cfb7c2b7c
+hotel	link	problem	in	hotel	list	?
+B-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0cfb7d2b7c
+sacrmento	hotel
+B-hotelname	I-hotelname
+
+4d1be8f9062b6c0cfc7b2b7c
+3*	ap	,	4	points	barcelo	,	$33	,	6/9
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8f9062b6c0cfc7c2b7c
+failed	4*	downtown	3/12	-	3/13	$75
+O	B-starrating	B-localarea	O	O	O	O
+
+4d1be8f9062b6c0cfc7d2b7c
+3*	four	points	barcelo	airport	10/16	$29
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cfd7b2b7c
+4*	omni	william	penn	-	$65	may	24	-	27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0cfd7c2b7c
+3*	dt	pittsburgh	sheraton	station	square	oct	30	-	nov	3	$44
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8f9062b6c0cfd7d2b7c
+4*	downtown	sheraton	grand	7/20	$46
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8f9062b6c0cfe7b2b7c
+3*	hilton	towers	$45
+B-starrating	B-hotelname	I-hotelname	O
+
+4d1be8f9062b6c0cfe7c2b7c
+4*	downtown	hyatt	regency	5/21	-	5/23	$50
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8f9062b6c0cfe7d2b7c
+2.5*	roseville	$60	6/5	rejected
+B-starrating	B-hotelname	O	O	O
+
+4d1be8f9062b6c0cff7b2b7c
+3*	four	points	barcelo	airport	6/2	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8f9062b6c0cff7c2b7c
+4*	downtown	hyatt	regen	.	3/21	-	3/23	$75	/nt
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8f9062b6c0cff7d2b7c
+3*	sheraton	grand	sacramento	5/15	$45	+	$5	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c007f2b7c
+3*	humphreys	half	moon	inn	suites	,	shelter	island	4/5	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0c017f2b7c
+4*	hyatt	islandia	12/31	$80
+B-starrating	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c027f2b7c
+4*	coastal	hyatt	islandia	$68	6/5	thru	6/7
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c037f2b7c
+4*	hyatt	islandia	san	diego	-	$75	-	4/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c047f2b7c
+4*	hyatt	la	jolla	3/22	-	24	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c057f2b7c
+4*	hyatt	la	jolla	-	$50	for	3/31
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c067f2b7c
+4*	hyatt	la	jolla	5/13	-	5/17	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c077f2b7c
+2.5*	holiday	inn	monroeville	7/31	-	8/2	$41
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c087f2b7c
+4*	hyatt	la	jolla	coastal	zone	5/2	-	7/04	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c097f2b7c
+4*	hyatt	la	jolla	,	5/5	$and$	5/6	,	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c0a7f2b7c
+4*	hyatt	la	jolla	,	6	-	22	,	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c0b7f2b7c
+4*	hyatt	la	jolla	,	sd	coastal	-	$50	,	11/2	(	sun	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c0c7f2b7c
+4*	hyatt	la	jolla	-	sd	coastal	11/10	$52
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c0d7f2b7c
+4*	hyatt	lajolla	-	may	28	-	31	-	$70.00
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c0e7f2b7c
+4*	dt	-	hyatt	manchester	$70	-	4/28
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c0f7f2b7c
+4*	hyatt	regency	islandia	$65	3/26	-	3/30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c107f2b7c
+4*	hyatt	regency	islandia	$65	,	5/22	+	5/23/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c117f2b7c
+4*	hyatt	regency	islandia	5/13	-	5/19	$66
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c127f2b7c
+3*	holiday	inn	greentree	$50	7/25	-	7/28
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c137f2b7c
+4*	hyatt	regency	islandia	5/20	-	5/23	$65
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c147f2b7c
+4*	hyatt	regency	islandia	coastal	$65	3/8	-	3/11
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c157f2b7c
+4*	hyatt	regency	islandia	(	mission	bay	)	,	$65	3/19
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c167f2b7c
+4*	hyatt	regency	islandia	,	$65	/night	,	5/14	-	17
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c177f2b7c
+4*	hyatt	regency	islandia	,	$65	/night	,	5/22	-	28
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c187f2b7c
+4*	hyatt	regency	islandia	,	sd	coastal	$65	1/09	-	1/11/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c197f2b7c
+4*	hyatt	regency	islandia	,	sd	coastal	$65	1/17	-	1/19
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c1a7f2b7c
+4*	hyatt	regency	la	jolla	:	$65	9/7	-	9/11	$and$	9/5	-	9/11
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c1b7f2b7c
+4*	hyatt	regency	la	jolla	$49	sat	5/22/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c1c7f2b7c
+4*	hyatt	regency	la	jolla	7/30	-	8/1	$59
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c1d7f2b7c
+3*	dt	hilton	$42	a	night	for	7/25	-	7/27
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c1e7f2b7c
+4*	hyatt	regency	la	jolla	april	2	-	5	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c1f7f2b7c
+4*	hyatt	regency	la	jolla	-	6/9	-	6/13	$51
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c207f2b7c
+4*	hyatt	regency	la	jolla	june	18	-	25	at	$50	a	night	per	room
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c217f2b7c
+4*	hyatt	regency	la	jolla	4/14	-	18	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c227f2b7c
+4*	hyatt	regency	la	jolla	$50	8/28	(	sat	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c237f2b7c
+4*	hyatt	regency	la	jolla	5/16	-	5/19	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c247f2b7c
+4*	hyatt	regency	la	jolla	$50	(	3/11	-	3/13	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c257f2b7c
+4*	hyatt	regency	la	jolla	5/9	-	5/12	$50.00
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c267f2b7c
+4*	hyatt	regency	la	jolla	6/3/04	-	6/7/04	$50.00	per	night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c277f2b7c
+4*	hyatt	regency	la	jolla	for	$55	a	night	june	4	-	7
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c287f2b7c
+3*	crowne	plaza	pittsburgh	airport	$31	7/17	-	/19
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c297f2b7c
+4*	hyatt	regency	la	jolla	$65	3/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c2a7f2b7c
+4*	hyatt	regency	la	jolla	$65	4/15	-	4/25
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c2b7f2b7c
+4*	hyatt	regency	la	jolla	$50	3/24	-	3/27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c2c7f2b7c
+4*	hyatt	regency	la	jolla	$50	6/1	-	6/5
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c2d7f2b7c
+4*	hyatt	regency	la	jolla	$50	12/25	-	12/28
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c2e7f2b7c
+4*	hyatt	regency	la	jolla	-	$51	(	4/13	-	15	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c2f7f2b7c
+4*	hyatt	regency	la	jolla	2/22	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c307f2b7c
+4*	hyatt	regency	la	jolla	$50	5/17	-	5/19	2	rooms
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c317f2b7c
+4*	hyatt	regency	la	jolla	$50	2/1	-	2/3
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c327f2b7c
+4*	hyatt	regency	la	jolla	$49	5/26	-	5/30
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c337f2b7c
+2.5*	holiday	inn	monroeville	$38	6/27
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c347f2b7c
+4*	hyatt	regency	la	jolla	5/29	-	5/31	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c357f2b7c
+4*	hyatt	regency	la	jolla	$52	7/21	to	7/23
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c367f2b7c
+4*	hyatt	regency	la	jolla	$50	,	coastal	,	6/1	-	6/3	(	tue	.	-	thur	.	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c377f2b7c
+4*	hyatt	regency	la	jolla	coastal	4/16	-	4/18	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c387f2b7c
+4*	hyatt	regency	la	jolla	coastal	$60	3/5	-	3/7
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c397f2b7c
+4*	hyatt	regency	la	jolla	coastal	3/13	-	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8fa062b6c0c3a7f2b7c
+4*	hyatt	regency	la	jolla	coastal	5/12	-	5/16	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c3b7f2b7c
+4*	hyatt	regency	la	jolla	coastal	$65	5/14	-	5/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c3c7f2b7c
+4*	sdc	,	hyatt	regency	la	jolla	$50	,	3/17
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c3d7f2b7c
+4*	hyatt	regency	la	jolla	,	4/1	-	4/4	,	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c3e7f2b7c
+3*	four	points	barcelo	hotel	8/7/03	$30	night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c3f7f2b7c
+4*	hyatt	regency	la	jolla	,	$50	3/2
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c407f2b7c
+4*	hyatt	regency	la	jolla	:	$50	(	6/12	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c417f2b7c
+4*	hyatt	regency	la	jolla	:	$50	(	5/10	-	5/14	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c427f2b7c
+4*	hyatt	regency	la	jolla	:	$50	(	5/15	)	and	$49	(	5/16	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c437f2b7c
+4*	hyatt	regency	lajolla	-	$39	+10b	sun	4/25
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c447f2b7c
+4*	hyatt	regency	lajolla	3/22	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c457f2b7c
+4*	hyatt	regency	lajolla	-	$50	4/7
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c467f2b7c
+4*	hyatt	regency	san	diego	june	11	-	13	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c477f2b7c
+4*	hyatt	regency	san	diego	$70	(	4/30	-	5/2	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c487f2b7c
+4*	hyatt	regency	,	la	jolla	,	5/26	,	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c497f2b7c
+3*	sheraton	dt	8/10	-	8/13	$41
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c4a7f2b7c
+4*	hyatt	regency	,	sd	coastal	6/10	-	6/12	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c4b7f2b7c
+4*	coronado	island	marriott	resort	2/15	-	2/17	$121.00
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c4c7f2b7c
+2.5*	shelter	island	,	island	palms	hotel	and	marina	$55	3/23
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c4d7f2b7c
+4*	la	jolla	hyatt	,	$49	,	4	-	13
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c4e7f2b7c
+2.5*	la	jolla	residence	inn	11/23	-	11/26	$40	/nt
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c4f7f2b7c
+2.5*	coastal	la	jolla	residence	inn	11/9	-	11/11	$41
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c507f2b7c
+4*	la	jolla	torrey	pines	hilton	-	coastal	-	10/24	-	$49	/same	day
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8fa062b6c0c517f2b7c
+4*	la	jolla	torrey	pines	hilton	2/21	$51
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c527f2b7c
+4*	la	jolla	torrey	pines	hilton	7/28	-	7/31	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c537f2b7c
+2*	la	quinta	inn	-	rancho	penasquitos	$36	2/23	-	2/25
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c547f2b7c
+2.5*	residence	inn	univ	ctr	-	-	oakland	$50	(	aug	.	1	-	3	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c557f2b7c
+2*	la	quinta	inn	rancho	penasquitos	$36	12/1	$and$12/3
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0c567f2b7c
+2*	la	quinta	inn	rancho	penasquitos	,	5/10	-	5/12	,	$36
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c577f2b7c
+2*	la	quinta	inn	rancho	penesquitos	1/26	-	1/30	$38
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c587f2b7c
+2*	la	quinta	inn	rancho	penesquitos	$44	2/9	-	2/13
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c597f2b7c
+2*	la	quinta	inn	rancho	penesquitos	$38	2/9	-	2/13
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c5a7f2b7c
+2*	la	quinta	inn	rancho	penesquitos	$38	2/16	-	2/20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c5b7f2b7c
+2*	la	quinta	inn	rancho	penesquitos	$38	3/1	-	3/4
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c5c7f2b7c
+3*	mission	valley	-	red	lion	hanalei	6/12	-	6/14	$65
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c5d7f2b7c
+3*	mission	valley	-	red	lion	hanalei	$60	2/10
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c5e7f2b7c
+4*	coronado	loews	12/15	-	12/20	$89
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c5f7f2b7c
+3*	sheraton	four	points	airport	$30	4/2/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c607f2b7c
+4*	omni	william	penn	dt	8/29	$65
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c617f2b7c
+4*	coronado	loews	10/28	-	30	$89
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c627f2b7c
+4*	coronado	loews	1/2	$79	+	$10	bonus
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c637f2b7c
+4*	loews	coronado	,	new	years	eve	,	$89
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c647f2b7c
+4*	manchester	grand	hyatt	(	downtown	)	12/12	-	$69
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0c657f2b7c
+4*	manchester	grand	hyatt	6/19	$78
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c667f2b7c
+4*	manchester	grand	hyatt	5/22	$68
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c677f2b7c
+4*	manchester	grand	hyatt	$70	,	5/4	-	5/10
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c687f2b7c
+4*	manchester	grand	hyatt	6/25	-	6/28	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c697f2b7c
+4*	manchester	grand	hyatt	6/3	-	6/5	and	6/7	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c6a7f2b7c
+4*	manchester	grand	hyatt	6/12	$69
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c6b7f2b7c
+4*	advice	for	9/20	-	-	9/23/03
+B-starrating	O	O	O	O	O	O
+
+4d1be8fa062b6c0c6c7f2b7c
+4*	manchester	grand	hyatt	3/11	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c6d7f2b7c
+4*	manchester	grand	hyatt	4/10	$69
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c6e7f2b7c
+4*	manchester	grand	hyatt	6/12	$77
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c6f7f2b7c
+*4	manchester	grand	hyatt	3/5	-	3/7/04	2	rooms	for	$70	each
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c707f2b7c
+4*	manchester	grand	hyatt	7/13	2	rooms	$82	/ea
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c717f2b7c
+4*	manchester	grand	hyatt	4	-	9	to	4	-	12	$69	/night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c727f2b7c
+4*	manchester	grand	hyatt	$70	3/4
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c737f2b7c
+4*	manchester	grand	hyatt	4/14	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c747f2b7c
+4*	manchester	grand	hyatt	5/5	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c757f2b7c
+4*	manchester	grand	hyatt	6/7	-	9	$75	;	6/10	-	6/11	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c767f2b7c
+4*	omni	william	penn	8/22	-	8/24	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c777f2b7c
+4*	manchester	grand	hyatt	5/21	-	5/23	$71
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c787f2b7c
+4*	manchester	grand	hyatt	5/14/04	$80
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c797f2b7c
+4*	win	-	manchester	grand	hyatt	4/29	-	4/30	-	$70
+B-starrating	O	O	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c7a7f2b7c
+4*	manchester	grand	hyatt	6/7	-	6/10	$75	/night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c7b7f2b7c
+4*	manchester	grand	hyatt	6/14	-	18	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c7c7f2b7c
+4*	manchester	grand	hyatt	4	-	7	to	4	-	11	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c7d7f2b7c
+4*	manchester	grand	hyatt	4	-	2	to	4	-	5	$69	/night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c7e7e2b7c
+3*	doubletree	mission	valley	4/29	-	5/3	thur	-	mon	$51
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c7e7f2b7c
+4*	manchester	grand	hyatt	8/8	-	8/13	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c7f7e2b7c
+3*	doubletree	mission	valley	$70	3/19	-	3/21
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c7f7f2b7c
+4*	manchester	grand	hyatt	downtown	4/17	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c807e2b7c
+3*	doubletree	mission	valley	11/22	$50
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0c807f2b7c
+4*	manchester	grand	hyatt	downtown	$70	5/29
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c817e2b7c
+3*	dt	hilton	towers	$45	4/2
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c817f2b7c
+2.5*	pittsburgh	east	holiday	inn	9/30	-	10/3	$40
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c827e2b7c
+3*	dt	hilton	8/28	$41
+B-starrating	B-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0c827f2b7c
+4*	manchester	grand	hyatt	dt	5/8	to	5/9	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c837e2b7c
+3*	mission	valley	doubletree	$51	3/20
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0c837f2b7c
+4*	manchester	grand	hyatt	dt	$75	7/11	-	7/14
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c847e2b7c
+3*	doubletree	golf	resort	rb	sd	4/3	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0c847f2b7c
+"""	4*	manchester	grand	hyatt	dt	3/19	-	3/21	$70	"
+O	O	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c857e2b7c
+3*	doubletree	golf	resort	,	rancho	bernardo	7/17	-	7/20	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c857f2b7c
+4*	dt	manchester	grand	hyatt	4	-	15	to	4	-	18	$80	/night	2	rooms
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c867e2b7c
+3*	doubletree	golf	resort	,	rancho	bernardo	,	$55	,	5/10	-	5/13
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c867f2b7c
+4*	manchester	grand	hyatt	dt	5/28	-	5/30	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c877e2b7c
+3*	doubletree	hotel	in	del	mar	3/12	-	3/16	$55
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c877f2b7c
+4*	manchester	grand	hyatt	dt	9/2	-	9/5	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c887e2b7c
+3*	doubletree	hotel	del	mar	may	22	-	28	$46
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c887f2b7c
+4*	manchester	grand	hyatt	dt	$100	4/17
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c897e2b7c
+3*	doubletree	hotel	mission	valley	$50	3/13
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0c897f2b7c
+4*	manchester	grand	hyatt	dt	$70	5/1
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c8a7e2b7c
+3*	doubletree	hotel	san	diego	mission	valley	1/28	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0c8a7f2b7c
+4*	manchester	grand	hyatt	dt	5/30	$75
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c8b7e2b7c
+3*	doubletree	hotel	san	diego	mission	valley	$41	11/27	-	11/28
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0c8b7f2b7c
+4*	manchester	grand	hyatt	san	diego	6	-	11	to	6	-	13	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c8c7e2b7c
+3*	doubletree	hotel	san	diego	mission	valley	$38	sun	12/14
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0c8c7f2b7c
+3*	hyatt	pit	airport	10/20	$27
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0c8d7e2b7c
+3*	westin	convention	ctr	dt	8/12	$41
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c8d7f2b7c
+4*	manchester	grand	hyatt	dt	san	diego	for	$69	on	7/3
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c8e7e2b7c
+4*	grand	hyatt	$82	for	5	-	12	to	5	-	15
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c8e7f2b7c
+4*	manchester	grand	hyatt	san	diego	,	3/18	,	$80
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c8f7e2b7c
+4*	grand	hyatt	$90	3/20/04
+B-starrating	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c8f7f2b7c
+4*	manchester	grand	hyatt	sd	$85	12/13	sat
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0c907e2b7c
+4*	grand	hyatt	manchester	7/27	-	7/29	$70.00
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c907f2b7c
+4*	manchester	grand	hyatt	,	$70	,	4	-	12
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0c917e2b7c
+4*	grand	hyatt	manchester	4/3	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c917f2b7c
+4*	manchester	grand	hyatt	,	san	diego	dt	5/28	-	5/31	,	$70
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c927e2b7c
+4*	downtown	grand	hyatt	manchester	-	3/5	-	3/7	-	$70	+	tax	/nt
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c927f2b7c
+4*	manchester	hyatt	4/10	-	-	$70
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c937e2b7c
+4*	dt	grand	hyatt	manchester	4/17	$70
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c937f2b7c
+4*	dt	manchester	hyatt	11/19	$70
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c947e2b7c
+4*	dt	grand	hyatt	manchester	9/28	-	10/3	$80
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c947f2b7c
+4*	6/4	-	6/6	-	manchester	hyatt	or	near	would	be	perfect	!
+B-starrating	O	B-hotelname	O	O	B-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c957e2b7c
+4*	dt	grand	hyatt	manchester	4/9	$70
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c957f2b7c
+4*	marriot	coronado	$110	5	-	14	-	04	thru	5	-	18	-	04
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c967e2b7c
+3*	mission	valley	handlery	hotel	$46	march	6.+	7.	(	4	rooms	)
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c967f2b7c
+4*	marriott	coronado	3/26	$110
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c977e2b7c
+3*	handlery	hotel	-	mission	valley	-	$50	-	1/22	-	25
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8fa062b6c0c977f2b7c
+3*	pit	hyatt	airport	7/27	$27
+B-starrating	B-localarea	B-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c987e2b7c
+3*	four	points	barcelo	airport	9/8	$27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0c987f2b7c
+4*	marriott	coronado	$110	5/27	-	6/1
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c997e2b7c
+3*	handlery	hotel	-	mission	valley	-	4/17	-	4/19	$45
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0c997f2b7c
+4*	marriott	coronado	4/23	-	25	$120
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c9a7e2b7c
+3*	mission	valley	handlery	hotel	$44	4/20
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c9a7f2b7c
+4*	coronado	marriott	3/5	-	3/7	$130	ouch	!!
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0c9b7e2b7c
+3*	mission	valley	handlery	hotel	$45	1/15/04
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c9b7f2b7c
+4*	marriott	coronado	$110	5/29	-	6/1
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c9c7e2b7c
+3*	handlery	hotel	mission	valley	april	19	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0c9c7f2b7c
+4*	marriott	coronado	$125	2/14	-	2/16
+B-starrating	B-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0c9d7e2b7c
+3*	handlery	hotel	mission	valley	dec	-	23	-	25	,	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c9d7f2b7c
+4*	coronado	marriott	$110	3/20	-	3/22
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0c9e7e2b7c
+3*	handlery	hotel	-	mission	valley	-	$46	-	5/21	-	24	(	2	rooms	)
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	O	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c9e7f2b7c
+3*	marriott	mission	valley	2/19	$and$	2/20	$49	-	2	rooms
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0c9f7e2b7c
+3*	mission	valley	handlery	hotel	$45	3/3
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0c9f7f2b7c
+4*	marriott	coronado	island	resort	5/24	-	5/26	$109
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca07e2b7c
+3*	mission	valley	-	handlery	hotel	-	$46	-	1/22	-	26
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0ca07f2b7c
+4*	marriott	coronado	island	resort	4/15	-	17	$110
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca17e2b7c
+3*	handlery	hotel	and	resort	5/19	-	5/22	$43
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca17f2b7c
+3*	marriott	la	jolla	9/12	-	9/14	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca27e2b7c
+3*	handlery	hotel	and	resort	mission	valley	12/8	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0ca27f2b7c
+3*	dt	pitt	westin	8/11	-	8/13	$42.00
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca37e2b7c
+3*	pit	airport	,	hyatt	,	8/15	,	$27
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0ca37f2b7c
+3*	marriott	la	jolla	coastal	5/30	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0ca47e2b7c
+3*	handlery	resort	mission	valley	$52	5/10	-	5/12
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0ca47f2b7c
+4*	coronado	marriott	resort	$110	-	-	saturday	night	feb	7
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0ca57e2b7c
+*3	mission	valley	,	handley	hotel	and	resort	$50	3/4
+B-starrating	B-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ca57f2b7c
+3*	dt	radisson	$53	on	2/14	-	and	a	question
+B-starrating	B-localarea	B-hotelname	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0ca67e2b7c
+3*	rancho	bernardo	-	carmel	highland	doubletree	$49	12/12
+B-starrating	B-localarea	I-localarea	I-localarea	I-localarea	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ca67f2b7c
+3*	dt	radisson	2/4	-	2/7	$53
+B-starrating	B-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca77e2b7c
+3*	sd	coastal	-	del	mar	hilton	$30	+10bonus	10/30	-	11/4/04
+B-starrating	O	O	O	B-localarea	I-localarea	B-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0ca77f2b7c
+3*	downtown	radisson	harbor	view	11/18	-	11/21	$51
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca87e2b7c
+3*	del	mar	hilton	1/19	-	1/23	$38
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca87f2b7c
+3*	dt	radisson	harbor	view	1/18	to	1/20	$55
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ca97e2b7c
+2.5*	del	mar	hilton	2/12	-	$45
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O
+
+4d1be8fa062b6c0ca97f2b7c
+3*	dt	radisson	harbor	view	1/29	-	2/1	$52
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0caa7e2b7c
+3*	del	mar	hilton	1/19	-	1/221	$60
+B-starrating	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0caa7f2b7c
+3*	radisson	la	jolla	,	4/30	-	5/2	,	$100
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cab7e2b7c
+3*	hilton	del	mar	coastal	2/15/04	$40
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0cab7f2b7c
+2*	ramada	inn	mission	valley	10/19	$30	(	$39.49	total	)
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8fa062b6c0cac7e2b7c
+3*	hilton	del	mar	coastal	1/12	-	1/16	$35
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0cac7f2b7c
+4*	rancho	bernardo	inn	11/30	$55	+	$10	bonus
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cad7e2b7c
+3*	hilton	del	mar	coastal	1/12	-	1/19	$35.00
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0cad7f2b7c
+3*	four	pts	barcelo	airport	$28	mon	7/14
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O
+
+4d1be8fa062b6c0cae7e2b7c
+4*	pittsburgh	omni	hotel	10/3	-	10/5/03	$65	/night
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cae7f2b7c
+4*	rancho	bernardo	inn	2/21	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0caf7e2b7c
+3*	hilton	del	mar	coastal	1/4	-	1/9	$and$	1/9	-	1/11	$32
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0caf7f2b7c
+4*	rancho	bernardo	inn	12/25	-	12/29	$78
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cb07e2b7c
+3*	hilton	del	mar	coastal	1/11	sun	$32
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cb07f2b7c
+4*	rancho	bernardo	inn	$58	for	1/17/04	to	1/19/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cb17e2b7c
+4*	downtown	hilton	gas	lamp	quarter	$79	12/20	(	sat	.	)
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0cb17f2b7c
+4*	rancho	bernardo	inn	3/20	-	3/22	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cb27e2b7c
+4*	win	-	hilton	gaslamp	-	4/23	-	24	-	$68
+B-starrating	O	O	B-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0cb27f2b7c
+4*	rancho	bernardo	inn	3/17	-	3/21	$58
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cb37e2b7c
+4*	hilton	gaslamp	$61	5/20	1	nt	.	thank	you	sheryl	!
+B-starrating	B-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0cb37f2b7c
+4*	rancho	bernardo	inn	4/17	-	20	$58	/nt.
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cb47e2b7c
+4*	hilton	gaslamp	$65	3/11	-	3/14
+B-starrating	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cb47f2b7c
+4*	rancho	bernardo	-	rancho	bernardo	inn	$58	3/12	-	3/15
+B-starrating	B-hotelname	I-hotelname	O	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cb57e2b7c
+4*	downtown	hilton	gaslamp	2/27	-	3/1	$63
+B-starrating	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cb57f2b7c
+3*	red	lion	hanalei	mission	valley	01/17	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0cb67e2b7c
+4*	dt	-	hilton	gaslamp	$65	11/6
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cb67f2b7c
+3*	red	lion	hanalei	-	mv	-	3/24	-	3/26	-	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	B-localarea	O	O	O	O	O	O
+
+4d1be8fa062b6c0cb77e2b7c
+4*	hilton	gaslamp	dt	$85	1/23
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0cb77f2b7c
+2.5*	residence	inn	-	sorrento	mesa	11/8	-	11/11	(	sa	-	tu	)	$35
+B-starrating	B-hotelname	B-localarea	I-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0cb87e2b7c
+4*	hilton	gaslamp	dt	$70	/night	2/26	-	2/29
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0cb87f2b7c
+3*	four	points	barcelo	airport	11/3	$28
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0cb97e2b7c
+3*	radisson	green	tree	$39	8/10	-	8/15
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cb97f2b7c
+2.5*	residence	inn	rancho	bernardo	2/20	-	2/22	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cba7e2b7c
+4*	dt	-	hilton	gaslamp	$80.00	1/24/04
+B-starrating	B-localarea	O	B-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cba7f2b7c
+2.5*	residence	inn	2/13	-	2/16	rancho	bernardo	(	carmel	mtn	)	$44
+B-starrating	B-hotelname	I-hotelname	O	O	O	B-localarea	I-localarea	I-localarea	I-localarea	I-localarea	I-localarea	O
+
+4d1be8fa062b6c0cbb7e2b7c
+4*	hilton	gaslamp	quarter	$63	/nt	,	12/11	-	12/14
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0cbb7f2b7c
+2.5*	residence	inn	sorrento	mesa	$35	1/16	-	18
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cbc7e2b7c
+4*	hilton	gaslamp	quarter	5/20	$61
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cbc7f2b7c
+2.5	*	residence	inn	sorrento	mesa	$35	01/03
+B-starrating	I-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0cbd7e2b7c
+4*	hilton	gaslamp	quarter	10/20	-	10/23	$65
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cbd7f2b7c
+2.5*	residence	inn	sorrento	mesa	12/1	-	12/5	$39
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cbe7e2b7c
+4*	hilton	gaslamp	quarter	$70	3/18	-	3/20
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cbe7f2b7c
+2.5	*	residence	inn	sorrento	mesa	$41	12/23	-	12/29
+B-starrating	I-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cbf7e2b7c
+4*	dt	,	hilton	gaslamp	quarter	,	$61	,	4/16
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0cbf7f2b7c
+2.5*	residence	inn	sorrento	mesa	1/16	-	19	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cc07e2b7c
+4*	hilton	la	jolla	$49	5/4	-	5/10
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cc07f2b7c
+2.5*	residence	inn	sorrento	mesa	$40	3/4	-	3/6
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cc17e2b7c
+4*	win	hilton	la	jolla	torrey	pines	4/23	-	25	$60	/night
+B-starrating	O	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cc17f2b7c
+2.5*	residence	inn	sorrento	mesa	11/23	sun	$35
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0cc27e2b7c
+4*	hilton	san	diego	(	coastal	)	$50	2/15/04	(	sun	)
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0cc27f2b7c
+2.5*	residence	inn	sorrento	mesa	12/15	-	12/19	$36
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cc37e2b7c
+3*	hilton	del	mar	san	diego	coastal	$45	3/14	-	3/18
+B-starrating	B-hotelname	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cc37f2b7c
+3*	hyatt	pittsburgh	airport	$27	-	july	6
+B-starrating	B-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cc47e2b7c
+3*	hyatt	airport	8/11	$17	+	$10	bonus
+B-starrating	B-hotelname	B-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0cc47f2b7c
+2.5*	residence	inn	sorrento	mesa	$35	11/21
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0cc57e2b7c
+3*	hilton	san	diego	airport	dt	$55	1/9	-	1/12/04
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cc57f2b7c
+2.5*	residence	inn	sorrento	mesa	,	$35	,	2/2
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0cc67e2b7c
+3*	hilton	san	diego	airport	harbor	island	$49	12/13	sat
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O
+
+4d1be8fa062b6c0cc67f2b7c
+2.5*	residence	inn	la	jolla	$41	2/14	-	2/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cc77e2b7c
+4*	hilton	san	diego	gaslamp	quarter	for	$85	4/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O
+
+4d1be8fa062b6c0cc77f2b7c
+2.5*	residence	inn	la	jolla	$40	12/5	-	8
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cc87e2b7c
+4*	hilton	san	diego	gaslamp	quarter	4/10	$85
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cc87f2b7c
+2.5*	residence	inn	la	jolla	$40	11/8
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cc97e2b7c
+4*	hilton	san	diego	gaslamp	quarter	dt	5/9	-	11	$80
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cc97f2b7c
+2.5*	residence	inn	la	jolla	$40	3/8	-	3/12
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cca7e2b7c
+4*	hilton	san	diego	resort	$57	12	-	13	to	12	-	15
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0cca7f2b7c
+2.5*	residence	inn	la	jolla	11/14	-	16	$45
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ccb7e2b7c
+3*	dt	hilton	sd	airport	harbor	island	4/6	$52
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0ccb7f2b7c
+2.5*	residence	inn	la	jolla	12/27	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ccc7e2b7c
+3*	hilton	sd	airport	harbor	island	,	$50	,	jan	8	-	14	,	2004
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0ccc7f2b7c
+2.5*	coastal	residence	inn	la	jolla	11/22	$40
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ccd7e2b7c
+4*	hilton	sd	gaslamp	2/16	$80
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ccd7f2b7c
+2.5*	residence	inn	la	jolla	,	4/19	-	4/21	,	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cce7e2b7c
+4*	hilton	torrey	pines	10/18	$55
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ccf7e2b7c
+3*	hyatt	pit	airport	$27	8	-	10	-	03
+B-starrating	B-hotelname	B-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8fa062b6c0cd07e2b7c
+4*	hilton	torrey	pines	5/28	-	5/31	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cd17e2b7c
+4*	hilton	torrey	pines	10/25	$50
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cd27e2b7c
+4*	hilton	torrey	pines	2/15	$51
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cd37e2b7c
+4*	hilton	torrey	pines	10/18	$100
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cd47e2b7c
+4*	hilton	torrey	pines	12/30	$49
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cd57e2b7c
+4*	hilton	torrey	pines	(	coastal	)	$47	11/26
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0cd67e2b7c
+4*	hilton	torrey	pines	coastal	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O
+
+4d1be8fa062b6c0cd77e2b7c
+2*	old	town	hol	inn	express	$50	per	night	4/30	-	5/2
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O
+
+4d1be8fa062b6c0cd87e2b7c
+2.5*	mission	valley	holiday	inn	qualcomm	stadium	,	10/7	$40
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0cd97e2b7c
+2.5*	holiday	inn	mission	valley	(	2	rooms	)	3/13	-	3/15	$41
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0cda7e2b7c
+3*	westin	downtown	8/6/03	$41
+B-starrating	B-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0cdb7e2b7c
+3*	holiday	inn	by	the	bay	dt	$55	11/30	-	12/5
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cdc7e2b7c
+3*	holiday	inn	by	the	bay	dt	$55	11	-	21
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cdd7e2b7c
+3*	dt	holiday	inn	by	the	bay	$56	2/20/04	(	one	night	fri	)
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0cde7e2b7c
+2*	holiday	inn	express	old	town	7/13	-	7/20	,	$40
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O	O
+
+4d1be8fa062b6c0cdf7e2b7c
+2*	holiday	inn	express	old	town	$38	02/03	-	02/08
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0ce07e2b7c
+2*	holiday	inn	express	old	town	$38	1/24
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0ce17e2b7c
+2*	holiday	inn	express	old	town	,	$40	,	2/24	,	mardi	gras
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O	O	O
+
+4d1be8fa062b6c0ce27e2b7c
+2.5*	holiday	inn	harbor	view	downtown	$65	4/8	-	13
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0ce37e2b7c
+2π/≤*	holiday	inn	harbor	view	dt	$54	9/12
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0ce47e2b7c
+3*	holiday	inn	on	the	bay	1/18	$54
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ce57e2b7c
+4*	omni	william	penn	-	$65	aug	25
+B-starrating	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0ce67e2b7c
+3*	holiday	inn	on	the	bay	$55	for	3	rooms	feb	.	8.+	feb	.	9.
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O	O	O	O	O	O
+
+4d1be8fa062b6c0ce77e2b7c
+3*	downtown	holiday	inn	on	the	bay	$58	11/7
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0ce87e2b7c
+3*	downtown	holiday	inn	on	the	bay	-	02/06	-	02/08	$64
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O	O
+
+4d1be8fa062b6c0ce97e2b7c
+3*	dt	holiday	inn	on	the	bay	$56	1/17	-	1/26
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cea7e2b7c
+3*	holiday	inn	on	the	bay	dt	$65	12/2	-	12/5
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0ceb7e2b7c
+3*	dt	holiday	inn	on	the	bay	3/15	$55
+B-starrating	B-localarea	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	O	O
+
+4d1be8fa062b6c0cec7e2b7c
+3*	holiday	inn	on	the	bay	dt	$55	3/13	-	3/16
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0ced7e2b7c
+3*	holiday	inn	on	the	bay	dt	5/6	-	5/8	$60
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cee7e2b7c
+3*	holiday	inn	mission	valley	stadium	5/12	$41
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cef7e2b7c
+3*	holiday	inn	mission	valley	stadium	3/18	-	3/20	$45
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cf07e2b7c
+2.5*	holiday	inn	-	pittsburgh	(	monroeville	)	-	7/3	-	$36
+B-starrating	B-hotelname	I-hotelname	O	B-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cf17e2b7c
+3*	westin	dt	convention	ctr	8/1	-	8/3	$42
+B-starrating	B-hotelname	B-localarea	B-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cf27e2b7c
+2.5*	holiday	inn	mission	valley	stadium	$40	11/10	-	11/14
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cf37e2b7c
+3*	holiday	inn	mission	valley	stadium	3/20	$43
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cf47e2b7c
+3*	holiday	inn	mission	valley	stadium	4/27	$43
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cf57e2b7c
+3*	holiday	inn	mission	valley	stadium	2/18	$40
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cf67e2b7c
+3*	holiday	inn	mission	valley	stadium	2/3	$39
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cf77e2b7c
+2.5*	holiday	inn	mission	valley	stadium	$42	11/4
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cf87e2b7c
+3*	holiday	inn	mission	valley	stadium	5/4	$42
+B-starrating	B-hotelname	I-hotelname	B-localarea	I-localarea	B-hotelname	O	O
+
+4d1be8fa062b6c0cf97e2b7c
+2*	,	homestead	studio	stes	sd	mission	valley	,	7/21	-	7/25	$37
+B-starrating	I-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cfa7e2b7c
+2*	homestead	studio	suites	mira	mesa	4/3/04	-	4/5/04	$39
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	O	O	O	O
+
+4d1be8fa062b6c0cfb7e2b7c
+2*	mission	valley	homestead	studio	suites	$33	12/30	-	1/6
+B-starrating	B-localarea	I-localarea	B-hotelname	I-hotelname	I-hotelname	O	O	O	O
+
+4d1be8fa062b6c0cfc7e2b7c
+3*	westin	convention	center	dt	$46	8/6
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O
+
+4d1be8fa062b6c0cfd7e2b7c
+2*	homestead	studio	suites	mv	$35	2/28	-	3/6
+B-starrating	B-hotelname	I-hotelname	I-hotelname	B-localarea	O	O	O	O
+
+4d1be8fa062b6c0cfe7e2b7c
+2*	homestead	studio	suites	sd	mission	valley	,	$35	2/27
+B-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O
+
+4d1be8fa062b6c0cff7e2b7c
+2*	,	homestead	studio	suites	sd	mission	valley	,	2/14	,	$35
+B-starrating	I-starrating	B-hotelname	I-hotelname	I-hotelname	I-hotelname	B-localarea	I-localarea	I-localarea	O	O	O
+
