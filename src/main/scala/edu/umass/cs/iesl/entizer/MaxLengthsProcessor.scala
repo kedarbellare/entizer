@@ -21,7 +21,7 @@ class MaxLengthsProcessor(val inputColl: MongoCollection,
 
   override def newOutputParams(isMaster: Boolean = false) = {
     val lblToMaxLength = new HashMap[String, Int]
-    lblToMaxLength("O") = 1
+    lblToMaxLength("O") = Short.MaxValue.toInt
     lblToMaxLength
   }
 

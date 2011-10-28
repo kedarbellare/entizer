@@ -10,6 +10,8 @@ import io.Source
 
 class MentionFileLoader(val inputColl: MongoCollection, val filename: String, val isRecordColl: Boolean,
                         val debugEvery: Int = 1000) extends CollectionProcessor {
+  val NULL_CLUSTER = "##NULL##"
+
   def name = "mentionLoader[file=" + filename + "]"
 
   def run() {
@@ -19,7 +21,8 @@ class MentionFileLoader(val inputColl: MongoCollection, val filename: String, va
     val lineIter = Source.fromFile(filename).getLines()
     while (lineIter.hasNext) {
       val builder = MongoDBObject.newBuilder
-      builder += "_id" -> new ObjectId(lineIter.next())
+      val cluster = lineIter.next()
+      if (cluster != NULL_CLUSTER) builder += "cluster" -> cluster
       builder += "isRecord" -> isRecordColl
       builder += "source" -> filename
       builder += "words" -> lineIter.next().split("\t")

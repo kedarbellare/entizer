@@ -12,9 +12,6 @@ object Main extends App {
   new MentionFileLoader(repo.mentionsColl, "data/rexa1k/rexa_records.txt.1000", true).run()
   new MentionFileLoader(repo.mentionsColl, "data/rexa1k/rexa_citations.txt.1000", false).run()
 
-  // append cluster to mentions
-  new ClusterFileLoader(repo.mentionsColl, "data/rexa1k/rexa_clusters.txt.1000").run()
-
   // normalize schema (if needed say B/I-booktitle -> B/I-venue, B/I-pages -> O, etc.)
   // author booktitle date editor institution journal location pages publisher series tech thesis title volume
   val schemaMappings = Map(
