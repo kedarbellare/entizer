@@ -393,6 +393,8 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
 
   def update(rootValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue, begin: Int, end: Int, prob: Double)
 
+  def bestRecordClusterValue = bestWidget.head.values.head.valueId
+
   def bestFieldValueTextSegmentation: FieldValuesTextSegmentation = {
     val fldvalsegmentation = new FieldValuesTextSegmentation
     fldvalsegmentation ++= bestWidget.sortWith((v1: FieldValuesTextSegment, v2: FieldValuesTextSegment) => {
@@ -409,6 +411,18 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
     segmentation
   }
 
+  def getRootValues(begin: Int, end: Int): HashSet[FieldValue] = {
+    val rootValues = new HashSet[FieldValue]
+
+    for (mentionRootValue <- root.getPossibleValues(mentionId, begin, end);
+         segment <- root.getValueMentionSegment(mentionRootValue.valueId);
+         rootValue <- root.getPossibleValues(segment.mentionId, segment.begin, segment.end)) {
+      rootValues += rootValue
+    }
+    rootValues += FieldValue(root, None)
+    rootValues
+  }
+
   def getEntityRootPossibleValues(rootValue: FieldValue): HashSet[FieldValue] = {
     // logger.debug("root: " + rootValue)
     val rootMentionId = root.getValueMention(rootValue.valueId)
@@ -421,16 +435,12 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
              segment <- field.getValueMentionSegment(mentionFieldValue.valueId);
              fieldValue <- field.getPossibleValues(segment.mentionId, segment.begin, segment.end)) {
           if (rootValue.valueId.isDefined && fieldValue.valueId.isDefined) {
-            // logger.debug("field: " + fieldValue)
+            // logger.info("field: " + fieldValue + " for root: " + rootValue)
             rootPossibleValues += fieldValue
           }
         }
         // add null field for key value
-        if (!rootValue.valueId.isDefined) {
-          val nullFieldValue = FieldValue(field, None)
-          // logger.debug("field: " + nullFieldValue)
-          rootPossibleValues += nullFieldValue
-        }
+        rootPossibleValues += FieldValue(field, None)
       } else {
         for (fieldValue <- field.getMentionValues(rootMentionId)) {
           // logger.debug("field: " + fieldValue)
@@ -455,13 +465,14 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
         val node = (Seq(rootValue, prevFieldValue), begin)
         // logger.debug("node: " + node)
         if (H.addSumNode(node)) {
+          var tmpadded = 0
           for (currField <- root.getFields) {
             for (end <- (begin + 1) to math.min(begin + currField.maxSegmentLength, N)
                  if isAllowed(currField, begin, end)) {
               for (currFieldValue <- currField.getPossibleValues(mentionId, begin, end)
                    if rootPossibleValues == null || rootPossibleValues(currFieldValue)) {
-                // logger.debug("Using " + Seq(rootValue, currFieldValue) + " for generating '" +
-                // words.slice(begin, end).mkString(" ") + "'")
+                tmpadded += 1
+                // logger.info("Using " + Seq(rootValue, currFieldValue) + " for generating '" + words.slice(begin, end).mkString(" ") + "'")
                 H.addEdge(node, gen(rootValue, rootPossibleValues, currFieldValue, end), new Info {
                   def getWeight = score(rootValue, prevFieldValue.field.name, currFieldValue, begin, end)
 
@@ -477,6 +488,8 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
               }
             }
           }
+          if (tmpadded == 0) logger.error("no values found for " + words + " @ " + begin + "\npossible=" +
+            rootPossibleValues + "\nroot=" + getRootValues(0, N))
         }
         node
       }
@@ -486,7 +499,7 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
     // generate
     val begin = 0
     for (end <- (begin + 1) to math.min(begin + root.maxSegmentLength, N) if isAllowed(root, begin, end)) {
-      for (rootValue <- root.getPossibleValues(mentionId, begin, end)) {
+      for (rootValue <- getRootValues(begin, end)) {
         val rootPossibleValues = getRootPossibleValues(rootValue)
         // generate using rootValue and root possible values
         for (currField <- root.getFields) {
@@ -494,8 +507,7 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
                if isAllowed(currField, begin, end)) {
             for (currFieldValue <- currField.getPossibleValues(mentionId, begin, end)
                  if rootPossibleValues == null || rootPossibleValues(currFieldValue)) {
-              // logger.debug("Using " + Seq(rootValue, fieldValue) + " for generating '" +
-              // words.slice(begin, end).mkString(" ") + "'")
+              // logger.info("Using " + Seq(rootValue, currFieldValue) + " for generating '" + words.slice(begin, end).mkString(" ") + "'")
               H.addEdge(H.sumStartNode(), gen(rootValue, rootPossibleValues, currFieldValue, end), new Info {
                 def getWeight = score(rootValue, startFieldName, currFieldValue, begin, end)
 
@@ -520,6 +532,8 @@ class DefaultSegmentationInferencer(val root: FieldCollection, val example: Ment
                                     val params: Params, val counts: Params, val ispec: SimpleInferSpec,
                                     val startFieldName: String = "$START$")
   extends ASegmentationBasedInferencer {
+  override def getRootValues(begin: Int, end: Int) = super.getRootValues(begin, end).filter(!_.valueId.isDefined)
+
   def score(rootValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
             begin: Int, end: Int) = {
     val currField = currFieldValue.field

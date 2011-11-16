@@ -128,20 +128,23 @@ trait EntityField extends Field {
     val rnd = new java.util.Random()
     var allValues = new ArrayBuffer[FieldValue]
     allValues ++= idToPhrase.keys.map(id => FieldValue(this, Some(id)))
+    // def simpleValueString(v: FieldValue) = getValuePhrase(v.valueId).mkString("'", " ", "'")
     while (allValues.size > 0) {
       val canopyValue = allValues(rnd.nextInt(allValues.size))
       val canopySegment = idToMentionSegment(canopyValue.valueId.get)
       // canopy core
       val canopyCoreValues = segmentToCoreValues(canopySegment)
       val canopyAllValues = segmentToAllValues(canopySegment)
-      val prunedCoreValues = (canopyCoreValues ++ Seq(canopyValue)).toSeq
-        .sortWith(_.valueId.hashCode() < _.valueId.hashCode()).take(numPhraseDuplicates)
+      val prunedCoreValues = canopyCoreValues.toSeq.sortWith(_.valueId.hashCode() < _.valueId.hashCode())
+        .take(numPhraseDuplicates - 1) ++ Seq(canopyValue)
+      // logger.info("Canopy value: " + simpleValueString(canopyValue) + " core=" + canopyCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
       if (prunedCoreValues.size < canopyCoreValues.size) {
         logger.info("Filtering '%s' before=%d, after=%d".format(canopyValue.toString,
           canopyCoreValues.size, prunedCoreValues.size))
       }
       require(prunedCoreValues.size > 0, "#coreValues=0 for canopy value=" + canopyValue)
       for (otherCanopyValue <- canopyAllValues) {
+        // logger.info("Generating " + simpleValueString(otherCanopyValue) + " using " + prunedCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
         valueToPossibleCoreValues(otherCanopyValue) = valueToPossibleCoreValues.getOrElse(otherCanopyValue,
           new HashSet[FieldValue]) ++ prunedCoreValues
       }
@@ -175,11 +178,21 @@ trait EntityField extends Field {
   }
 
   def getValuePhrase(valueId: Option[ObjectId]) = {
-    if (valueId.isDefined) idToPhrase(valueId.get) else Seq.empty[String]
+    if (valueId.isDefined) {
+      if (idToPhrase == null) {
+        val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("phrase" -> 1)).get
+        MongoHelper.getListAttr[String](dbo, "phrase")
+      } else idToPhrase(valueId.get)
+    } else Seq.empty[String]
   }
 
   def getValueHashes(valueId: Option[ObjectId]) = {
-    if (valueId.isDefined) idToHashCodes(valueId.get) else Seq.empty[String]
+    if (valueId.isDefined) {
+      if (idToHashCodes == null) {
+        val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("hashCodes" -> 1)).get
+        MongoHelper.getListAttr[String](dbo, "hashCodes")
+      } else idToHashCodes(valueId.get)
+    } else Seq.empty[String]
   }
 
   def getValueMention(valueId: Option[ObjectId]) = {

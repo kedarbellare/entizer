@@ -272,7 +272,8 @@ class SupervisedSegmentationOnlyLearner(val mentionColl: MongoCollection, val ro
 class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, val root: FieldCollection,
                                              val useOracle: Boolean = true)
   extends HasLogger {
-  protected def constraintLearn(numIter: Int, constraintFns: Seq[ConstraintFunction], params: Params, constraintParams: Params,
+  protected def constraintLearn(numIter: Int, constraintFns: Seq[ConstraintFunction],
+                                params: Params, constraintParams: Params, constraintInvVariance: Double,
                                 recordWeight: Double, textWeight: Double) {
     val constraintTarget = new ParameterProcessor(root, constraintParams, useOracle) {
       def name = "semiSupConstraintTargetInitializer"
@@ -289,7 +290,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
     }.run().asInstanceOf[(Params, ProbStats)]._1
     // logger.info("constraint target:" + constraintTarget)
 
-    val objective = new ACRFObjective(constraintParams, 0) {
+    val objective = new ACRFObjective(constraintParams, constraintInvVariance) {
       def getValueAndGradient = {
         val (expectations, stats) = new ParameterProcessor(root, constraintParams, useOracle) {
           def name = "semiSupConstraintExpectationInitializer"
@@ -382,10 +383,11 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
     optimizer.optimize(objective, stats, stop)
   }
 
-  def learn(numIter: Int = 5, numConstraintIter: Int = 50, numParamIter: Int = 10,
+  def learn(numIter: Int = 5, numConstraintIter: Int = 50, numParamIter: Int = 50,
             constraintFns: Seq[ConstraintFunction] = Seq.empty[ConstraintFunction],
             initParams: Params = new Params, initConstraintParams: Params = new Params,
-            invVariance: Double = 1, recordWeight: Double = 1, textWeight: Double = 1e-2) = {
+            invVariance: Double = 1, constraintInvVariance: Double = 0,
+            recordWeight: Double = 1, textWeight: Double = 1e-2) = {
     // initialize parameters first
     val params = new DefaultParameterInitializer(root, mentionColl, initParams).run()
       .asInstanceOf[(Params, ProbStats)]._1
@@ -406,7 +408,8 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
         paramEvalStats, logger.info(_))
       
-      constraintLearn(numConstraintIter, constraintFns, params, constraintParams, recordWeight, textWeight)
+      constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight)
+      logger.info("constraintParams:" + constraintParams)
       val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
         params, constraintParams, constraintFns, root).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1

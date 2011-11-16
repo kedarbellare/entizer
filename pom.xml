@@ -32,6 +32,15 @@
             <name>Typesafe Repository</name>
             <url>http://repo.typesafe.com/typesafe/releases/</url>
         </repository>
+        <repository>
+            <id>spy</id>
+            <name>Spy Repository</name>
+            <layout>default</layout>
+            <url>http://files.couchbase.com/maven2/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
     </repositories>
 
     <pluginRepositories>
@@ -84,6 +93,12 @@
             <groupId>se.scalablesolutions.akka</groupId>
             <artifactId>akka-actor</artifactId>
             <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>spy</groupId>
+            <artifactId>spymemcached</artifactId>
+            <version>2.7.3</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>uk.ac.shef.wit</groupId>

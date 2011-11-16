@@ -5,6 +5,7 @@ import io.Source
 import org.riedelcastro.nurupo.HasLogger
 import java.io.PrintWriter
 import collection.mutable.{ArrayBuffer, HashSet, HashMap}
+import uk.ac.shef.wit.simmetrics.similaritymetrics.JaroWinkler
 
 /**
  * @author kedar
@@ -22,6 +23,7 @@ object BFTestEnv {
   val DOTW = "(?:mon|tues?|wed(?:nes)?|thurs?|fri|satu?r?|sun)(?:day)?"
   val PATHS = Source.fromFile("data/bft/bft_paths-c50-p1.txt").getLines()
     .map(_.split("\t")).map(tuple => tuple(1) -> tuple(0)).toMap
+  val JWINK = new JaroWinkler
 
   def simplify(s: String): String = {
     if (s.matches("\\d+/\\d+(/\\d+)?")) "$date$"
@@ -54,6 +56,40 @@ object BFTestEnv {
       hs ++= PhraseHash.ngramsWordHash(tphrase, Seq(1))
     }
     hs.toSeq
+  }
+
+  def isMentionPhraseContainedInValue(fv: FieldValue, m: Mention, begin: Int, end: Int,
+                                      transforms: Seq[(Seq[String], Seq[String])]): Boolean = {
+    if (!fv.valueId.isDefined) false
+    else {
+      def rmPunct(seq: Seq[String]) = seq.filter(!_.matches("^\\p{Punct}*$"))
+      val mentionPhraseClean = rmPunct(m.words.slice(begin, end))
+      val mentionTokenBeforePhrase: Seq[String] = if (begin == 0) Seq() else Seq(m.words(begin - 1))
+      val mentionTokenAfterPhrase: Seq[String] = if (end == m.words.length) Seq() else Seq(m.words(end))
+      val valuePhrase = fv.field.getValuePhrase(fv.valueId)
+      def isContained(phrFrom: Seq[String], phrTo: Seq[String]): Boolean = {
+        if (phrTo.length == 0) true
+        else if (phrFrom.length < phrTo.length) false
+        else {
+          val phrFromSet = phrFrom.toSet
+          for (wto <- phrTo) {
+            if (!phrFromSet(wto) && !phrFromSet.exists(wfrom => JWINK.getSimilarity(wfrom, wto) >= 0.95))
+              return false
+          }
+          true
+        }
+      }
+      for (transformValuePhrase <- PhraseHash.transformedPhrases(valuePhrase, transforms)) {
+        val transformValuePhraseClean = rmPunct(transformValuePhrase)
+        if (isContained(transformValuePhraseClean, mentionPhraseClean) &&
+          (mentionTokenBeforePhrase.length == 0 || !isContained(transformValuePhraseClean, mentionTokenBeforePhrase)) &&
+          (mentionTokenAfterPhrase.length == 0 || !isContained(transformValuePhraseClean, mentionTokenAfterPhrase))) {
+          // logger.info("before: " + mentionTokenBeforePhrase + " after: " + mentionTokenAfterPhrase + " phrase: " + m.words.slice(begin, end) + " value: " + valuePhrase)
+          return true
+        }
+      }
+      false
+    }
   }
 
   var hotelnameTransforms = Seq(
@@ -119,7 +155,7 @@ object BFTInitMain extends App {
   BFTAttachFeatures.run()
 }
 
-object BFTRecordOnlyMain extends App with HasLogger {
+class BFTBasicMain(val useOracle: Boolean) extends HasLogger {
 
   import BFTestEnv._
 
@@ -138,14 +174,18 @@ object BFTRecordOnlyMain extends App with HasLogger {
   listingRecord.addField(otherField).addField(starratingField).addField(hotelnameField).addField(localareaField)
 
   // learn from records only
-  val params = new SupervisedSegmentationOnlyLearner(mentions, listingRecord, false).learn(50)
+  val params = new SupervisedSegmentationOnlyLearner(mentions, listingRecord, useOracle).learn(50)
   logger.info("parameters: " + params)
-  val evalStats = new DefaultSegmentationEvaluator("record-only-segmentation", mentions,
+  val evalStats = new DefaultSegmentationEvaluator("segmentation-only-oracle-" + useOracle, mentions,
     params, listingRecord).run().asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
-  TextSegmentationHelper.outputEval("record-only-segmentation", evalStats, logger.info(_))
+  TextSegmentationHelper.outputEval("segmentation-only-oracle-" + useOracle, evalStats, logger.info(_))
 }
 
-object BFTRecordConstrainedMain extends App with HasLogger {
+object BFTRecordSegmentationOnlyMain extends BFTBasicMain(false) with App
+
+object BFTOracleSegmentationOnlyMain extends BFTBasicMain(true) with App
+
+object BFTConstrainedSegmentationOnlyMain extends App with HasLogger {
 
   import BFTestEnv._
 
@@ -173,7 +213,7 @@ object BFTRecordConstrainedMain extends App with HasLogger {
     }).run().asInstanceOf[AlignSegmentPredicate]
   // featureValue=-1 since >= constraint
   ratingMatchesPatternPredicate.featureValue = -1
-  ratingMatchesPatternPredicate.targetProportion = 0.99
+  ratingMatchesPatternPredicate.targetProportion = 0.95
   constraintFns += ratingMatchesPatternPredicate
 
   // <= 1% of not pattern matches are ratings
@@ -184,12 +224,134 @@ object BFTRecordConstrainedMain extends App with HasLogger {
   ratingNotMatchesPatternPredicate.targetProportion = 0.01
   constraintFns += ratingNotMatchesPatternPredicate
 
-  // #hotelname <= 1.1 * numMentions (0.9 have 1 segment, 0.1 have 2 segments)
+  // #hotelname <= 1 * numMentions
   val countHotelname = new CountFieldEmissionTypePredicate("count_hotelname", hotelnameField.name)
   countHotelname.targetProportion = 1
   constraintFns += countHotelname
 
-  // #localarea <= 1.1 * numMentions (0.9 have 1 segment, 0.1 have 2 segments)
+  // #localarea <= 1 * numMentions
+  val countLocalarea = new CountFieldEmissionTypePredicate("count_localarea", localareaField.name)
+  countLocalarea.targetProportion = 1
+  constraintFns += countLocalarea
+
+  // #starrating <= 1 * numMentions
+  val countRating = new CountFieldEmissionTypePredicate("count_rating", starratingField.name)
+  countRating.targetProportion = 1
+  constraintFns += countRating
+
+  // limit count for each mention
+  val addCountLimitPerMention = false
+  if (addCountLimitPerMention) {
+    for (mentionId <- getMentionIds()) {
+      val instCountHotelname = new InstanceCountFieldEmissionType(mentionId, "count_hotelname", hotelnameField.name)
+      instCountHotelname.targetProportion = 1
+      constraintFns += instCountHotelname
+
+      val instCountLocalarea = new InstanceCountFieldEmissionType(mentionId, "count_localarea", localareaField.name)
+      instCountLocalarea.targetProportion = 1
+      constraintFns += instCountLocalarea
+
+      val instCountRating = new InstanceCountFieldEmissionType(mentionId, "count_rating", starratingField.name)
+      instCountRating.targetProportion = 1
+      constraintFns += instCountRating
+    }
+  }
+
+  val (params, constraintParams) = new SemiSupervisedJointSegmentationLearner(mentions, listingRecord)
+    .learn(constraintFns = constraintFns)
+  val evalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation", mentions,
+    params, constraintParams, constraintFns, listingRecord, true).run()
+    .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+  TextSegmentationHelper.outputEval("semi-sup-segmentation", evalStats, logger.info(_))
+}
+
+object BFTConstrainedAlignSegmentationSimpleMain extends App with HasLogger {
+
+  import BFTestEnv._
+
+  // get maxlengths
+  val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
+  println("maxLengthMap=" + maxLengths)
+
+  // create fields
+  val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
+  val starratingField = SimpleField("starrating").setMaxSegmentLength(maxLengths("starrating")).init()
+
+  val hotelnameField = new SimpleEntityField("hotelname", repo, true)
+    .setMaxSegmentLength(maxLengths("hotelname")).setHashCodes(fieldHashFn(_, hotelnameTransforms))
+    .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseUnique(true)
+    .init().asInstanceOf[SimpleEntityField]
+
+  val localareaField = new SimpleEntityField("localarea", repo, true)
+    .setMaxSegmentLength(maxLengths("localarea")).setHashCodes(fieldHashFn(_, localareaTransforms))
+    .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseUnique(true)
+    .init().asInstanceOf[SimpleEntityField]
+
+  // create record and add fields
+  val listingRecord = SimpleRecord("listing").init()
+  listingRecord.addField(otherField).addField(starratingField).addField(hotelnameField).addField(localareaField)
+
+  // initialize constraints
+  val constraintFns = new ArrayBuffer[ConstraintFunction]
+
+  // >= 95% of pattern matches are ratings
+  val ratingMatchesPatternPredicate = new FieldMentionAlignPredicateProcessor(mentions, starratingField,
+    "rating_matches_pattern", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.field.name == starratingField.name && matchesRatingPattern(m.words.slice(begin, end))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  // featureValue=-1 since >= constraint
+  ratingMatchesPatternPredicate.featureValue = -1
+  ratingMatchesPatternPredicate.targetProportion = 0.95
+  constraintFns += ratingMatchesPatternPredicate
+
+  // <= 1% of not pattern matches are ratings
+  val ratingNotMatchesPatternPredicate = new FieldMentionAlignPredicateProcessor(mentions, starratingField,
+    "rating_not_matches_pattern", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.field.name == starratingField.name && !matchesRatingPattern(m.words.slice(begin, end))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  ratingNotMatchesPatternPredicate.targetProportion = 0.01
+  constraintFns += ratingNotMatchesPatternPredicate
+
+  // >= 99% of hotelname segment maximal contained overlap are alignments
+  val hotelnameMaximalContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, hotelnameField,
+    "segment_maximal_contained_in_hotelname_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      isMentionPhraseContainedInValue(fv, m, begin, end, hotelnameTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  hotelnameMaximalContainedPredicate.featureValue = -1
+  hotelnameMaximalContainedPredicate.targetProportion = 0.99
+  constraintFns += hotelnameMaximalContainedPredicate
+
+  // <= 10% of hotelname segment not contained are alignments
+  val hotelnameMaximalNotContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, hotelnameField,
+    "segment_not_maximal_contained_in_hotelname_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined && !isMentionPhraseContainedInValue(fv, m, begin, end, hotelnameTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  hotelnameMaximalNotContainedPredicate.targetProportion = 0.01
+  constraintFns += hotelnameMaximalNotContainedPredicate
+
+  // >= 99% of localarea segment maximal contained overlap are alignments
+  val localareaMaximalContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, localareaField,
+    "segment_maximal_contained_in_localarea_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      isMentionPhraseContainedInValue(fv, m, begin, end, localareaTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  localareaMaximalContainedPredicate.featureValue = -1
+  localareaMaximalContainedPredicate.targetProportion = 0.99
+  constraintFns += localareaMaximalContainedPredicate
+
+  // <= 10% of localarea segment not contained are alignments
+  val localareaMaximalNotContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, localareaField,
+    "segment_not_maximal_contained_in_localarea_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined && !isMentionPhraseContainedInValue(fv, m, begin, end, localareaTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  localareaMaximalNotContainedPredicate.targetProportion = 0.01
+  constraintFns += localareaMaximalNotContainedPredicate
+
+  // #hotelname <= 1 * numMentions
+  val countHotelname = new CountFieldEmissionTypePredicate("count_hotelname", hotelnameField.name)
+  countHotelname.targetProportion = 1
+  constraintFns += countHotelname
+
+  // #localarea <= 1 * numMentions
   val countLocalarea = new CountFieldEmissionTypePredicate("count_localarea", localareaField.name)
   countLocalarea.targetProportion = 1
   constraintFns += countLocalarea
@@ -200,7 +362,114 @@ object BFTRecordConstrainedMain extends App with HasLogger {
   constraintFns += countRating
 
   val (params, constraintParams) = new SemiSupervisedJointSegmentationLearner(mentions, listingRecord)
-    .learn(constraintFns = constraintFns)
+    .learn(constraintFns = constraintFns, textWeight = 1e-1)
+  val evalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation", mentions,
+    params, constraintParams, constraintFns, listingRecord, true).run()
+    .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+  TextSegmentationHelper.outputEval("semi-sup-segmentation", evalStats, logger.info(_))
+}
+
+object BFTConstrainedAlignSegmentationClusterMain extends App with HasLogger {
+
+  import BFTestEnv._
+
+  // get maxlengths
+  val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
+  println("maxLengthMap=" + maxLengths)
+
+  // create fields
+  val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
+  val starratingField = SimpleField("starrating").setMaxSegmentLength(maxLengths("starrating")).init()
+
+  val hotelnameField = new SimpleEntityField("hotelname", repo, true)
+    .setMaxSegmentLength(maxLengths("hotelname")).setHashCodes(fieldHashFn(_, hotelnameTransforms))
+    .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseUnique(true)
+    .init().asInstanceOf[SimpleEntityField]
+
+  val localareaField = new SimpleEntityField("localarea", repo, true)
+    .setMaxSegmentLength(maxLengths("localarea")).setHashCodes(fieldHashFn(_, localareaTransforms))
+    .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseUnique(true)
+    .init().asInstanceOf[SimpleEntityField]
+
+  // create record and add fields
+  val listingRecord = new SimpleEntityRecord("listing", repo)
+    .setHashCodes(recordHashFn(_, recordTransforms)).setSimilarities(0.4, 0.9)
+    .setMaxHashFraction(0.25).setPhraseUnique(true)
+    .init().asInstanceOf[SimpleEntityRecord]
+  listingRecord.addField(otherField).addField(starratingField).addField(hotelnameField).addField(localareaField)
+
+  // initialize constraints
+  val constraintFns = new ArrayBuffer[ConstraintFunction]
+
+  // >= 95% of pattern matches are ratings
+  val ratingMatchesPatternPredicate = new FieldMentionAlignPredicateProcessor(mentions, starratingField,
+    "rating_matches_pattern", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.field.name == starratingField.name && matchesRatingPattern(m.words.slice(begin, end))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  // featureValue=-1 since >= constraint
+  ratingMatchesPatternPredicate.featureValue = -1
+  ratingMatchesPatternPredicate.targetProportion = 0.95
+  constraintFns += ratingMatchesPatternPredicate
+
+  // <= 1% of not pattern matches are ratings
+  val ratingNotMatchesPatternPredicate = new FieldMentionAlignPredicateProcessor(mentions, starratingField,
+    "rating_not_matches_pattern", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.field.name == starratingField.name && !matchesRatingPattern(m.words.slice(begin, end))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  ratingNotMatchesPatternPredicate.targetProportion = 0.01
+  constraintFns += ratingNotMatchesPatternPredicate
+
+  // >= 99% of hotelname segment maximal contained overlap are alignments
+  val hotelnameMaximalContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, hotelnameField,
+    "segment_maximal_contained_in_hotelname_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      isMentionPhraseContainedInValue(fv, m, begin, end, hotelnameTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  hotelnameMaximalContainedPredicate.featureValue = -1
+  hotelnameMaximalContainedPredicate.targetProportion = 0.99
+  constraintFns += hotelnameMaximalContainedPredicate
+
+  // <= 10% of hotelname segment not contained are alignments
+  val hotelnameMaximalNotContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, hotelnameField,
+    "segment_not_maximal_contained_in_hotelname_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined && !isMentionPhraseContainedInValue(fv, m, begin, end, hotelnameTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  hotelnameMaximalNotContainedPredicate.targetProportion = 0.01
+  constraintFns += hotelnameMaximalNotContainedPredicate
+
+  // >= 99% of localarea segment maximal contained overlap are alignments
+  val localareaMaximalContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, localareaField,
+    "segment_maximal_contained_in_localarea_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      isMentionPhraseContainedInValue(fv, m, begin, end, localareaTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  localareaMaximalContainedPredicate.featureValue = -1
+  localareaMaximalContainedPredicate.targetProportion = 0.99
+  constraintFns += localareaMaximalContainedPredicate
+
+  // <= 10% of localarea segment not contained are alignments
+  val localareaMaximalNotContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, localareaField,
+    "segment_not_maximal_contained_in_localarea_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined && !isMentionPhraseContainedInValue(fv, m, begin, end, localareaTransforms)
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  localareaMaximalNotContainedPredicate.targetProportion = 0.01
+  constraintFns += localareaMaximalNotContainedPredicate
+
+  // #hotelname <= 1 * numMentions
+  val countHotelname = new CountFieldEmissionTypePredicate("count_hotelname", hotelnameField.name)
+  countHotelname.targetProportion = 1
+  constraintFns += countHotelname
+
+  // #localarea <= 1 * numMentions
+  val countLocalarea = new CountFieldEmissionTypePredicate("count_localarea", localareaField.name)
+  countLocalarea.targetProportion = 1
+  constraintFns += countLocalarea
+
+  // #starrating <= 1 * numMentions
+  val countRating = new CountFieldEmissionTypePredicate("count_rating", starratingField.name)
+  countRating.targetProportion = 1
+  constraintFns += countRating
+
+  val (params, constraintParams) = new SemiSupervisedJointSegmentationLearner(mentions, listingRecord)
+    .learn(constraintFns = constraintFns, textWeight = 1e-1)
   val evalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation", mentions,
     params, constraintParams, constraintFns, listingRecord, true).run()
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
@@ -244,13 +513,13 @@ object BFTMain extends App {
   // initialize entity fields
   val hotelnameField = new SimpleEntityField("hotelname", repo, true)
     .setMaxSegmentLength(maxLengths("hotelname")).setHashCodes(fieldHashFn(_, hotelnameTransforms))
-    .setSimilarities(0.4, 0.9).setMaxHashFraction(0.25).setPhraseDuplicates(5)
+    .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseDuplicates(1)
     .init().asInstanceOf[SimpleEntityField]
   println(hotelnameField.getHashDocumentFrequency.filter(_._2 >= 20).mkString("\n"))
 
   val localareaField = new SimpleEntityField("localarea", repo, true)
     .setMaxSegmentLength(maxLengths("localarea")).setHashCodes(fieldHashFn(_, localareaTransforms))
-    .setSimilarities(0.4, 0.9).setMaxHashFraction(0.25).setPhraseDuplicates(5)
+    .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseDuplicates(1)
     .init().asInstanceOf[SimpleEntityField]
   println(localareaField.getHashDocumentFrequency.filter(_._2 >= 10).mkString("\n"))
 
