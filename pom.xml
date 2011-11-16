@@ -91,6 +91,18 @@
             <version>1.6.2</version>
         </dependency>
         <dependency>
+            <groupId>cc.refectorie.user.kedarb.dynprog</groupId>
+            <artifactId>dynprog</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>cc.refectorie.user.kedarb.resources</groupId>
+            <artifactId>citation-resources</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
             <groupId>org.riedelcastro.nurupo</groupId>
             <artifactId>nurupo_${scala.version}</artifactId>
             <version>0.1-SNAPSHOT</version>

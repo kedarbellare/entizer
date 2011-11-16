@@ -1,16 +1,18 @@
 package edu.umass.cs.iesl.entizer
 
+import collection.mutable.HashMap
+
 /**
  * @author kedar
  */
 
 object Main extends App {
   val repo = new MongoRepository("mytest")
-  repo.mongoDB.dropDatabase()
+  repo.clear()
 
   // load records and texts
-  new MentionFileLoader(repo.mentionsColl, "data/rexa1k/rexa_records.txt.1000", true).run()
-  new MentionFileLoader(repo.mentionsColl, "data/rexa1k/rexa_citations.txt.1000", false).run()
+  new MentionFileLoader(repo.mentionColl, "data/rexa1k/rexa_records.txt.1000", true).run()
+  new MentionFileLoader(repo.mentionColl, "data/rexa1k/rexa_citations.txt.1000", false).run()
 
   // normalize schema (if needed say B/I-booktitle -> B/I-venue, B/I-pages -> O, etc.)
   // author booktitle date editor institution journal location pages publisher series tech thesis title volume
@@ -29,10 +31,10 @@ object Main extends App {
     "B-thesis" -> "O", "I-thesis" -> "O",
     "B-title" -> "B-title", "I-title" -> "I-title",
     "B-volume" -> "O", "I-volume" -> "O")
-  new SchemaNormalizer(repo.mentionsColl, schemaMappings).run()
+  new SchemaNormalizer(repo.mentionColl, schemaMappings).run()
 
   // attach possible ends
-  new PossibleEndsAttacher(repo.mentionsColl, "possibleEnds[mytest]") {
+  new PossibleEndsAttacher(repo.mentionColl, "possibleEnds[mytest]") {
     val DELIM_ONLY_PATT = "^\\p{Punct}+$"
     val INITIALS_PATT = "^[A-Z]\\p{Punct}+$"
     val SPECIAL_TOK_PATT = "^(and|AND|et\\.?|al\\.?|[Ee]d\\.|[Ee]ds\\.?|[Ee]ditors?|[Vv]ol\\.?|[Nn]o\\.?|pp\\.?|[Pp]ages)$"
@@ -65,6 +67,27 @@ object Main extends App {
   }.run()
 
   // get maxlengths
-  val maxLengths = new MaxLengthsProcessor(repo.mentionsColl, true).run()
+  val maxLengths = new MaxLengthsProcessor(repo.mentionColl, true).run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
+
+  // initialize entity fields
+  val authorEntColl = repo.collection("authorEntity")
+  new EntityInitializer("author", repo.mentionColl, authorEntColl, maxLengths("author")).run()
+  println("#authorEntities=" + authorEntColl.count)
+
+  val hashCodesTitle: Seq[String] => Seq[String] = PhraseHash.ngramsWordHash(_, Seq(1, 2, 3)).toSeq
+  val titleEntColl = repo.collection("titleEntity")
+  new EntityInitializer("title", repo.mentionColl, titleEntColl, maxLengths("title")).run()
+  println("#titleEntities=" + titleEntColl.count)
+
+  val venueEntColl = repo.collection("venueEntity")
+  new EntityInitializer("venue", repo.mentionColl, venueEntColl, maxLengths("venue"), true).run()
+  println("#venueEntities=" + venueEntColl.count)
+
+  // compute doc frequencies
+  val docFreqTitleHashes = new HashDocFreqProcessor("title", titleEntColl).run().asInstanceOf[HashMap[String, Int]]
+  println(docFreqTitleHashes.filter(_._2 >= 15).mkString("\n"))
+
+  val docFreqAuthorHashes = new HashDocFreqProcessor("author", authorEntColl).run().asInstanceOf[HashMap[String, Int]]
+  println(docFreqAuthorHashes.filter(_._2 >= 0).mkString("\n"))
 }

@@ -7,10 +7,14 @@ import io.Source
  * @author kedar
  */
 
-
 class MentionFileLoader(val inputColl: MongoCollection, val filename: String, val isRecordColl: Boolean,
                         val debugEvery: Int = 1000) extends CollectionProcessor {
   val NULL_CLUSTER = "##NULL##"
+
+  // indices
+  inputColl.ensureIndex("source")
+  inputColl.ensureIndex("isRecord")
+  inputColl.ensureIndex("cluster")
 
   def name = "mentionLoader[file=" + filename + "]"
 
@@ -34,8 +38,6 @@ class MentionFileLoader(val inputColl: MongoCollection, val filename: String, va
       if (count % debugEvery == 0)
         logger.info("Loaded mentions[isRecord=" + isRecordColl + "] count=" + count)
     }
-    inputColl.ensureIndex("source")
-    inputColl.ensureIndex("isRecord")
     logger.info("Finished loading mentions[isRecord=" + isRecordColl + "] count=" + count)
   }
 }

@@ -1,7 +1,7 @@
 package edu.umass.cs.iesl.entizer
 
 import com.mongodb.casbah.Imports._
-import collection.mutable.HashMap
+import collection.mutable.{HashSet, HashMap}
 
 /**
  * @author kedar
@@ -18,7 +18,6 @@ class MaxLengthsProcessor(val inputColl: MongoCollection,
       JobCenter.Job(query = MongoDBObject("isRecord" -> true), select = MongoDBObject("isRecord" -> 1, "bioLabels" -> 1))
   }
 
-
   override def newOutputParams(isMaster: Boolean = false) = {
     val lblToMaxLength = new HashMap[String, Int]
     lblToMaxLength("O") = Short.MaxValue.toInt
@@ -28,31 +27,37 @@ class MaxLengthsProcessor(val inputColl: MongoCollection,
   override def merge(outputParams: Any, partialOutputParams: Any) {
     val outputMaxLengths = outputParams.asInstanceOf[HashMap[String, Int]]
     for ((lbl, maxlen) <- partialOutputParams.asInstanceOf[HashMap[String, Int]]) {
-      if (lbl != "O") {
-        outputMaxLengths(lbl) = math.max(maxlen, outputMaxLengths.getOrElse(lbl, 1))
-      }
+      outputMaxLengths(lbl) = math.max(maxlen, outputMaxLengths.getOrElse(lbl, 1))
     }
   }
 
   def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
     if (useOracle || dbo.as[Boolean]("isRecord")) {
       val partialMaxLengths = partialOutputParams.asInstanceOf[HashMap[String, Int]]
-      val labels = MongoListHelper.getListAttr[String](dbo, "bioLabels").toArray
-      var currLbl = "O"
-      var currMaxLen = 0
-      for (lbl <- labels) {
-        if (lbl == "O" || lbl.startsWith("B-")) {
-          if (currLbl != "O") {
-            partialMaxLengths(currLbl) = math.max(currMaxLen, partialMaxLengths.getOrElse(currLbl, 1))
-          }
-          currLbl = if (lbl == "O") lbl else lbl.substring(2)
-          currMaxLen = 1
-        } else if (lbl.startsWith("I-") && currLbl == lbl.substring(2)) {
-          currMaxLen += 1
-        } else {
-          throw new RuntimeException("ERROR: curr=" + lbl + " and prev=" + currLbl + " combination unexpected!!")
-        }
+      val labels = MongoHelper.getListAttr[String](dbo, "bioLabels").toArray
+      val segments = TextSegmentationHelper.getTextSegmentationFromBIO(labels)
+      for (segment <- segments) {
+        partialMaxLengths(segment.label) = math.max(segment.end - segment.begin, partialMaxLengths.getOrElse(segment.label, 1))
       }
+    }
+  }
+}
+
+
+class UniqueClusterProcessor(val inputColl: MongoCollection) extends ParallelCollectionProcessor {
+  def name = "uniqueClusters"
+
+  def inputJob = JobCenter.Job(select = MongoDBObject("cluster" -> 1))
+
+  override def newOutputParams(isMaster: Boolean = false) = new HashSet[String]
+
+  override def merge(outputParams: Any, partialOutputParams: Any) {
+    outputParams.asInstanceOf[HashSet[String]] ++= partialOutputParams.asInstanceOf[HashSet[String]]
+  }
+
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
+    for (cluster <- dbo.getAs[String]("cluster")) {
+      partialOutputParams.asInstanceOf[HashSet[String]] += cluster
     }
   }
 }

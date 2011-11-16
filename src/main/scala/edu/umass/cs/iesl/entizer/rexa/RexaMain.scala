@@ -10,13 +10,13 @@ import edu.umass.cs.iesl.entizer._
 object RexaRepo extends MongoRepository("rexa-entizer-scratch")
 
 // loads the record mentions into repo
-object RexaRecordsLoader extends MentionFileLoader(RexaRepo.mentionsColl, "data/rexa/rexa_records.txt", true, 10000)
+object RexaRecordsLoader extends MentionFileLoader(RexaRepo.mentionColl, "data/rexa/rexa_records.txt", true, 10000)
 
 // loads the citation mentions into repo
-object RexaTextsLoader extends MentionFileLoader(RexaRepo.mentionsColl, "data/rexa/rexa_citations.txt", false, 10000)
+object RexaTextsLoader extends MentionFileLoader(RexaRepo.mentionColl, "data/rexa/rexa_citations.txt", false, 10000)
 
 // transforms the schema of mentions
-object RexaSchemaTransformer extends SchemaNormalizer(RexaRepo.mentionsColl,
+object RexaSchemaTransformer extends SchemaNormalizer(RexaRepo.mentionColl,
   Map(
     "B-author" -> "B-author", "I-author" -> "I-author",
     "B-booktitle" -> "B-venue", "I-booktitle" -> "I-venue",
@@ -34,7 +34,7 @@ object RexaSchemaTransformer extends SchemaNormalizer(RexaRepo.mentionsColl,
     "B-volume" -> "O", "I-volume" -> "O"))
 
 // computes the possible ends for text mentions
-object RexaPossibleEndsAttacher extends PossibleEndsAttacher(RexaRepo.mentionsColl, "possibleEnds[rexa-scratch]") {
+object RexaPossibleEndsAttacher extends PossibleEndsAttacher(RexaRepo.mentionColl, "possibleEnds[rexa-scratch]") {
   val DELIM_ONLY_PATT = "^\\p{Punct}+$"
   val INITIALS_PATT = "^[A-Z]\\p{Punct}+$"
   val SPECIAL_TOK_PATT = "^(and|AND|et\\.?|al\\.?|[Ee]d\\.|[Ee]ds\\.?|[Ee]ditors?|[Vv]ol\\.?|[Nn]o\\.?|pp\\.?|[Pp]ages)$"
@@ -67,7 +67,7 @@ object RexaPossibleEndsAttacher extends PossibleEndsAttacher(RexaRepo.mentionsCo
 }
 
 // max length finder
-object RexaMaxLengthsProcessor extends MaxLengthsProcessor(RexaRepo.mentionsColl, false)
+object RexaMaxLengthsProcessor extends MaxLengthsProcessor(RexaRepo.mentionColl, false)
 
 object RexaMain extends App {
   RexaRepo.clear()

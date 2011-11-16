@@ -7,7 +7,6 @@ import org.riedelcastro.nurupo.HasLogger
  * @author kedar
  */
 
-
 trait CollectionProcessor extends HasLogger {
   def name: String
   

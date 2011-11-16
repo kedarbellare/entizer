@@ -93,7 +93,7 @@ trait ParallelCollectionProcessor extends HasLogger {
     protected def receive = {
       case JobStart => {
         // schedule job by iterating over items
-        logger.info("Master starting job: " + inputJob)
+        logger.debug("Master starting job: " + inputJob)
         origRecipient = Some(self.channel)
         for (worker <- workers) {
           if (dboIter.hasNext) {
@@ -106,7 +106,7 @@ trait ParallelCollectionProcessor extends HasLogger {
       case WorkDone => {
         nrOfDones += 1
         if (nrOfDones % debugEvery == 0) {
-          logger.info("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
+          logger.debug("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
         }
         if (dboIter.hasNext) {
           self reply Work(dboIter.next(), inputParams)
@@ -118,10 +118,10 @@ trait ParallelCollectionProcessor extends HasLogger {
       case result: JobResult => {
         // merge output params with partial
         merge(outputParams, result.outputParams)
-        logger.info("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
+        logger.debug("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
         // increment #results
         nrOfResults += 1
-        logger.info("Master received #result=" + nrOfResults + "/#workers=" + nrOfWorkers)
+        logger.debug("Master received #result=" + nrOfResults + "/#workers=" + nrOfWorkers)
         if (nrOfResults == nrOfWorkers) {
           require(origRecipient.isDefined)
           origRecipient.get ! JobResult(outputParams)
