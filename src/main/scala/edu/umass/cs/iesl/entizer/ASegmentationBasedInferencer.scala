@@ -4,7 +4,7 @@ import cc.refectorie.user.kedarb.dynprog.types.Hypergraph
 import cc.refectorie.user.kedarb.dynprog.ProbStats
 import org.riedelcastro.nurupo.HasLogger
 import com.mongodb.casbah.Imports._
-import collection.mutable.{HashMap, HashSet, ArrayBuffer}
+import collection.mutable.{HashMap, HashSet}
 import optimization.projections._
 
 /**
@@ -31,12 +31,14 @@ trait ConstraintFunction {
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                  mention: Mention, begin: Int, end: Int): Any
 
-  def singleTargetUpdatePerMention: Boolean = true
+  def targetKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                mention: Mention, begin: Int, end: Int): Any = mention.id
 
   def targetProportion: Double
 
   // if E_q[f_i] <= b_i then +1 else if E_q[f_i] >= b_i then -1
-  def featureValue: Double
+  def featureValue(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                   mention: Mention, begin: Int, end: Int): Double
 }
 
 trait DefaultConstraintFunction extends ConstraintFunction {
@@ -46,6 +48,9 @@ trait DefaultConstraintFunction extends ConstraintFunction {
   var targetProportion = 1.0
 
   def predicateName: String
+
+  def featureValue(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                   mention: Mention, begin: Int, end: Int) = featureValue
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                  mention: Mention, begin: Int, end: Int) = predicateName
@@ -88,6 +93,94 @@ class CountFieldTransitionTypePredicate(val predicateName: String, val prevField
     currFieldValue.field.name == currFieldType && prevFieldName == prevFieldType
 }
 
+trait SparseConstraintFunction extends ConstraintFunction {
+  val targetProportion = 0.0
+
+  lazy val projection = new SimplexProjection(sigma)
+
+  def sigma: Double
+
+  def noise: Double
+
+  override def projection(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                          mention: Mention, begin: Int, end: Int) = projection
+
+  override def defaultParamValue(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                                 mention: Mention, begin: Int, end: Int) = java.lang.Math.random() * noise
+
+  def featureValue(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                   mention: Mention, begin: Int, end: Int) = 1.0
+}
+
+class SparseFieldValuePerMention(val fieldType: String, val sigma: Double = 1.0, val noise: Double = 1e-4)
+  extends SparseConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    currFieldValue.valueId.isDefined && currFieldValue.field.name == fieldType
+
+  override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                        mention: Mention, begin: Int, end: Int) = ("sparse_per_mention", fieldType, mention.id)
+
+  def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
+}
+
+class SparseFieldValuesOverall(val fieldType: String, val sigma: Double = 1.0, val noise: Double = 1e-4)
+  extends SparseConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    currFieldValue.valueId.isDefined && currFieldValue.field.name == fieldType
+
+  override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                        mention: Mention, begin: Int, end: Int) = ("sparse_overall", fieldType, currFieldValue.valueId)
+
+  def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                 mention: Mention, begin: Int, end: Int) = mention.id
+}
+
+class SparseRecordValuePerMention(val recordType: String, val sigma: Double = 1.0, val noise: Double = 1e-4,
+                                  val startFieldName: String = "$START$")
+  extends SparseConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    rootFieldValue.valueId.isDefined && prevFieldName == startFieldName && rootFieldValue.field.name == recordType
+
+  override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                        mention: Mention, begin: Int, end: Int) = ("sparse_per_mention", recordType, mention.id)
+
+  def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                 mention: Mention, begin: Int, end: Int) = rootFieldValue.valueId
+}
+
+class SparseRecordValuesOverall(val recordType: String, val sigma: Double = 1.0, val noise: Double = 1e-4,
+                                val startFieldName: String = "$START$")
+  extends SparseConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    rootFieldValue.valueId.isDefined && prevFieldName == startFieldName && rootFieldValue.field.name == recordType
+
+  override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                        mention: Mention, begin: Int, end: Int) = ("sparse_overall", recordType, rootFieldValue.valueId)
+
+  def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                 mention: Mention, begin: Int, end: Int) = mention.id
+}
+
+class SparseFieldValuePerRecordValue(val fieldType: String, val recordType: String,
+                                     val sigma: Double = 1.0, val noise: Double = 1e-4)
+  extends SparseConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    rootFieldValue.valueId.isDefined && currFieldValue.valueId.isDefined &&
+      rootFieldValue.field.name == recordType && currFieldValue.field.name == fieldType
+
+  override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                        mention: Mention, begin: Int, end: Int) = ("sparse", fieldType, recordType, rootFieldValue.valueId)
+
+  def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
+}
+
 trait ASimpleHypergraphInferencer[Widget] extends HasLogger {
   type Info = Hypergraph.HyperedgeInfo[Widget]
 
@@ -123,194 +216,6 @@ trait ASimpleHypergraphInferencer[Widget] extends HasLogger {
   def counts: Params
 
   def ispec: SimpleInferSpec
-}
-
-class TestInferencer(val example: Mention, val root: SimpleEntityRecord,
-                     val params: Params = new Params, val counts: Params = new Params,
-                     val constraintCountFns: Seq[ConstraintFunction] = Seq.empty[ConstraintFunction],
-                     val constraintExpectationFns: Seq[ConstraintFunction] = Seq.empty[ConstraintFunction],
-                     val constraintCounts: Params = new Params, val constraintExpectations: Params = new Params,
-                     val ispec: SimpleInferSpec = SimpleInferSpec()) extends ASimpleHypergraphInferencer[String] {
-  lazy val N: Int = example.numTokens
-
-  lazy val mentionId = example.id
-
-  lazy val isRecord: Boolean = example.isRecord
-
-  lazy val words: Seq[String] = example.words
-
-  lazy val features: Seq[Seq[String]] = example.features
-
-  lazy val trueSegmentation: TextSegmentation = example.trueWidget
-
-  def newWidget = ""
-
-  def isAllowed(field: Field, begin: Int, end: Int): Boolean = {
-    if (field.useFullSegment) {
-      begin == 0 && end == N
-    } else {
-      if (ispec.trueSegmentInfer) {
-        trueSegmentation.contains(TextSegment(field.name, begin, end))
-      } else if (isRecord) {
-        trueSegmentation.filter(seg => seg.begin == begin && seg.end == end).size > 0
-      } else {
-        example.possibleEnds(end)
-      }
-    }
-  }
-
-  def getPaths(path: Seq[Field]): Seq[Seq[Field]] = {
-    val buff = new ArrayBuffer[Seq[Field]]
-    if (path.last.isInstanceOf[FieldCollection]) {
-      val lastFieldColl = path.last.asInstanceOf[FieldCollection]
-      for (i <- 0 until lastFieldColl.numFields) {
-        buff ++= getPaths(path ++ Seq(lastFieldColl.getField(i)))
-      }
-    } else {
-      buff += path
-    }
-    buff.toSeq
-  }
-
-  def score(rootValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-            begin: Int, end: Int): Double = {
-    var score = 0.0
-    val currField = currFieldValue.field
-    val currFieldName = currField.name
-    score += params.get("transition" -> prevFieldName).get(currFieldName)
-    for (ip <- begin until end)
-      score += params.get("emission" -> currFieldName).dot(features(ip))
-    /*
-    // score -= params.get("constraintCount").get(currFieldName)
-    // TODO: add record sparsity
-    if (currField.isKey && rootValue.valueId.isDefined && currFieldValue.valueId.isDefined) {
-      // TODO: replace with field.getSparsity
-      val recordFieldSparse = params.get(rootValue -> currFieldName, new SimplexProjection(1.0))
-      if (!recordFieldSparse.contains(currFieldValue)) {
-        // TODO: replace with field.getNoise
-        recordFieldSparse.set(currFieldValue, java.lang.Math.random() * 0.01)
-      }
-      score -= recordFieldSparse.get(currFieldValue)
-    }
-    */
-    score
-  }
-
-  def update(rootValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-             begin: Int, end: Int, prob: Double) {
-    val currField = currFieldValue.field
-    val currFieldName = currField.name
-    counts.get("transition" -> prevFieldName).increment(currFieldName, prob)
-    for (ip <- begin until end)
-      counts.get("emission" -> currFieldName).increment(features(ip), prob)
-    // add constraint b and expectations
-    for (constraintCountFn <- constraintCountFns) {
-      if (constraintCountFn(rootValue, prevFieldName, currFieldValue, example, begin, end)) {
-        val group = constraintCountFn.groupKey(rootValue, prevFieldName, currFieldValue, example, begin, end)
-        val feat = constraintCountFn.featureKey(rootValue, prevFieldName, currFieldValue, example, begin, end)
-        constraintCounts.get(group).increment(feat, prob)
-      }
-    }
-    for (constraintExpectationFn <- constraintExpectationFns) {
-      if (constraintExpectationFn(rootValue, prevFieldName, currFieldValue, example, begin, end)) {
-        val group = constraintExpectationFn.groupKey(rootValue, prevFieldName, currFieldValue, example, begin, end)
-        val feat = constraintExpectationFn.featureKey(rootValue, prevFieldName, currFieldValue, example, begin, end)
-        constraintExpectations.get(group).increment(feat, prob)
-      }
-    }
-    /*
-    // counts.get("constraintCount").increment(currFieldName, prob)
-    if (currField.isKey && rootValue.valueId.isDefined && currFieldValue.valueId.isDefined) {
-      val recordFieldSparse = counts.get(rootValue -> currFieldName, new SimplexProjection(1.0))
-      recordFieldSparse.increment(currFieldValue, -prob)
-    }
-    */
-  }
-
-  def createHypergraph(H: Hypergraph[String]) {
-    def gen(rootValue: FieldValue, rootPossibleValues: HashSet[FieldValue], prevFieldValue: FieldValue, begin: Int): Object = {
-      if (begin == N) {
-        H.endNode
-      } else {
-        val node = (Seq(rootValue, prevFieldValue), begin)
-        // logger.info("node: " + node)
-        if (H.addSumNode(node)) {
-          for (currField <- root.getFields) {
-            for (end <- (begin + 1) to math.min(begin + currField.maxSegmentLength, N) if isAllowed(currField, begin, end)) {
-              for (currFieldValue <- currField.getPossibleValues(mentionId, begin, end) if rootPossibleValues(currFieldValue)) {
-                logger.info("Using " + Seq(rootValue, currFieldValue) + " for generating '" + words.slice(begin, end).mkString(" ") + "'")
-                H.addEdge(node, gen(rootValue, rootPossibleValues, currFieldValue, end), new Info {
-                  def getWeight = score(rootValue, prevFieldValue.field.name, currFieldValue, begin, end)
-
-                  def setPosterior(prob: Double) {
-                    update(rootValue, prevFieldValue.field.name, currFieldValue, begin, end, prob)
-                  }
-
-                  def choose(widget: String) = null
-                })
-              }
-            }
-          }
-        }
-        node
-      }
-    }
-
-    logger.info("mention: " + example)
-    // generate
-    val begin = 0
-    for (end <- (begin + 1) to math.min(begin + root.maxSegmentLength, N) if isAllowed(root, begin, end)) {
-      for (rootValue <- root.getPossibleValues(mentionId, begin, end)) {
-        logger.info("root: " + rootValue)
-        val rootMentionId = root.getValueMention(rootValue.valueId)
-        val rootPossibleValues = new HashSet[FieldValue]
-
-        // get possible values for the current root
-        for (field <- root.getFields) {
-          if (field.isKey) {
-            for (mentionFieldValue <- field.getMentionValues(rootMentionId);
-                 segment <- field.getValueMentionSegment(mentionFieldValue.valueId);
-                 fieldValue <- field.getPossibleValues(segment.mentionId, segment.begin, segment.end)) {
-              if (rootValue.valueId.isDefined && fieldValue.valueId.isDefined) {
-                logger.info("field: " + fieldValue)
-                rootPossibleValues += fieldValue
-              }
-            }
-            // add null field for key value
-            if (!rootValue.valueId.isDefined) {
-              val nullFieldValue = FieldValue(field, None)
-              logger.info("field: " + nullFieldValue)
-              rootPossibleValues += nullFieldValue
-            }
-          } else {
-            for (fieldValue <- field.getMentionValues(rootMentionId)) {
-              logger.info("field: " + fieldValue)
-              rootPossibleValues += fieldValue
-            }
-          }
-        }
-        // logger.info("possible values: " + rootPossibleValues)
-
-        // generate using rootValue and root possible values
-        for (field <- root.getFields) {
-          for (end <- (begin + 1) to math.min(begin + field.maxSegmentLength, N) if isAllowed(field, begin, end)) {
-            for (fieldValue <- field.getPossibleValues(mentionId, begin, end) if rootPossibleValues(fieldValue)) {
-              logger.info("Using " + Seq(rootValue, fieldValue) + " for generating '" + words.slice(begin, end).mkString(" ") + "'")
-              H.addEdge(H.sumStartNode(), gen(rootValue, rootPossibleValues, fieldValue, end), new Info {
-                def getWeight = score(rootValue, "$START$", fieldValue, begin, end)
-
-                def setPosterior(prob: Double) {
-                  update(rootValue, "$START$", fieldValue, begin, end, prob)
-                }
-
-                def choose(widget: String) = null
-              })
-            }
-          }
-        }
-      }
-    }
-  }
 }
 
 trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValuesTextSegmentation] {
@@ -557,7 +462,7 @@ class ConstrainedSegmentationInferencer(val root: FieldCollection, val example: 
                                         val constraintTargets: Params = null, val startFieldName: String = "$START$")
   extends ASegmentationBasedInferencer {
   // group -> feat
-  lazy val updatedConstraintTargets = new HashSet[(Any, Any)]
+  lazy val updatedConstraintTargets = new HashSet[(Any, Any, Any)]
 
   def score(rootValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue, begin: Int, end: Int) = {
     var score = 0.0
@@ -577,7 +482,8 @@ class ConstrainedSegmentationInferencer(val root: FieldCollection, val example: 
           val value = constraintFn.defaultParamValue(rootValue, prevFieldName, currFieldValue, example, begin, end)
           constraintParams.get(group).set(feat, value)
         }
-        score -= constraintParams.get(group).get(feat) * constraintFn.featureValue
+        score -= constraintParams.get(group).get(feat) * constraintFn.featureValue(rootValue, prevFieldName,
+          currFieldValue, example, begin, end)
       }
     }
     score
@@ -599,12 +505,17 @@ class ConstrainedSegmentationInferencer(val root: FieldCollection, val example: 
             constraintCounts.get(group, projection)
           }
           val feat = constraintFn.featureKey(rootValue, prevFieldName, currFieldValue, example, begin, end)
-          constraintCounts.get(group).increment(feat, -ispec.constraintStepSize * constraintFn.featureValue * prob)
+          val featval = constraintFn.featureValue(rootValue, prevFieldName, currFieldValue, example, begin, end)
+          constraintCounts.get(group).increment(feat, -ispec.constraintStepSize * featval * prob)
           // update constraint targets if present
-          if (constraintTargets != null && (!constraintFn.singleTargetUpdatePerMention || !updatedConstraintTargets(group -> feat))) {
-            constraintTargets.get(group).increment(feat,
-              -ispec.constraintTargetStepSize * constraintFn.featureValue * constraintFn.targetProportion)
-            updatedConstraintTargets += group -> feat
+          if (constraintTargets != null) {
+            val targ = constraintFn.targetKey(rootValue, prevFieldName, currFieldValue, example, begin, end)
+            val uniqTargKey = (group, feat, targ)
+            if (!updatedConstraintTargets(uniqTargKey)) {
+              constraintTargets.get(group).increment(feat,
+                -ispec.constraintTargetStepSize * featval * constraintFn.targetProportion)
+              updatedConstraintTargets += uniqTargKey
+            }
           }
         }
       }

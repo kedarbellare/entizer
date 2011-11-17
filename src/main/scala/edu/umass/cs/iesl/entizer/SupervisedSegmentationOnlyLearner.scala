@@ -409,7 +409,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
         paramEvalStats, logger.info(_))
       
       constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight)
-      logger.info("constraintParams:" + constraintParams)
+      // logger.info("constraintParams:" + constraintParams)
       val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
         params, constraintParams, constraintFns, root).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
