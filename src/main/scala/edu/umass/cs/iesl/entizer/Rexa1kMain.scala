@@ -17,6 +17,7 @@ object RexaEnv extends Env {
 
   val repo = Rexa1kRepo
   val mentions = repo.mentionColl
+  val evalQuery = MongoDBObject("isRecord" -> false, "source" -> "data/rexa/rexa_hlabeled_citations.txt")
 
   val DELIM_ONLY_PATT = "^\\p{Punct}+$"
   val INITIALS_PATT = "^[A-Z]\\p{Punct}+$"
@@ -35,20 +36,17 @@ object RexaEnv extends Env {
     "jan|feb|apr|jun|jul|aug|sep|sept|oct|nov|dec)"
   val DOTW = "(?:mon|tues?|wed(?:nes)?|thurs?|fri|satu?r?|sun)(?:day)?"
 
-  val REXA1K_PATHS = Source.fromFile("data/rexa1k/rexa1k_paths-c100-p1.txt").getLines()
-    .map(_.split("\t")).map(tuple => tuple(1) -> tuple(0)).toMap
-
   val rexaSchemaMap = Map(
     "B-author" -> "B-author", "I-author" -> "I-author",
     "B-title" -> "B-title", "I-title" -> "I-title",
-    "B-booktitle" -> "B-venue", "I-booktitle" -> "I-venue",
-    "B-journal" -> "B-venue", "I-journal" -> "I-venue",
-    "B-date" -> "O", "I-date" -> "O",
-    "B-editor" -> "O", "I-editor" -> "O",
+    "B-booktitle" -> "B-booktitle", "I-booktitle" -> "I-booktitle",
+    "B-journal" -> "B-journal", "I-journal" -> "I-journal",
+    "B-date" -> "B-date", "I-date" -> "I-date",
+    "B-editor" -> "B-editor", "I-editor" -> "I-editor",
+    "B-publisher" -> "O", "I-publisher" -> "O",
     "B-institution" -> "O", "I-institution" -> "O",
     "B-location" -> "O", "I-location" -> "O",
     "B-pages" -> "O", "I-pages" -> "O",
-    "B-publisher" -> "O", "I-publisher" -> "O",
     "B-series" -> "O", "I-series" -> "O",
     "B-tech" -> "O", "I-tech" -> "O",
     "B-thesis" -> "O", "I-thesis" -> "O",
@@ -66,13 +64,14 @@ object RexaEnv extends Env {
 
   def getFeatures(words: Array[String]) = {
     val lookAheadFeatures = Array.fill(words.length)(new ArrayBuffer[String])
-    val features = new ArrayBuffer[Seq[String]]
+    val basicFeatures = Array.fill(words.length)(Seq.empty[String])
     for (ip <- 0 until words.length) {
       val word = words(ip)
       val feats = new ArrayBuffer[String]
       val simplified = simplify(word)
-      feats += "SIMPLIFIED=" + simplified
-      if (REXA1K_PATHS.contains(simplified)) feats += "CLUSTERPATH=" + REXA1K_PATHS(simplified)
+      if (simplified.matches("^\\$.*\\$$")) {
+        feats += "SIMPLIFIED=" + simplified
+      }
       for ((key, featfn) <- prefixToFtrFns) {
         if (featfn(word).isDefined) feats += key
       }
@@ -88,8 +87,18 @@ object RexaEnv extends Env {
 
       // add look-ahead features
       feats ++= lookAheadFeatures(ip)
-      features += feats.toSeq
+      basicFeatures(ip) = feats.toSeq
     }
+    val features = Array.fill(words.length)(ArrayBuffer[String]())
+    for (ip <- 0 until words.length) {
+      for (offset <- -2 to 2) {
+        if (offset == 0)
+          features(ip) ++= basicFeatures(ip)
+        else if (ip + offset >= 0 && ip + offset < words.length)
+          features(ip) ++= basicFeatures(ip + offset).map(s => "%s@%d".format(s, offset))
+      }
+    }
+    // logger.info("\nwords: " + words.toSeq + "\nfeatures: " + features.toSeq.mkString("\n"))
     features.toSeq
   }
 
@@ -118,6 +127,8 @@ object Rexa1kLoadRecordMentions extends MentionFileLoader(Rexa1kRepo.mentionColl
 
 object Rexa1kLoadTextMentions extends MentionFileLoader(Rexa1kRepo.mentionColl, "data/rexa1k/rexa_citations.txt.1000.filtered", false)
 
+object RexaLoadHlabeledTextMentions extends MentionFileLoader(Rexa1kRepo.mentionColl, "data/rexa/rexa_hlabeled_citations.txt", false)
+
 // transforms the schema of mentions
 object Rexa1kSchemaTransformer extends SchemaNormalizer(Rexa1kRepo.mentionColl, RexaEnv.rexaSchemaMap)
 
@@ -137,13 +148,15 @@ object Rexa1kAttachFeatures extends FeaturesAttacher(Rexa1kRepo.mentionColl, "fe
 object Rexa1kInitMain extends App {
   Rexa1kRepo.clear()
   Rexa1kLoadRecordMentions.run()
-  Rexa1kLoadTextMentions.run()
+  RexaLoadHlabeledTextMentions.run()
+  // Rexa1kLoadTextMentions.run()
   Rexa1kSchemaTransformer.run()
   Rexa1kAttachPossibleEnds.run()
   Rexa1kAttachFeatures.run()
 }
 
 object Rexa1kMain extends App {
+
   import RexaEnv._
 
   val maxLengths = Rexa1kMaxLengths.run().asInstanceOf[HashMap[String, Int]]
@@ -152,20 +165,25 @@ object Rexa1kMain extends App {
   // create fields
   val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
   val authorField = SimpleField("author").setMaxSegmentLength(maxLengths("author")).init()
+  val editorField = SimpleField("editor").setMaxSegmentLength(maxLengths("editor")).init()
   val titleField = SimpleField("title").setMaxSegmentLength(maxLengths("title")).init()
-  val venueField = SimpleField("venue").setMaxSegmentLength(maxLengths("venue")).init()
+  val booktitleField = SimpleField("booktitle").setMaxSegmentLength(maxLengths("booktitle")).init()
+  val journalField = SimpleField("journal").setMaxSegmentLength(maxLengths("journal")).init()
+  val dateField = SimpleField("date").setMaxSegmentLength(maxLengths("date")).init()
 
   // create record and add fields
   val citationRecord = SimpleRecord("citation").init()
-  citationRecord.addField(otherField).addField(authorField).addField(titleField).addField(venueField)
+  citationRecord
+    .addField(otherField).addField(authorField).addField(titleField).addField(editorField).addField(booktitleField)
+    .addField(journalField).addField(dateField)
 
   // learn from records only
-  val useOracle = false
+  val useOracle = true
   val params = new SupervisedSegmentationOnlyLearner(mentions, citationRecord, useOracle).learn(50)
   logger.info("parameters: " + params)
   val evalName = "rexa1k-segmentation-only-uses-texts-" + useOracle
-  val evalStats = new DefaultSegmentationEvaluator(evalName, mentions, params,
-    citationRecord).run().asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+  val evalStats = new DefaultSegmentationEvaluator(evalName, mentions, params, citationRecord, true, evalQuery).run()
+    .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
-  new MentionWebpageStorer(mentions, evalName, citationRecord, params, null, null).run()
+  // new MentionWebpageStorer(mentions, evalName, citationRecord, params, null, null).run()
 }

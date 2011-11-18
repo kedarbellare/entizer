@@ -236,6 +236,8 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
   // (fieldName, inputPosition) => double
   lazy val cacheEmissionScores = new HashMap[(String, Int), Double]
 
+  lazy val cacheEmissionCounts = new HashMap[(String, Int), Double]
+
   def newWidget = new Widget
 
   def startFieldName: String
@@ -278,7 +280,10 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
   }
 
   def updateSingleEmission(currFieldName: String, position: Int, count: Double) {
-    if (ispec.stepSize != 0) counts.get(keyEmission(currFieldName)).increment(features(position), ispec.stepSize * count)
+    if (ispec.stepSize != 0) {
+      val emitKey = currFieldName -> position
+      cacheEmissionCounts(emitKey) = cacheEmissionCounts.getOrElse(emitKey, 0.0) + ispec.stepSize * count
+    }
   }
 
   def scoreEmission(currFieldName: String, begin: Int, end: Int): Double = {
@@ -429,6 +434,13 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
           }
         }
       }
+    }
+  }
+
+  override def updateCounts() {
+    super.updateCounts()
+    for ((emitKey, count) <- cacheEmissionCounts) {
+      counts.get(keyEmission(emitKey._1)).increment(features(emitKey._2), count)
     }
   }
 }

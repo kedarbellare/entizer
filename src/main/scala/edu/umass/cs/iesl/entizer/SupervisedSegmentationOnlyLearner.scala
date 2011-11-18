@@ -138,8 +138,10 @@ trait SegmentationEvaluator extends ParallelCollectionProcessor {
 
   def outputWhatsWrong: Boolean
 
+  def evalQuery: MongoDBObject
+
   def inputJob = JobCenter.Job(
-    query = MongoDBObject("isRecord" -> false),
+    query = evalQuery,
     select = MongoDBObject("isRecord" -> 1, "words" -> 1, "features" -> 1, "bioLabels" -> 1, "possibleEnds" -> 1,
       "cluster" -> 1))
 
@@ -148,11 +150,17 @@ trait SegmentationEvaluator extends ParallelCollectionProcessor {
     val oidStr = oid.toString
     val trueWriterOpt: Option[PrintWriter] =
       if (isMaster) None
-      else if (outputWhatsWrong) Some(new PrintWriter("%s.%s.true.txt".format(evalName, oidStr)))
+      else if (outputWhatsWrong) {
+        new java.io.File(evalName).mkdirs()
+        Some(new PrintWriter("%s/%s.true.txt".format(evalName, oidStr)))
+      }
       else None
     val predWriterOpt: Option[PrintWriter] =
       if (isMaster) None
-      else if (outputWhatsWrong) Some(new PrintWriter("%s.%s.pred.txt".format(evalName, oidStr)))
+      else if (outputWhatsWrong) {
+        new java.io.File(evalName).mkdirs()
+        Some(new PrintWriter("%s/%s.pred.txt".format(evalName, oidStr)))
+      }
       else None
     (new Params, trueWriterOpt, predWriterOpt)
   }
@@ -184,7 +192,8 @@ trait SegmentationEvaluator extends ParallelCollectionProcessor {
 }
 
 class DefaultSegmentationEvaluator(val evalName: String, val inputColl: MongoCollection, val params: Params,
-                                   val root: FieldCollection, val outputWhatsWrong: Boolean = false)
+                                   val root: FieldCollection, val outputWhatsWrong: Boolean = false,
+                                   val evalQuery: MongoDBObject = MongoDBObject("isRecord" -> false))
   extends SegmentationEvaluator {
   def name = "defaultSegmentationEvaluator"
 
@@ -196,7 +205,8 @@ class DefaultSegmentationEvaluator(val evalName: String, val inputColl: MongoCol
 
 class ConstrainedSegmentationEvaluator(val evalName: String, val inputColl: MongoCollection, val params: Params,
                                        val constraintParams: Params, val constraintFns: Seq[ConstraintFunction],
-                                       val root: FieldCollection, val outputWhatsWrong: Boolean = false)
+                                       val root: FieldCollection, val outputWhatsWrong: Boolean = false,
+                                       val evalQuery: MongoDBObject = MongoDBObject("isRecord" -> false))
   extends SegmentationEvaluator {
   def name = "constrainedSegmentationEvaluator"
 
@@ -407,7 +417,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
         paramEvalStats, logger.info(_))
-      
+
       constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight)
       // logger.info("constraintParams:" + constraintParams)
       val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,

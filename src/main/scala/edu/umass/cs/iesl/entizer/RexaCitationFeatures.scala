@@ -200,8 +200,12 @@ object RexaCitationFeatures {
 
   // define feature functions
   LexiconResource("DBLPTITLESTARTHIGH", "title.start.high", false)
+  // LexiconResource("DBLPTITLESTARTMED", "title.start.med", false)
   LexiconResource("DBLPTITLEHIGH", "title.high")
+  // LexiconResource("DBLPTITLEMED", "title.med")
+  // LexiconResource("DBLPTITLELOW", "title.low")
   LexiconResource("DBLPAUTHORFIRST", "author-first", false)
+  // LexiconResource("DBLPAUTHORMIDDLE", "author-middle", false)
   LexiconResource("DBLPAUTHORLAST", "author-last", false)
   LexiconResource("CONFABBR", "conferences.abbr", false)
   LexiconResource("PLACES", "places")
@@ -260,6 +264,9 @@ object RexaCitationFeatures {
   RegexMatcher("MultiHyphen", "\\S*-\\S*-\\S*")
   RegexMatcher("ContainsPunc", "[\\-,\\:\\;]")
   RegexMatcher("StopPunc", "[\\!\\?\\.\"\']")
+  RegexMatcher("Brackets", "[\\[\\]\\(\\){}]")
+  RegexMatcher("OpenBrackets", "[\\[\\({]")
+  RegexMatcher("CloseBrackets", "[\\]\\)}]")
 
   // Character-based
   RegexMatcher("LONELYINITIAL", CAPS + "\\.")
@@ -267,6 +274,8 @@ object RexaCitationFeatures {
   RegexMatcher("ALLCAPS", CAPS + "+")
 
   // Field specific
+  RegexMatcher("PossibleBooktitle", "([Pp]roceedings|[Pp]roc\\.|[Cc]onference|[Cc]onf|[Ii]nternational|[Ii]ntl)")
+  RegexMatcher("PossibleJournal", "([Jj]ournal|J\\.)")
   RegexMatcher("PossibleEditor", "(ed\\.|editor|editors|eds\\.)")
   RegexMatcher("PossiblePage", "(pp\\.|page|pages)")
   RegexMatcher("PossibleVol", "(no\\.|vol\\.?|volume)")

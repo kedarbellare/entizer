@@ -41,6 +41,58 @@ trait Env extends HasLogger {
     logger.info("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
   }
 
+  def isMentionPhraseApproxContainedInValue(fv: FieldValue, m: Mention, begin: Int, end: Int,
+                                            transforms: Seq[(Seq[String], Seq[String])],
+                                            simThreshold: Double = 0.9): Boolean = {
+    if (!fv.valueId.isDefined) false
+    else {
+      def rmPunct(seq: Seq[String]) = seq.map(_.replaceAll("[^A-Za-z0-9]+", "")).filter(_.length() > 0)
+      val mentionPhraseClean = rmPunct(m.words.slice(begin, end))
+      val valuePhrase = fv.field.getValuePhrase(fv.valueId)
+      def isContained(phrFrom: Seq[String], phrTo: Seq[String]): Boolean = {
+        if (phrTo.length == 0) false
+        else {
+          val numTokens = phrTo.length
+          val fromVec = new HashMap[String, Double]
+          val toVec = new HashMap[String, Double]
+          for (w <- phrFrom) fromVec(w) = fromVec.getOrElse(w, 0.0) + 1
+          for (w <- phrTo) toVec(w) = toVec.getOrElse(w, 0.0) + 1
+          var numIntersection = 0.0
+          for (w <- toVec.keys) {
+            if (fromVec.contains(w)) {
+              numIntersection += math.min(fromVec(w), toVec(w))
+              fromVec.remove(w)
+            } else {
+              var bestScore = 0.0
+              var bestKey: String = null
+              for (ow <- fromVec.keys) {
+                val score = JWINK.getSimilarity(w, ow)
+                if (score > bestScore) {
+                  bestScore = score
+                  bestKey = ow
+                }
+              }
+              if (bestScore >= 0.9 && bestKey != null) {
+                numIntersection += bestScore * math.min(toVec(w), fromVec(bestKey))
+                fromVec.remove(bestKey)
+              }
+            }
+          }
+          if (numTokens == 0) false
+          else (numIntersection / numTokens) >= simThreshold
+        }
+      }
+      for (transformValuePhrase <- PhraseHash.transformedPhrases(valuePhrase, transforms)) {
+        val transformValuePhraseClean = rmPunct(transformValuePhrase)
+        if (isContained(transformValuePhraseClean, mentionPhraseClean)) {
+          logger.info("phrase: " + m.words.slice(begin, end) + " value: " + valuePhrase)
+          return true
+        }
+      }
+      false
+    }
+  }
+
   def isMentionPhraseContainedInValue(fv: FieldValue, m: Mention, begin: Int, end: Int,
                                       transforms: Seq[(Seq[String], Seq[String])]): Boolean = {
     if (!fv.valueId.isDefined) false
@@ -49,7 +101,7 @@ trait Env extends HasLogger {
       val mentionPhraseClean = rmPunct(m.words.slice(begin, end))
       val valuePhrase = fv.field.getValuePhrase(fv.valueId)
       def isContained(phrFrom: Seq[String], phrTo: Seq[String]): Boolean = {
-        if (phrTo.length == 0) true
+        if (phrTo.length == 0) false
         else if (phrFrom.length < phrTo.length) false
         else {
           val phrFromSet = phrFrom.toSet

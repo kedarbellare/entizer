@@ -1,5 +1,6 @@
 package edu.umass.cs.iesl.entizer
 
+import com.mongodb.casbah.Imports._
 import io.Source
 import org.riedelcastro.nurupo.HasLogger
 import java.io.PrintWriter
@@ -14,6 +15,7 @@ object BFTestRepo extends MongoRepository("bft_test")
 object BFTestEnv extends Env {
   val repo = BFTestRepo
   val mentions = repo.mentionColl
+  val evalQuery = MongoDBObject("isRecord" -> false, "cluster" -> MongoDBObject("$exists" -> true))
 
   // attach features
   val MONTH = "(?:january|february|march|april|may|june|july|august|september|october|november|december|" +
@@ -138,8 +140,8 @@ class BFTBasicMain(val useOracle: Boolean) extends HasLogger {
   val params = new SupervisedSegmentationOnlyLearner(mentions, listingRecord, useOracle).learn(50)
   logger.info("parameters: " + params)
   val evalName = "bft-segmentation-only-uses-texts-" + useOracle
-  val evalStats = new DefaultSegmentationEvaluator(evalName, mentions, params,
-    listingRecord, true).run().asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+  val evalStats = new DefaultSegmentationEvaluator(evalName, mentions, params, listingRecord, true, evalQuery).run()
+    .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, null, null).run()
 }
@@ -224,7 +226,7 @@ object BFTConstrainedSegmentationOnlyMain extends App with HasLogger {
     .learn(constraintFns = constraintFns)
   val evalName = "bft-semisup-segmentation-only"
   val evalStats = new ConstrainedSegmentationEvaluator(evalName, mentions,
-    params, constraintParams, constraintFns, listingRecord, true).run()
+    params, constraintParams, constraintFns, listingRecord, true, evalQuery).run()
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, constraintParams, constraintFns).run()
@@ -287,17 +289,17 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
   // >= 99% of hotelname segment maximal contained overlap are alignments
   val hotelnameMaximalContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, hotelnameField,
     "segment_maximal_contained_in_hotelname_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
-      isMentionPhraseContainedInValue(fv, m, begin, end, hotelnameTransforms)
+      isMentionPhraseApproxContainedInValue(fv, m, begin, end, hotelnameTransforms)
     }).run().asInstanceOf[AlignSegmentPredicate]
   removeSubsegmentAligns(hotelnameMaximalContainedPredicate)
   hotelnameMaximalContainedPredicate.featureValue = -1
-  hotelnameMaximalContainedPredicate.targetProportion = 0.99
+  hotelnameMaximalContainedPredicate.targetProportion = 0.9
   constraintFns += hotelnameMaximalContainedPredicate
 
   // <= 10% of hotelname segment not contained are alignments
   val hotelnameMaximalNotContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, hotelnameField,
     "segment_not_maximal_contained_in_hotelname_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
-      fv.valueId.isDefined && !isMentionPhraseContainedInValue(fv, m, begin, end, hotelnameTransforms)
+      fv.valueId.isDefined && !isMentionPhraseApproxContainedInValue(fv, m, begin, end, hotelnameTransforms)
     }).run().asInstanceOf[AlignSegmentPredicate]
   hotelnameMaximalNotContainedPredicate.targetProportion = 0.1
   constraintFns += hotelnameMaximalNotContainedPredicate
@@ -305,17 +307,17 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
   // >= 99% of localarea segment maximal contained overlap are alignments
   val localareaMaximalContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, localareaField,
     "segment_maximal_contained_in_localarea_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
-      isMentionPhraseContainedInValue(fv, m, begin, end, localareaTransforms)
+      isMentionPhraseApproxContainedInValue(fv, m, begin, end, localareaTransforms)
     }).run().asInstanceOf[AlignSegmentPredicate]
   removeSubsegmentAligns(localareaMaximalContainedPredicate)
   localareaMaximalContainedPredicate.featureValue = -1
-  localareaMaximalContainedPredicate.targetProportion = 0.99
+  localareaMaximalContainedPredicate.targetProportion = 0.9
   constraintFns += localareaMaximalContainedPredicate
 
   // <= 10% of localarea segment not contained are alignments
   val localareaMaximalNotContainedPredicate = new FieldMentionAlignPredicateProcessor(mentions, localareaField,
     "segment_not_maximal_contained_in_localarea_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
-      fv.valueId.isDefined && !isMentionPhraseContainedInValue(fv, m, begin, end, localareaTransforms)
+      fv.valueId.isDefined && !isMentionPhraseApproxContainedInValue(fv, m, begin, end, localareaTransforms)
     }).run().asInstanceOf[AlignSegmentPredicate]
   localareaMaximalNotContainedPredicate.targetProportion = 0.1
   constraintFns += localareaMaximalNotContainedPredicate
@@ -368,13 +370,13 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
   val evalName = "bft-hotels-" + numHotelDups + "-areas-" + numAreaDups + "-listings-" + numListingDups +
     "-recordcluster-" + doRecordClustering + "-sparse-" + useSparsity
   val evalStats = new ConstrainedSegmentationEvaluator(evalName, mentions,
-    params, constraintParams, constraintFns, listingRecord, true).run()
+    params, constraintParams, constraintFns, listingRecord, true, evalQuery).run()
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, constraintParams, constraintFns).run()
 }
 
-object BFTConstrainedAlignSegmentationSimpleMain extends BFTConstrainedAlignSegmentation(1, 1, 1, true, false) with App
+object BFTConstrainedAlignSegmentationSimpleMain extends BFTConstrainedAlignSegmentation(1, 1, 1, false, false) with App
 
 object BFTConstrainedAlignSegmentationFieldClusterMain extends BFTConstrainedAlignSegmentation(5, 5, 1, false, true) with App
 
