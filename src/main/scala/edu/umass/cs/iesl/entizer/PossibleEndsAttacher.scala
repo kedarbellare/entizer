@@ -20,14 +20,15 @@ abstract class PossibleEndsAttacher(val inputColl: MongoCollection, val name: St
 }
 
 abstract class FeaturesAttacher(val inputColl: MongoCollection, val name: String) extends ParallelCollectionProcessor {
-  def inputJob = JobCenter.Job(select = MongoDBObject("words" -> 1))
+  def inputJob = JobCenter.Job(select = MongoDBObject("words" -> 1, "isRecord" -> 1))
 
-  def getFeatures(words: Array[String]): Seq[Seq[String]]
+  def getFeatures(isRecord: Boolean, words: Array[String]): Seq[Seq[String]]
 
   def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
     val _id: ObjectId = dbo._id.get
+    val isRecord = dbo.as[Boolean]("isRecord")
     val words = MongoHelper.getListAttr[String](dbo, "words").toArray
-    val features = getFeatures(words)
+    val features = getFeatures(isRecord, words)
     inputColl.update(MongoDBObject("_id" -> _id), $set("features" -> features), false, false)
   }
 }
