@@ -106,7 +106,7 @@ trait ParallelCollectionProcessor extends HasLogger {
       case WorkDone => {
         nrOfDones += 1
         if (nrOfDones % debugEvery == 0) {
-          logger.debug("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
+          logger.info("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
         }
         if (dboIter.hasNext) {
           self reply Work(dboIter.next(), inputParams)
@@ -118,10 +118,10 @@ trait ParallelCollectionProcessor extends HasLogger {
       case result: JobResult => {
         // merge output params with partial
         merge(outputParams, result.outputParams)
-        logger.debug("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
+        logger.info("Master received #dones=" + nrOfDones + "/#messages=" + nrOfMessages)
         // increment #results
         nrOfResults += 1
-        logger.debug("Master received #result=" + nrOfResults + "/#workers=" + nrOfWorkers)
+        logger.info("Master received #result=" + nrOfResults + "/#workers=" + nrOfWorkers)
         if (nrOfResults == nrOfWorkers) {
           require(origRecipient.isDefined)
           origRecipient.get ! JobResult(outputParams)

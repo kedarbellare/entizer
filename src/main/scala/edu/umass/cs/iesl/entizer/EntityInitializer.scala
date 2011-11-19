@@ -39,10 +39,10 @@ class EntityInitializer(val fieldName: String, val inputColl: MongoCollection, v
                         val useOracle: Boolean = false, val hashCodes: Seq[String] => Seq[String] = identity(_))
   extends MentionSegmentProcessor {
   // initialize indices for field collection
-  fieldColl.ensureIndex(MongoDBObject("mentionId" -> 1, "begin" -> 1, "end" -> 1), "mentionPhrase", unique = true)
-  fieldColl.ensureIndex(MongoDBObject("phrase" -> 1), "entityPhrase", unique = isPhraseUnique)
-  fieldColl.ensureIndex("mentionId")
-  fieldColl.ensureIndex("hashCodes")
+  // fieldColl.ensureIndex(MongoDBObject("mentionId" -> 1, "begin" -> 1, "end" -> 1), "mentionPhrase", unique = true)
+  // fieldColl.ensureIndex(MongoDBObject("phrase" -> 1), "entityPhrase", unique = isPhraseUnique)
+  // fieldColl.ensureIndex("mentionId")
+  // fieldColl.ensureIndex("hashCodes")
 
   def name = "entityInitializer[name=" + fieldName + "]"
 
