@@ -4,35 +4,13 @@
 $maxIdsPerClust = 4;
 $maxNumToks = 80;
 
-# usage: filter_rexa_citations.pl rexa_clusters.txt rexa_citations.txt
+# usage: filter_rexa_citations.pl rexa_citations.txt
 
-%clust2ids = ();
-open(CLIN, $ARGV[0]);
-while (<CLIN>) {
-	chomp;
-	@clustid = split /\t/;
-	$id = shift @clustid;
-	$clust = shift @clustid;
-	if (exists $clust2ids{$clust}) {
-		$clust2ids{$clust} = $clust2ids{$clust} . "\t$id";
-	} else {
-		$clust2ids{$clust} = $id;
-	}
-}
-close(CLIN);
-
-%filterid2clust = ();
-foreach $clust (keys %clust2ids) {
-	@ids = split(/\t/, $clust2ids{$clust});
-	for ($i = 0; $i <= $#ids && $i < $maxIdsPerClust; $i++) {
-		$filterid2clust{$ids[$i]} = $clust;
-	}
-}
-
-open(FIN, $ARGV[1]);
+%cluster_count = ();
+open(FIN, $ARGV[0]);
 while (<FIN>) {
 	chomp;
-	$id = $_;
+	$cluster = $_;
 	$tokline = <FIN>;
 	$lblline = <FIN>;
 	<FIN>; # empty
@@ -47,11 +25,15 @@ while (<FIN>) {
 		$lbls[$i] =~ s/B-note$/O/g;
 		$lbls[$i] =~ s/I-note$/O/g;
 	}
-	if (scalar(@toks) <= $maxNumToks && exists($filterid2clust{$id})) {
-		print $id, "\n";
+	if (scalar(@toks) <= $maxNumToks && (!exists($cluster_count{$cluster}) || $cluster_count{$cluster} < $maxIdsPerClust)) {
+		print $cluster, "\n";
 		print join("\t", @toks), "\n";
 		print join("\t", @lbls), "\n";
 		print "\n";
+    if (!exists $cluster_count{$cluster}) {
+      $cluster_count{$cluster} = 0;
+    }
+    $cluster_count{$cluster}++;
 	}
 }
 close(FIN);

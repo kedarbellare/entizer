@@ -32,7 +32,7 @@ case class Mention(id: ObjectId, isRecord: Boolean, words: Seq[String], possible
   def possibleSegments(fieldName: String, maxSegmentLength: Int): Seq[TextSegment] = {
     val N = words.length
     val segmentBuff = new ArrayBuffer[TextSegment]
-    for (begin <- 0 until N if begin == 0 || possibleEnds(begin + 1)) {
+    for (begin <- 0 until N if begin == 0 || possibleEnds(begin)) {
       for (end <- (begin + 1) until math.min(begin + maxSegmentLength, N) + 1 if possibleEnds(end)) {
         segmentBuff += TextSegment(fieldName, begin, end)
       }

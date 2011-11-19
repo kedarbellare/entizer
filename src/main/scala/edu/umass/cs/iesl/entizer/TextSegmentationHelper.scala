@@ -99,16 +99,29 @@ object TextSegmentationHelper {
 
   def updateEval(truth: TextSegmentation, pred: TextSegmentation, stats: Params) {
     for (segment <- truth if segment.label != "O") {
-      stats.get("OVERALL").increment("true", 1)
-      stats.get(segment.label).increment("true", 1)
+      stats.get("segment" -> "OVERALL").increment("true", 1)
+      stats.get("segment" -> segment.label).increment("true", 1)
+      for (i <- segment.begin until segment.end) {
+        stats.get("token" -> "OVERALL").increment("true", 1)
+        stats.get("token" -> segment.label).increment("true", 1)
+        val predlbl = pred.filter(seg => i >= seg.begin && i < seg.end).head.label
+        if (segment.label == predlbl) {
+          stats.get("token" -> "OVERALL").increment("correct", 1)
+          stats.get("token" -> segment.label).increment("correct", 1)
+        }
+      }
       if (pred.contains(segment)) {
-        stats.get("OVERALL").increment("correct", 1)
-        stats.get(segment.label).increment("correct", 1)
+        stats.get("segment" -> "OVERALL").increment("correct", 1)
+        stats.get("segment" -> segment.label).increment("correct", 1)
       }
     }
     for (segment <- pred if segment.label != "O") {
-      stats.get("OVERALL").increment("pred", 1)
-      stats.get(segment.label).increment("pred", 1)
+      stats.get("segment" -> "OVERALL").increment("pred", 1)
+      stats.get("segment" -> segment.label).increment("pred", 1)
+      for (i <- segment.begin until segment.end) {
+        stats.get("token" -> "OVERALL").increment("pred", 1)
+        stats.get("token" -> segment.label).increment("pred", 1)
+      }
     }
   }
 
@@ -121,7 +134,7 @@ object TextSegmentationHelper {
       val pr: Double = if (predCount == 0) 0 else correctCount / predCount
       val re: Double = if (trueCount == 0) 0 else correctCount / trueCount
       val f1: Double = if (pr == 0 && re == 0) 0 else (2 * pr * re) / (pr + re)
-      val evalStr = name + " segment accuracy: " + lbl +
+      val evalStr = name + " accuracy: " + lbl +
         " precision=%.4f".format(pr) + " recall=%.4f".format(re) + " F1=%.4f".format(f1) +
         " correct=%.0f".format(correctCount) + " pred=%.0f".format(predCount) + " true=%.0f".format(trueCount)
       puts(evalStr)

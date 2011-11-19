@@ -12,7 +12,7 @@ object PhraseHash {
 
   def noHash(phrase: Seq[String]): HashSet[String] = _noHash
 
-  private def normalize(s: String): String = {
+  def normalize(s: String): String = {
     if (s.startsWith("$") && s.endsWith("$")) s
     else s.replaceAll("[^A-Za-z0-9]+", " ")
       .replaceAll("^\\s+", "")
@@ -25,7 +25,7 @@ object PhraseHash {
     val grams = new HashSet[String]
     val buff = new StringBuffer()
     val phrase = orig_phrase.map(normalize(_)).filter(_.length() > 0)
-    for (i <- (1 - n) until phrase.length) {
+    for (i <- 0 to (phrase.length - n)) {
       buff.setLength(0)
       for (j <- i until (i + n)) {
         // jth word

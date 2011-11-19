@@ -154,6 +154,14 @@ object PersonNameHelper {
   }
 
   def hashName(phrase: Seq[String]): Seq[String] = {
+    import PhraseHash._
+    val pruned_phrase = phrase.map(normalize(_)).filter(_.length() > 1)
+    val word_hash = ngramWordHash(pruned_phrase, 1)
+    val char_hash = ngramsCharHash(phrase, Seq(4))
+    (word_hash ++ char_hash).toSeq
+  }
+
+  def featuresName(phrase: Seq[String]): Seq[String] = {
     val normPhrase = normalizeName(phrase)
     if (normPhrase.length >= 2) {
       val (fname, lname) = {

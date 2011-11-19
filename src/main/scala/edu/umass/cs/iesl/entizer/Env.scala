@@ -46,7 +46,7 @@ trait Env extends HasLogger {
                                             simThreshold: Double = 0.9): Boolean = {
     if (!fv.valueId.isDefined) false
     else {
-      def rmPunct(seq: Seq[String]) = seq.map(_.replaceAll("[^A-Za-z0-9]+", "")).filter(_.length() > 0)
+      def rmPunct(seq: Seq[String]) = seq.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(_.length() > 0)
       val mentionPhraseClean = rmPunct(m.words.slice(begin, end))
       val valuePhrase = fv.field.getValuePhrase(fv.valueId)
       def isContained(phrFrom: Seq[String], phrTo: Seq[String]): Boolean = {
@@ -85,7 +85,7 @@ trait Env extends HasLogger {
       for (transformValuePhrase <- PhraseHash.transformedPhrases(valuePhrase, transforms)) {
         val transformValuePhraseClean = rmPunct(transformValuePhrase)
         if (isContained(transformValuePhraseClean, mentionPhraseClean)) {
-          logger.info("phrase: " + m.words.slice(begin, end) + " value: " + valuePhrase)
+          // logger.info("phrase: " + m.words.slice(begin, end) + " value: " + valuePhrase)
           return true
         }
       }
@@ -97,7 +97,7 @@ trait Env extends HasLogger {
                                       transforms: Seq[(Seq[String], Seq[String])]): Boolean = {
     if (!fv.valueId.isDefined) false
     else {
-      def rmPunct(seq: Seq[String]) = seq.map(_.replaceAll("[^A-Za-z0-9]+", "")).filter(_.length() > 0)
+      def rmPunct(seq: Seq[String]) = seq.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(_.length() > 0)
       val mentionPhraseClean = rmPunct(m.words.slice(begin, end))
       val valuePhrase = fv.field.getValuePhrase(fv.valueId)
       def isContained(phrFrom: Seq[String], phrTo: Seq[String]): Boolean = {
