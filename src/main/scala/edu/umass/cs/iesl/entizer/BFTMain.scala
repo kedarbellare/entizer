@@ -91,7 +91,7 @@ object BFTAttachPossibleEnds extends PossibleEndsAttacher(BFTestRepo.mentionColl
 }
 
 object BFTAttachFeatures extends FeaturesAttacher(BFTestRepo.mentionColl, "featuresAttacher") {
-  def getFeatures(words: Array[String]) = {
+  def getFeatures(isRecord: Boolean, words: Array[String]) = {
     import BFTestEnv._
     words.map(word => {
       Seq(simplify(word)) ++ {
@@ -122,6 +122,7 @@ class BFTBasicMain(val useOracle: Boolean) extends HasLogger {
 
   import BFTestEnv._
 
+  EntityMemcachedClient.flush()
   // get maxlengths
   val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
@@ -144,6 +145,7 @@ class BFTBasicMain(val useOracle: Boolean) extends HasLogger {
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, null, null).run()
+  EntityMemcachedClient.shutdown()
 }
 
 object BFTRecordSegmentationOnlyMain extends BFTBasicMain(false) with App
@@ -154,6 +156,7 @@ object BFTConstrainedSegmentationOnlyMain extends App with HasLogger {
 
   import BFTestEnv._
 
+  EntityMemcachedClient.flush()
   // get maxlengths
   val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
@@ -230,6 +233,7 @@ object BFTConstrainedSegmentationOnlyMain extends App with HasLogger {
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, constraintParams, constraintFns).run()
+  EntityMemcachedClient.shutdown()
 }
 
 class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: Int, val numListingDups: Int,
@@ -237,6 +241,7 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
 
   import BFTestEnv._
 
+  EntityMemcachedClient.flush()
   // get maxlengths
   val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
@@ -249,11 +254,13 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
     .setMaxSegmentLength(maxLengths("hotelname")).setHashCodes(fieldHashFn(_, hotelnameTransforms))
     .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseDuplicates(numHotelDups)
     .init().asInstanceOf[SimpleEntityField]
+  hotelnameField.cacheAll()
 
   val localareaField = new SimpleEntityField("localarea", repo, true)
     .setMaxSegmentLength(maxLengths("localarea")).setHashCodes(fieldHashFn(_, localareaTransforms))
     .setSimilarities(0.3, 0.9).setMaxHashFraction(0.25).setPhraseDuplicates(numAreaDups)
     .init().asInstanceOf[SimpleEntityField]
+  localareaField.cacheAll()
 
   // create record and add fields
   val listingRecord: FieldCollection = {
@@ -264,6 +271,8 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
     else SimpleRecord("listing").init()
   }
   listingRecord.addField(otherField).addField(starratingField).addField(hotelnameField).addField(localareaField)
+
+  if (doRecordClustering) listingRecord.asInstanceOf[SimpleEntityRecord].cacheAll()
 
   // initialize constraints
   val constraintFns = new ArrayBuffer[ConstraintFunction]
@@ -374,6 +383,7 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, constraintParams, constraintFns).run()
+  EntityMemcachedClient.shutdown()
 }
 
 object BFTConstrainedAlignSegmentationSimpleMain extends BFTConstrainedAlignSegmentation(1, 1, 1, false, false) with App
