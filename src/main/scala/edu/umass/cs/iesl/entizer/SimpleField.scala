@@ -2,7 +2,10 @@ package edu.umass.cs.iesl.entizer
 
 import com.mongodb.casbah.Imports._
 import collection.mutable.{ArrayBuffer, HashMap, HashSet}
-import java.util.Random
+import net.spy.memcached.MemcachedClient
+import java.net.InetSocketAddress
+import org.riedelcastro.nurupo.HasLogger
+import System.{currentTimeMillis => now}
 
 /**
  * @author kedar
@@ -38,7 +41,29 @@ case class SimpleField(name: String) extends Field {
   def getValueMentionSegment(valueId: Option[ObjectId]) = None
 }
 
+object EntityMemcachedClient extends MemcachedClient(
+  new InetSocketAddress(Conf.get[String]("memcached-host", "localhost"), Conf.get[Int]("memcached-port", 11211))) with HasLogger {
+  def entityGet[T <: AnyRef](fieldName: String, id: ObjectId, keyName: String,
+                             default: String => T, expire: Int = 3600): T = {
+    val key = fieldName + "_id=" + id + "_key=" + keyName
+    var ret = null.asInstanceOf[T]
+    try {
+      ret = get(key).asInstanceOf[T]
+    } catch {
+      case toe: Exception => {
+        logger.info("Caught exception: " + toe.getMessage)
+      }
+    }
+    if (ret == null) {
+      ret = default(key)
+      set(key, expire, ret)
+    }
+    ret
+  }
+}
+
 trait EntityField extends Field {
+  private val cacheClient = EntityMemcachedClient
   var hashToDocFreq: HashMap[String, Int] = null
   var hashToIds: HashMap[String, Seq[ObjectId]] = null
   var numPhraseDuplicates: Int = 50
@@ -52,6 +77,7 @@ trait EntityField extends Field {
   var minSimilarity = 0.1
   var maxSimilarity = 0.9
   var maxHashFraction = 0.1
+  var allowAllRootValues: Boolean = false
 
   def repository: MongoRepository
 
@@ -61,6 +87,11 @@ trait EntityField extends Field {
 
   def setMaxSegmentLength(maxSegLen: Int = Short.MaxValue.toInt) = {
     maxSegmentLength = maxSegLen
+    this
+  }
+
+  def setAllowAllRootValues(flag: Boolean = false) = {
+    allowAllRootValues = flag
     this
   }
 
@@ -90,52 +121,128 @@ trait EntityField extends Field {
     this
   }
 
-  def rehash() = {
+  def cachePhrases() {
+    idToPhrase = new EntityIdToPhraseProcessor(name, "phrase", entityColl).run().asInstanceOf[HashMap[ObjectId, Seq[String]]]
+  }
+
+  def clearPhrases() {
+    idToPhrase = null
+  }
+
+  def cacheHashCodes() {
+    idToHashCodes = new EntityIdToPhraseProcessor(name, "hashCodes", entityColl).run().asInstanceOf[HashMap[ObjectId, Seq[String]]]
+  }
+
+  def clearHashCodes() {
+    idToHashCodes = null
+  }
+
+  def cacheMentionSegments() {
+    idToMentionSegment = new EntityIdToMentionSegmentProcessor(name, entityColl).run().asInstanceOf[HashMap[ObjectId, MentionSegment]]
+  }
+
+  def clearMentionSegments() {
+    idToMentionSegment = null
+  }
+
+  def cacheMentionToValues() {
+    if (idToMentionSegment == null) cacheMentionSegments()
+    mentionIdToValueIds = new HashMap[ObjectId, Seq[ObjectId]]
+    for ((id, segment) <- idToMentionSegment) {
+      mentionIdToValueIds(segment.mentionId) = mentionIdToValueIds.getOrElse(segment.mentionId, Seq.empty[ObjectId]) ++ Seq(id)
+    }
+  }
+
+  def clearMentionToValues() {
+    mentionIdToValueIds = null
+  }
+
+  def cacheSegmentToValues() {
+    segmentToValues = new MentionSegmentToEntityValues
+    val start = now()
+    logger.info("")
+    logger.info("Starting segmentToValues[field=" + name + "]")
+    for (entityDbo <- entityColl.find() if entityDbo.isDefinedAt("segments")) {
+      val entityValue = FieldValue(this, Some(entityDbo._id.get))
+      val segmentDbos: Seq[DBObject] = entityDbo.get("segments").asInstanceOf[BasicDBList].map(_.asInstanceOf[DBObject])
+      for (dbo <- segmentDbos) {
+        val mentionId = dbo.get("mentionId").asInstanceOf[ObjectId]
+        val begin = dbo.as[Int]("begin")
+        val end = dbo.as[Int]("end")
+        val segment = MentionSegment(mentionId, begin, end)
+        // logger.info("segment[" + segment + "] -> value[" + entityValue.valueId + "]")
+        segmentToValues(segment) = segmentToValues.getOrElse(segment, new HashSet[FieldValue]()) ++ Seq(entityValue)
+      }
+    }
+    logger.info("Completed segmentToValues[field=" + name + "] in time=" + (now() - start) + " millis")
+  }
+
+  def clearSegmentToValues() {
+    segmentToValues = null
+  }
+
+  def cacheAll() {
+    cachePhrases()
+    cacheHashCodes()
+    cacheMentionSegments()
+  }
+
+  def clearAll() {
+    clearPhrases()
+    clearHashCodes()
+    clearMentionSegments()
+  }
+
+  private def rehash() {
     // set up document frequency
     hashToDocFreq = new HashDocFreqProcessor(name, entityColl).run().asInstanceOf[HashMap[String, Int]]
     // set up inverted index
     val tmpHashToIds = new HashInvIndexProcessor(name, entityColl).run().asInstanceOf[HashMap[String, Seq[ObjectId]]]
     // remove hashes that link to more than maxfraction of entities
     val maxIds = (maxHashFraction * size).toInt
+    var maxTmpIds = 0
     logger.info("pruning entities[%s] with #ids > %d (fraction=%.3f, size=%d)".format(name, maxIds, maxHashFraction, size))
     val emptyIds = Seq.empty[ObjectId]
     hashToIds = new HashMap[String, Seq[ObjectId]]
     for ((hash, ids) <- tmpHashToIds) {
+      maxTmpIds = math.max(maxTmpIds, ids.size)
       hashToIds(hash) = {
         if (ids.size > maxIds) {
-          logger.info("pruning hash='%s'".format(hash))
+          logger.info("pruning hash='%s'".format(hash) + " [#ids=" + ids.size + "]")
           emptyIds
         } else {
           ids
         }
       }
     }
-    // get id -> phrase mapping
-    idToPhrase = new EntityIdToPhraseProcessor(name, "phrase", entityColl).run().asInstanceOf[HashMap[ObjectId, Seq[String]]]
-    // get id -> hash code mapping
-    idToHashCodes = new EntityIdToPhraseProcessor(name, "hashCodes", entityColl).run().asInstanceOf[HashMap[ObjectId, Seq[String]]]
-    // get id -> mention segment mapping
-    idToMentionSegment = new EntityIdToMentionSegmentProcessor(name, entityColl).run().asInstanceOf[HashMap[ObjectId, MentionSegment]]
+    logger.info("maximum hash to id mapping length=" + maxTmpIds)
+  }
+
+  private def initCanopies(debug: Boolean = false) {
+    // cache all id -> * mappings
+    cacheAll()
     // get mentionId -> Seq(ids)
-    mentionIdToValueIds = new HashMap[ObjectId, Seq[ObjectId]]
-    for ((id, segment) <- idToMentionSegment) {
-      mentionIdToValueIds(segment.mentionId) = mentionIdToValueIds.getOrElse(segment.mentionId, Seq.empty[ObjectId]) ++ Seq(id)
-    }
+    cacheMentionToValues()
+    val startTime = now()
+    logger.info("")
+    logger.info("Starting canopyGeneration[field=" + name + "]")
     // set up possible values index
     val segmentToAllValues = new EntityFieldMentionPossibleValueProcessor(mentionColl, this, minSimilarity).run().asInstanceOf[MentionSegmentToEntityValues]
     val segmentToCoreValues = new EntityFieldMentionPossibleValueProcessor(mentionColl, this, maxSimilarity).run().asInstanceOf[MentionSegmentToEntityValues]
+    // for each value select a small set of core values
     val valueToPossibleCoreValues = new HashMap[FieldValue, HashSet[FieldValue]]
     val rnd = new java.util.Random()
     var allValues = new ArrayBuffer[FieldValue]
     allValues ++= idToPhrase.keys.map(id => FieldValue(this, Some(id)))
-    // def simpleValueString(v: FieldValue) = getValuePhrase(v.valueId).mkString("'", " ", "'")
+    def simpleValueString(v: FieldValue) = getValuePhrase(v.valueId).mkString("'", " ", "'")
+    val removedValues = new HashSet[FieldValue]
     while (allValues.size > 0) {
       val canopyValue = allValues(rnd.nextInt(allValues.size))
       val canopySegment = idToMentionSegment(canopyValue.valueId.get)
       // canopy core
       val canopyCoreValues = segmentToCoreValues(canopySegment)
       val canopyAllValues = segmentToAllValues(canopySegment)
-      val prunedCoreValues = canopyCoreValues.toSeq.sortWith(_.valueId.hashCode() < _.valueId.hashCode())
+      val prunedCoreValues = canopyCoreValues.filter(!removedValues(_)).toSeq.sortWith(_.valueId.hashCode() < _.valueId.hashCode())
         .take(numPhraseDuplicates - 1) ++ Seq(canopyValue)
       // logger.info("Canopy value: " + simpleValueString(canopyValue) + " core=" + canopyCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
       if (prunedCoreValues.size < canopyCoreValues.size) {
@@ -144,30 +251,70 @@ trait EntityField extends Field {
       }
       require(prunedCoreValues.size > 0, "#coreValues=0 for canopy value=" + canopyValue)
       for (otherCanopyValue <- canopyAllValues) {
-        // logger.info("Generating " + simpleValueString(otherCanopyValue) + " using " + prunedCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
+        if (debug)
+          logger.info("Generating " + simpleValueString(otherCanopyValue) + " using " +
+            prunedCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
         valueToPossibleCoreValues(otherCanopyValue) = valueToPossibleCoreValues.getOrElse(otherCanopyValue,
           new HashSet[FieldValue]) ++ prunedCoreValues
       }
-      allValues = allValues.diff(canopyCoreValues.toSeq)
+      removedValues ++= canopyCoreValues
+      allValues = allValues.filter(!removedValues(_))
     }
-    // for each value select a small set of core values
-    segmentToValues = new MentionSegmentToEntityValues
+    // attach values to mention segments
+    val numSegmentsTotal = segmentToAllValues.size
+    var numSegmentsProcessed = 0
+    val segmentStartTime = now()
+    logger.info("")
+    logger.info("Starting entityValueSegmentsAttacher[field=" + name + "]")
     for ((segment, values) <- segmentToAllValues) {
       val segmentRelatedValues = new HashSet[FieldValue]
+      // first map to canopy core values
       for (value <- values) segmentRelatedValues ++= valueToPossibleCoreValues(value)
-      segmentToValues(segment) = segmentRelatedValues
+
+      // debugging: print canopy information
+      if (debug) {
+        val dbo = mentionColl.findOneByID(segment.mentionId, MongoDBObject("words" -> 1, "isRecord" -> 1, "source" -> 1)).get
+        val segmentWords = MongoHelper.getListAttr[String](dbo, "words").slice(segment.begin, segment.end)
+        val source = dbo.as[String]("source")
+        logger.info("")
+        logger.info("Generating [isRecord=" + dbo.as[Boolean]("isRecord") + ", source=" + source + ", mentionId=" + dbo._id + "]: " +
+          segmentWords.mkString("'", " ", "'") + " using:\n\t" + segmentRelatedValues.mkString("\n\t"))
+      }
+
+      val segmentDbo = MongoDBObject("mentionId" -> segment.mentionId, "begin" -> segment.begin, "end" -> segment.end)
+      for (value <- segmentRelatedValues if value.valueId.isDefined) {
+        entityColl.update(MongoDBObject("_id" -> value.valueId.get), $push("segments" -> segmentDbo), false, false)
+      }
+
+      numSegmentsProcessed += 1
+      if (numSegmentsProcessed % 1000 == 0)
+        logger.info("Processed segment -> values: " + numSegmentsProcessed + "/" + numSegmentsTotal)
     }
-    this
+    logger.info("Completed entityValueSegmentsAttacher[field=" + name + "] in time=" + (now() - segmentStartTime) + " millis")
+    logger.info("Completed canopyGeneration[field=" + name + "] in time=" + (now() - startTime) + " millis")
+    // clear caches
+    clearAll()
   }
 
   def init() = {
     entityColl.drop()
-    segmentToValues = null
     // first add record fields to field collection
     new EntityInitializer(name, mentionColl, entityColl, maxSegmentLength, false, useFullSegment,
       useAllRecordSegments, useOracle, hashCodes).run()
     logger.info("#entities[%s]=%d".format(name, size))
     rehash()
+    initCanopies()
+    cacheMentionToValues()
+    cacheSegmentToValues()
+    this
+  }
+
+  def reinit() = {
+    logger.info("#entities[%s]=%d".format(name, size))
+    rehash()
+    cacheMentionToValues()
+    cacheSegmentToValues()
+    this
   }
 
   def getHashDocumentFrequency = hashToDocFreq
@@ -179,28 +326,46 @@ trait EntityField extends Field {
 
   def getValuePhrase(valueId: Option[ObjectId]) = {
     if (valueId.isDefined) {
-      if (idToPhrase == null) {
-        val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("phrase" -> 1)).get
-        MongoHelper.getListAttr[String](dbo, "phrase")
-      } else idToPhrase(valueId.get)
+      if (idToPhrase != null && idToPhrase.contains(valueId.get)) idToPhrase(valueId.get)
+      else {
+        cacheClient.entityGet[Seq[String]](name, valueId.get, "phrase", (key: String) => {
+          val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("phrase" -> 1)).get
+          MongoHelper.getListAttr[String](dbo, "phrase")
+        })
+      }
     } else Seq.empty[String]
   }
 
   def getValueHashes(valueId: Option[ObjectId]) = {
     if (valueId.isDefined) {
-      if (idToHashCodes == null) {
-        val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("hashCodes" -> 1)).get
-        MongoHelper.getListAttr[String](dbo, "hashCodes")
-      } else idToHashCodes(valueId.get)
+      if (idToHashCodes != null && idToHashCodes.contains(valueId.get)) idToHashCodes(valueId.get)
+      else {
+        cacheClient.entityGet[Seq[String]](name, valueId.get, "hashCodes", (key: String) => {
+          val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("hashCodes" -> 1)).get
+          MongoHelper.getListAttr[String](dbo, "hashCodes")
+        })
+      }
     } else Seq.empty[String]
   }
 
   def getValueMention(valueId: Option[ObjectId]) = {
-    if (valueId.isDefined) Some(idToMentionSegment(valueId.get).mentionId) else None
+    getValueMentionSegment(valueId).map(_.mentionId)
   }
 
   def getValueMentionSegment(valueId: Option[ObjectId]) = {
-    if (valueId.isDefined) Some(idToMentionSegment(valueId.get)) else None
+    if (valueId.isDefined) {
+      if (idToMentionSegment != null && idToMentionSegment.contains(valueId.get)) Some(idToMentionSegment(valueId.get))
+      else {
+        val segment = cacheClient.entityGet[MentionSegment](name, valueId.get, "mentionSegment", (key: String) => {
+          val dbo = entityColl.findOneByID(valueId.get, MongoDBObject("mentionId" -> 1, "begin" -> 1, "end" -> 1)).get
+          val mentionId = dbo.get("mentionId").asInstanceOf[ObjectId]
+          val begin = dbo.as[Int]("begin")
+          val end = dbo.as[Int]("end")
+          MentionSegment(mentionId, begin, end)
+        })
+        Some(segment)
+      }
+    } else None
   }
 
   def getMentionValues(mentionId: Option[ObjectId]) = {
