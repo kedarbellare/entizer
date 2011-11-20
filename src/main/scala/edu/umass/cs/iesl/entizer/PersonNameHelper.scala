@@ -1,19 +1,53 @@
 package edu.umass.cs.iesl.entizer
 
-import collection.mutable.HashMap
+import collection.mutable.{HashSet, HashMap}
 import uk.ac.shef.wit.simmetrics.similaritymetrics._
 
 /**
  * @author kedar
  */
 
-object PersonNameHelper {
+trait StringSimilarityHelper {
+  val JWINK = new JaroWinkler
+  val LEVENSTEIN = new Levenshtein
+  val QGRAMSIM = new QGramsDistance()
+  val SMITHWATERMAN_AFFINE = new SmithWatermanGotohWindowedAffine()
+
+  def quote(phr: Seq[String]) = phr.mkString("'", " ", "'")
+
+  def getThresholdLevenshtein(_s: String, _t: String, threshold: Int = 3): Int = {
+    val (s, t) = if (_s.length > _t.length) (_s, _t) else (_t, _s)
+    val slen = s.length
+    val tlen = t.length
+
+    var prev = Array.fill[Int](tlen + 1)(Int.MaxValue)
+    var curr = Array.fill[Int](tlen + 1)(Int.MaxValue)
+    for (n <- 0 until math.min(tlen + 1, threshold + 1)) prev(n) = n
+
+    for (row <- 1 until (slen + 1)) {
+      curr(0) = row
+      val min = math.min(tlen + 1, math.max(1, row - threshold))
+      val max = math.min(tlen + 1, row + threshold + 1)
+
+      if (min > 1) curr(min - 1) = Int.MaxValue
+      for (col <- min until max) {
+        curr(col) = if (s(row - 1) == t(col - 1)) prev(col - 1)
+        else math.min(prev(col - 1), math.min(curr(col - 1), prev(col))) + 1
+      }
+      prev = curr
+      curr = Array.fill[Int](tlen + 1)(Int.MaxValue)
+    }
+
+    prev(tlen)
+  }
+}
+
+object PersonNameHelper extends StringSimilarityHelper {
   private val SUFFIXES = Set(
     "JR", "Jr", "Junior",
     "SR", "Sr", "Senior",
     "II", "III", "IV", "VI", "VII", "VIII"
   )
-  private val JWINK = new JaroWinkler
   private val PERSON_NAME_REGEX = "^([a-zA-Z]+(?:\\.)?(?: ([a-zA-Z]+(?:\\.)?|-|[A-Z] ' [A-Za-z]+))*)$"
 
   private val lastnames = Seq(
@@ -146,32 +180,6 @@ object PersonNameHelper {
     }
   }
 
-  def getThresholdLevenshtein(_s: String, _t: String, threshold: Int = 3): Int = {
-    val (s, t) = if (_s.length > _t.length) (_s, _t) else (_t, _s)
-    val slen = s.length
-    val tlen = t.length
-
-    var prev = Array.fill[Int](tlen + 1)(Int.MaxValue)
-    var curr = Array.fill[Int](tlen + 1)(Int.MaxValue)
-    for (n <- 0 until math.min(tlen + 1, threshold + 1)) prev(n) = n
-
-    for (row <- 1 until (slen + 1)) {
-      curr(0) = row
-      val min = math.min(tlen + 1, math.max(1, row - threshold))
-      val max = math.min(tlen + 1, row + threshold + 1)
-
-      if (min > 1) curr(min - 1) = Int.MaxValue
-      for (col <- min until max) {
-        curr(col) = if (s(row - 1) == t(col - 1)) prev(col - 1)
-        else math.min(prev(col - 1), math.min(curr(col - 1), prev(col))) + 1
-      }
-      prev = curr
-      curr = Array.fill[Int](tlen + 1)(Int.MaxValue)
-    }
-
-    prev(tlen)
-  }
-
   // LAST, FIRST MIDDLE+ -> FIRST MIDDLE+ LAST
   private def doReorderWords(phrase: Seq[String]): Seq[String] = {
     val commaIndex = phrase.indexOf(",")
@@ -230,8 +238,6 @@ object PersonNameHelper {
       Seq(phoneticCode)
     } else Seq.empty[String]
   }
-
-  def quote(phr: Seq[String]) = phr.mkString("'", " ", "'")
 
   private def isNameSimilar(s1: String, s2: String) =
     JWINK.getSimilarity(s1, s2) >= 0.95 || getThresholdLevenshtein(s1, s2, 3) <= 1
@@ -321,15 +327,125 @@ object PersonNameHelper {
     for (namePairs <- confusingNamePairs) {
       val name1 = namePairs(0).split(" ")
       val name2 = namePairs(1).split(" ")
-      if (name1.contains("Deborah")) {
-        println("true")
-      }
       if (matchesName(name1) && matchesName(name2)) {
         println(quote(name1) + (if (isNameMatch(name1, name2)) " EQ " else " NEQ ") + quote(name2))
       } else {
         println("NOTNAMES: " + quote(name1) + " " + quote(normalizeName(name1)) + " || " +
           quote(name2) + " " + quote(normalizeName(name2)))
       }
+    }
+  }
+}
+
+object TitleHelper extends StringSimilarityHelper {
+  def normalizeTitle(phrase: Seq[String]) =
+    phrase.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(_.length() > 0)
+
+  private def mkTitle(phrase: Seq[String], normalize: Boolean = true) =
+    (if (normalize) normalizeTitle(phrase) else phrase).mkString(" ")
+      .replaceAll("^\\s+", "").replaceAll("\\s+$", "").replaceAll("\\s+", " ")
+
+  def getTitleSimilarity(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Double = {
+    val title1 = mkTitle(phr1, normalize)
+    val title2 = mkTitle(phr2, normalize)
+    LEVENSTEIN.getSimilarity(title1, title2)
+  }
+
+  def isTitleSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    getTitleSimilarity(phr1, phr2, normalize) >= 0.95
+  }
+}
+
+object BooktitleHelper extends StringSimilarityHelper {
+  val ORDINAL1 = "(?ii)[0-9]*(?:st|nd|rd|th)"
+  val ORDINAL2 = "(?ii)(?:" +
+    "first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth" +
+    "|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth" +
+    "|eighteenth|nineteenth|twentieth|thirtieth|fou?rtieth|fiftieth|sixtieth|seventieth" +
+    "|eightieth|nine?tieth|twentieth|hundredth" + ")"
+
+  def normalizeBooktitle(phrase: Seq[String]) =
+    phrase.map(_.toLowerCase.replaceAll("[^a-z]+", "")).filter(s => {
+      s.length() > 0 && !s.matches("(proc|proceedings|in|of|the|and|on|by|for|to|&)") &&
+        !s.matches(ORDINAL1) && !s.matches(ORDINAL2)
+    }).sortWith(_.compareTo(_) < 0)
+
+  private def mkBooktitle(phrase: Seq[String], normalize: Boolean = true) =
+    (if (normalize) normalizeBooktitle(phrase) else phrase).mkString(" ")
+      .replaceAll("^\\s+", "").replaceAll("\\s+$", "").replaceAll("\\s+", " ")
+
+  def getBooktitleSimilarity(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Double = {
+    val booktitle1 = mkBooktitle(phr1, normalize)
+    val booktitle2 = mkBooktitle(phr2, normalize)
+    QGRAMSIM.getSimilarity(booktitle1, booktitle2)
+  }
+
+  def isBooktitleSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    getBooktitleSimilarity(phr1, phr2, normalize) >= 0.95
+  }
+}
+
+object JournalHelper extends StringSimilarityHelper {
+  val confusingJournalPairs = Seq(
+    "Acta Inf ." -> "Acta Informatics",
+    "Artif . Intell ." -> "Artificial Intelligence",
+    "IEEE Multimedia" -> "ACM MultiMedia",
+    "IBM Systems Journal" -> "IBM Sys . J.",
+    "Int . J. Approx . Reasoning" -> "International Journal on Approximate Reasoning",
+    "Advanced Robotics" -> "Adv . Robot .",
+    "Autonomous Robots" -> "Auton . Robots",
+    "Ann . Software  Eng ." -> "Annals  of  Software  Engineering",
+    "Annals  of  Mathematics and Artificial  Intelligence" -> "Ann . Math  . Artif . Intell  .",
+    "Annals  of  Pure  and Applied Logic" -> "Ann . Pure  Appl  . Logic"
+  )
+
+  def normalizeJournal(phrase: Seq[String]) =
+    phrase.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(s => {
+      s.length() > 0 && !s.matches("(j|journal|in|of|the|and|on|by|for|to|&)")
+    })
+
+  def getJournalSimilarity(phr1: Seq[String], phr2: Seq[String],
+                           tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Double = {
+    val bag1 = new HashSet[String] ++ normalizeJournal(phr1)
+    val bag2 = new HashSet[String] ++ normalizeJournal(phr2)
+    val bag1Size = 1.0 * bag1.size
+    val bag2Size = 1.0 * bag2.size
+    var numIntersection = 0.0
+    bag1.foreach(w => {
+      if (bag2(w)) {
+        numIntersection += 1
+        bag2.remove(w)
+      } else {
+        var bestMatchTok: String = null
+        var bestMatchScore = Double.NegativeInfinity
+        bag2.foreach(ow => {
+          val matchScore = SMITHWATERMAN_AFFINE.getSimilarity(w, ow)
+          if (matchScore > bestMatchScore && matchScore >= tokenMatchThreshold) {
+            bestMatchTok = ow
+            bestMatchScore = matchScore
+          }
+        })
+        if (bestMatchScore >= tokenMatchThreshold) {
+          numIntersection += bestMatchScore
+          bag2.remove(bestMatchTok)
+        }
+      }
+    })
+    val numUnion = bag1Size + bag2Size - numIntersection
+    if (numUnion == 0) 0.0
+    else numIntersection / numUnion
+  }
+
+  def isJournalSimilar(phr1: Seq[String], phr2: Seq[String],
+                       tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Boolean = {
+    getJournalSimilarity(phr1, phr2, tokenMatchThreshold, normalize) >= 0.95
+  }
+
+  def main(args: Array[String]) {
+    for ((s1, s2) <- confusingJournalPairs) {
+      val phr1 = s1.split(" ")
+      val phr2 = s2.split(" ")
+      println(s1 + " -> " + s2 + ": " + getJournalSimilarity(phr1, phr2))
     }
   }
 }
