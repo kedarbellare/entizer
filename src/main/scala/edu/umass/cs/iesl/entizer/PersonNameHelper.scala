@@ -1,7 +1,7 @@
 package edu.umass.cs.iesl.entizer
 
-import uk.ac.shef.wit.simmetrics.similaritymetrics._
 import collection.mutable.HashMap
+import uk.ac.shef.wit.simmetrics.similaritymetrics._
 
 /**
  * @author kedar
@@ -13,11 +13,15 @@ object PersonNameHelper {
     "SR", "Sr", "Senior",
     "II", "III", "IV", "VI", "VII", "VIII"
   )
+  private val JWINK = new JaroWinkler
+  private val PERSON_NAME_REGEX = "^([a-zA-Z]+(?:\\.)?(?: ([a-zA-Z]+(?:\\.)?|-|[A-Z] ' [A-Za-z]+))*)$"
+
   private val lastnames = Seq(
     "Bellare", "Belare", "Bellary", "Belari", "Beelare", "Bellar",
     "Carbonell", "Carbonel", "Caronel", "Curbonell"
   )
   private val namePhrases = Seq(
+    Seq("James", "O", "'", "Toole"),
     // new person
     Seq("Gray", ",", "P.", "M.", "D."),
     Seq("P.", "M.", "D.", "Gray", "``"),
@@ -37,6 +41,7 @@ object PersonNameHelper {
     // new person
     Seq("Alfred", "O.", "Hero", "III"),
     Seq("A", "O", "Hero"),
+    Seq("Alfred", "Olyphant", "Hero"),
     // new person
     Seq("Williams", "Ludwell", "Harrison", "III", ",", ".", ":"),
     Seq("Williams", "L.", "Harrison", "."),
@@ -50,7 +55,7 @@ object PersonNameHelper {
     Seq("P.", "B.", "Gibbons", ","),
     // new person
     Seq("Cees", "H.", "M.", "van", "Kemenade"),
-    Seq("C.", "H.", "M.", "van", "Kemenade", "."),
+    Seq("C.", "H.", "M.", "van", "Kemnade", "."),
     // new person
     Seq("Vaclav", "Hlavac"),
     Seq("V.", "Hlavc", "."),
@@ -60,7 +65,7 @@ object PersonNameHelper {
     // new person
     Seq("Jeff", "Tupper"),
     Seq("TUPPER", "J.", ":"),
-    Seq("Jeff", "Tupper", "."),
+    Seq("Jeff", "Tuper", "."),
     Seq("J.", "Tupper", ","),
     Seq("JeFF", "Tupper", "."),
     // new person
@@ -79,6 +84,17 @@ object PersonNameHelper {
     Seq("Michael", "O.", "Duff"),
     Seq("MO", "Duff", "."),
     Seq("Duff", ",", "M.", "O.")
+  )
+
+  val confusingNamePairs = Seq(
+    Seq("Colin J. Fidge", "[8] C. Fidge ,"),
+    Seq("Colin J. Fidge", "[8] C. Fidge , \""),
+    Seq("Deborah G. Johnson", "Johnson , D."),
+    Seq("Deborah G. Johnson", "Johnson , D. S."),
+    Seq("Deborah G. Johnson", "Johnson , D. S. \" Computers"),
+    Seq("Deborah G. Johnson", "Johnson , D. S. \" Computers and"),
+    Seq("Tony S. H. Lee", "T. Lee ."),
+    Seq("Laurent Regnier", "[15] Laurent Regnier .")
   )
 
   /**
@@ -130,6 +146,32 @@ object PersonNameHelper {
     }
   }
 
+  def getThresholdLevenshtein(_s: String, _t: String, threshold: Int = 3): Int = {
+    val (s, t) = if (_s.length > _t.length) (_s, _t) else (_t, _s)
+    val slen = s.length
+    val tlen = t.length
+
+    var prev = Array.fill[Int](tlen + 1)(Int.MaxValue)
+    var curr = Array.fill[Int](tlen + 1)(Int.MaxValue)
+    for (n <- 0 until math.min(tlen + 1, threshold + 1)) prev(n) = n
+
+    for (row <- 1 until (slen + 1)) {
+      curr(0) = row
+      val min = math.min(tlen + 1, math.max(1, row - threshold))
+      val max = math.min(tlen + 1, row + threshold + 1)
+
+      if (min > 1) curr(min - 1) = Int.MaxValue
+      for (col <- min until max) {
+        curr(col) = if (s(row - 1) == t(col - 1)) prev(col - 1)
+        else math.min(prev(col - 1), math.min(curr(col - 1), prev(col))) + 1
+      }
+      prev = curr
+      curr = Array.fill[Int](tlen + 1)(Int.MaxValue)
+    }
+
+    prev(tlen)
+  }
+
   // LAST, FIRST MIDDLE+ -> FIRST MIDDLE+ LAST
   private def doReorderWords(phrase: Seq[String]): Seq[String] = {
     val commaIndex = phrase.indexOf(",")
@@ -144,13 +186,14 @@ object PersonNameHelper {
 
   // trim punctuation and name suffixes at the end
   private def doTrimEnd(phrase: Seq[String]): Seq[String] = {
-    if (phrase.lastOption.isDefined && (phrase.last.matches("^\\p{Punct}*$") || SUFFIXES(phrase.last)))
+    if (phrase.lastOption.isDefined && (phrase.last.matches("^[:;\\.\"\\(']$") || SUFFIXES(phrase.last)))
       doTrimEnd(phrase.dropRight(1))
     else phrase
   }
 
   def normalizeName(phrase: Seq[String]): Seq[String] = {
-    doTrimEnd(doIgnoreWords(doReorderWords(doTrimEnd(phrase))))
+    // doTrimEnd(doIgnoreWords(doReorderWords(doTrimEnd(phrase))))
+    doTrimEnd(doReorderWords(doTrimEnd(phrase)))
   }
 
   def hashName(phrase: Seq[String]): Seq[String] = {
@@ -159,6 +202,13 @@ object PersonNameHelper {
     val word_hash = ngramWordHash(pruned_phrase, 1)
     val char_hash = ngramsCharHash(phrase, Seq(4))
     (word_hash ++ char_hash).toSeq
+  }
+
+  def matchesName(str: String): Boolean = str.matches(PERSON_NAME_REGEX)
+
+  def matchesName(phrase: Seq[String], normalize: Boolean = true): Boolean = {
+    if (phrase.contains("and") || phrase.contains("AND")) false
+    else matchesName((if (normalize) normalizeName(phrase) else phrase).mkString(" "))
   }
 
   def featuresName(phrase: Seq[String]): Seq[String] = {
@@ -181,6 +231,65 @@ object PersonNameHelper {
     } else Seq.empty[String]
   }
 
+  def quote(phr: Seq[String]) = phr.mkString("'", " ", "'")
+
+  private def isNameSimilar(s1: String, s2: String) =
+    JWINK.getSimilarity(s1, s2) >= 0.95 || getThresholdLevenshtein(s1, s2, 3) <= 1
+
+  def isLastNameMatch(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    // get last names
+    val lname1Opt = (if (normalize) normalizeName(phr1) else phr1).lastOption.map(_.toLowerCase.replaceAll("[^a-z]+", ""))
+    val lname2Opt = (if (normalize) normalizeName(phr2) else phr2).lastOption.map(_.toLowerCase.replaceAll("[^a-z]+", ""))
+
+    if (!lname1Opt.isDefined || !lname2Opt.isDefined) false
+    else {
+      val lname1 = lname1Opt.get
+      val lname2 = lname2Opt.get
+      if (lname1.length() <= 3 || lname2.length() <= 3) lname1 == lname2
+      else isNameSimilar(lname1, lname2)
+    }
+  }
+
+  def isFirstNameMatch(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    val fname1Opt = (if (normalize) normalizeName(phr1) else phr1).dropRight(1).headOption.map(_.toLowerCase.replaceAll("[^a-z]+", ""))
+    val fname2Opt = (if (normalize) normalizeName(phr2) else phr2).dropRight(1).headOption.map(_.toLowerCase.replaceAll("[^a-z]+", ""))
+
+    if (!fname1Opt.isDefined || !fname2Opt.isDefined) false
+    else {
+      val fname1 = fname1Opt.get
+      val fname2 = fname2Opt.get
+      if (fname1.length() == 1 && fname2.startsWith(fname1)) true
+      else if (fname2.length() == 1 && fname1.startsWith(fname2)) true
+      else if (fname1.length() <= 3 || fname2.length() <= 3) fname1 == fname2
+      else isNameSimilar(fname1, fname2)
+    }
+  }
+
+  def isMiddleNamesMatch(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    val allmiddles1 = (if (normalize) normalizeName(phr1) else phr1).dropRight(1).drop(1).map(_.toLowerCase.replaceAll("[^a-z]+", ""))
+    val allmiddles2 = (if (normalize) normalizeName(phr2) else phr2).dropRight(1).drop(1).map(_.toLowerCase.replaceAll("[^a-z]+", ""))
+    for (i <- 0 until math.min(allmiddles1.length, allmiddles2.length)) {
+      val mname1 = allmiddles1(i)
+      val mname2 = allmiddles2(i)
+      if (mname1.length() == 1 && mname2.startsWith(mname1)) {} // skip: initials match
+      else if (mname2.length() == 1 && mname1.startsWith(mname2)) {} // skip: initials match
+      else if ((mname1.length() <= 3 || mname2.length() <= 3) && mname1 != mname2) return false
+      else if (isNameSimilar(mname1, mname2)) {} // skip: approx name match
+      else return false
+    }
+    true
+  }
+
+  def isNameMatch(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    val normphr1 = (if (normalize) normalizeName(phr1) else phr1)
+    val normphr2 = (if (normalize) normalizeName(phr2) else phr2)
+    if (!matchesName(normphr1, false)) false
+    else if (!matchesName(normphr2, false)) false
+    else isLastNameMatch(normphr1, normphr2, false) &&
+      isFirstNameMatch(normphr1, normphr2, false) &&
+      isMiddleNamesMatch(normphr1, normphr2, false)
+  }
+
   val hashNameFn: Seq[String] => Seq[String] = hashName(_)
 
   def main(args: Array[String]) {
@@ -189,15 +298,38 @@ object PersonNameHelper {
     println()
     val hash2names =
       namePhrases
-        .map(phr => {
-        val name = phr.mkString("'", " ", "'")
-        hashNameFn(phr).map(hash => hash -> name)
-      })
+        .map(phr => hashNameFn(phr).map(hash => hash -> phr))
         .flatMap(identity(_))
-        .foldLeft(HashMap[String, Seq[String]]())((m, v) => {
-        m(v._1) = m.getOrElse(v._1, Seq.empty[String]) ++ Seq(v._2)
+        .foldLeft(HashMap[String, Seq[Seq[String]]]())((m, v) => {
+        m(v._1) = m.getOrElse(v._1, Seq()) ++ Seq(v._2)
         m
       })
-    println(hash2names.mkString("\n"))
+    for ((hash, names) <- hash2names) {
+      // println("hash: " + hash)
+      for (i <- 0 until names.size; j <- (i + 1) until names.size) {
+        val normi = normalizeName(names(i))
+        val normj = normalizeName(names(j))
+        println(quote(normi) + (if (isNameMatch(names(i), names(j))) " EQ " else " NEQ ") + quote(normj) + ":" +
+          " lastEQ=" + isLastNameMatch(normi, normj) +
+          " firstEQ=" + isFirstNameMatch(normi, normj) +
+          " middleEQ=" + isMiddleNamesMatch(normi, normj))
+      }
+    }
+    for (phr <- namePhrases) {
+      if (!matchesName(phr)) println("NOTNAME: " + quote(phr) + " " + quote(normalizeName(phr)))
+    }
+    for (namePairs <- confusingNamePairs) {
+      val name1 = namePairs(0).split(" ")
+      val name2 = namePairs(1).split(" ")
+      if (name1.contains("Deborah")) {
+        println("true")
+      }
+      if (matchesName(name1) && matchesName(name2)) {
+        println(quote(name1) + (if (isNameMatch(name1, name2)) " EQ " else " NEQ ") + quote(name2))
+      } else {
+        println("NOTNAMES: " + quote(name1) + " " + quote(normalizeName(name1)) + " || " +
+          quote(name2) + " " + quote(normalizeName(name2)))
+      }
+    }
   }
 }
