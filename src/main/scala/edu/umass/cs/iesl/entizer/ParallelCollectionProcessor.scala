@@ -80,7 +80,9 @@ trait ParallelCollectionProcessor extends HasLogger {
     var nrOfDones: Int = 0
     var nrOfResults: Int = 0
     val inputParams = inputJob.inputParams
-    val dboIter = inputColl.find(inputJob.query, inputJob.select).skip(inputJob.skip).limit(inputJob.limit).toIterator
+    private val cursor = inputColl.find(inputJob.query, inputJob.select).skip(inputJob.skip).limit(inputJob.limit)
+    cursor.options = 16
+    val dboIter = cursor.toIterator
     val outputParams = newOutputParams(true)
 
     // create the workers
@@ -126,9 +128,12 @@ trait ParallelCollectionProcessor extends HasLogger {
           require(origRecipient.isDefined)
           origRecipient.get ! JobResult(outputParams)
           self.stop()
+          cursor.close()
         }
       }
     }
+
+
   }
 
   // view on which to run process
