@@ -364,6 +364,10 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
     // there should be relatively few areas
     constraintFns += new SparseFieldValuesOverall(localareaField.name, 0.1)
     if (doRecordClustering) {
+      // the number of null record entities should be small
+      val nullRecordEntityPredicate = new RecordValueIsNullPredicate("record_entity_is_null", listingRecord.name)
+      nullRecordEntityPredicate.targetProportion = 0.3
+      constraintFns += nullRecordEntityPredicate
       // each mention should have very few listings
       constraintFns += new SparseRecordValuePerMention(listingRecord.name, 5)
       // there should be relatively few listings

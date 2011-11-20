@@ -133,6 +133,8 @@ trait ARexaEnv extends Env {
 
   def hashCitationRecord(phrase: Seq[String]) = PhraseHash.ngramWordHash(phrase.map(simplify(_)), 1).toSeq
 
+  def rexaName: String
+
   // field parameters
   def numAuthorDups: Int
 
@@ -178,6 +180,7 @@ trait ARexaEnv extends Env {
 object Rexa1kEnv extends ARexaEnv {
   val repo = Rexa1kRepo
   val mentions = repo.mentionColl
+  val rexaName = "rexa1k"
 
   // field parameters
   val numAuthorDups = 20
@@ -209,6 +212,7 @@ object Rexa1kEnv extends ARexaEnv {
 object RexaEnv extends ARexaEnv {
   val repo = RexaRepo
   val mentions = repo.mentionColl
+  val rexaName = "rexa"
 
   // field parameters
   val numAuthorDups = 20
@@ -384,52 +388,6 @@ object Rexa1kRecordOracleMain extends Rexa1kBasicMain(false) with App
 
 object Rexa1kOracleMain extends Rexa1kBasicMain(true) with App
 
-class RexaRunMain(val env: ARexaEnv) extends HasLogger {
-  EntityMemcachedClient.flush()
-  val maxLengths = new MaxLengthsProcessor(env.mentions, true).run().asInstanceOf[HashMap[String, Int]]
-  println("maxLengthMap=" + maxLengths)
-
-  val repo = env.repo
-  val mentions = env.mentions
-
-  // create fields
-  val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
-  val authorField = new SimpleEntityField("author", repo)
-    .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
-    .setPhraseDuplicates(env.numAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
-    .setSimilarities(env.minAuthorSim, env.maxAuthorSim).reinit().asInstanceOf[SimpleEntityField]
-  val titleField = new SimpleEntityField("title", repo)
-    .setMaxSegmentLength(maxLengths("title")).setHashCodes(env.hashTitleField(_))
-    .setPhraseDuplicates(env.numTitleDups).setMaxHashFraction(env.maxTitleHashFraction)
-    .setSimilarities(env.minTitleSim, env.maxTitleSim).reinit().asInstanceOf[SimpleEntityField]
-  val booktitleField = new SimpleEntityField("booktitle", repo)
-    .setMaxSegmentLength(maxLengths("booktitle")).setHashCodes(env.hashVenueField(_))
-    .setPhraseDuplicates(env.numBooktitleDups).setMaxHashFraction(env.maxBooktitleHashFraction)
-    .setSimilarities(env.minBooktitleSim, env.maxBooktitleSim)
-    .setAllowAllRootValues(true).reinit().asInstanceOf[SimpleEntityField]
-  val journalField = new SimpleEntityField("journal", repo)
-    .setMaxSegmentLength(maxLengths("journal")).setHashCodes(env.hashVenueField(_))
-    .setPhraseDuplicates(env.numJournalDups).setMaxHashFraction(env.maxJournalHashFraction)
-    .setSimilarities(env.minJournalSim, env.maxJournalSim)
-    .setAllowAllRootValues(true).reinit().asInstanceOf[SimpleEntityField]
-
-  // create record entity
-  val citationRecord = new SimpleEntityRecord("citation", repo, false)
-    .setHashCodes(env.hashCitationRecord(_)).setMaxHashFraction(env.maxCitationHashFraction)
-    .setPhraseDuplicates(env.numCitationDups).setSimilarities(env.minCitationSim, env.maxCitationSim)
-    .reinit().asInstanceOf[SimpleEntityRecord]
-  citationRecord
-    .addField(otherField).addField(authorField).addField(titleField).addField(booktitleField).addField(journalField)
-
-  val (params, constraintParams) = new SemiSupervisedJointSegmentationLearner(mentions, citationRecord)
-    .learn(0, 0, 0, Seq.empty[ConstraintFunction], textWeight = 1e-1)
-  logger.info("params: " + params)
-  EntityMemcachedClient.shutdown()
-  // new MentionWebpageStorer(mentions, evalName, citationRecord, params, null, null).run()
-}
-
-object Rexa1kMain extends RexaRunMain(Rexa1kEnv) with App
-
 class ARexaCheckNameEquality(val env: ARexaEnv) extends HasLogger {
 
   import PersonNameHelper.{quote, isNameMatch, matchesName}
@@ -555,7 +513,7 @@ object RexaCheckBooktitleEquality extends ARexaCheckBooktitleEquality(RexaEnv) w
 
 class ARexaCheckJournalEquality(val env: ARexaEnv) extends HasLogger {
 
-  import JournalHelper.{getJournalSimilarity, isJournalSimilar}
+  import JournalHelper.{quote, getJournalSimilarity, isJournalSimilar}
 
   val repo = env.repo
   val mentions = env.mentions
@@ -583,8 +541,8 @@ class ARexaCheckJournalEquality(val env: ARexaEnv) extends HasLogger {
           logger.info("")
           logger.info("similar[isRecord=" + mention.isRecord + ", similarity=" +
             getJournalSimilarity(mentionPhrase, valuePhrase) + "]")
-          logger.info(valuePhrase.mkString("'", " ", "'"))
-          logger.info(mentionPhrase.mkString("'", " ", "'"))
+          logger.info(quote(valuePhrase))
+          logger.info(quote(mentionPhrase))
         }
       }
     }
@@ -594,3 +552,214 @@ class ARexaCheckJournalEquality(val env: ARexaEnv) extends HasLogger {
 object Rexa1kCheckJournalEquality extends ARexaCheckJournalEquality(Rexa1kEnv) with App
 
 object RexaCheckJournalEquality extends ARexaCheckJournalEquality(RexaEnv) with App
+
+class ARexaCheckCitationEquality(val env: ARexaEnv) extends HasLogger {
+
+  import CitationHelper.{quote, isCitationSimilar, getCitationSimilarity}
+
+  val repo = env.repo
+  val mentions = env.mentions
+
+  val maxLengths = new MaxLengthsProcessor(mentions, true).run().asInstanceOf[HashMap[String, Int]]
+  println("maxLengthMap=" + maxLengths)
+
+  val citationRecord = new SimpleEntityRecord("citation", repo, false)
+    .setHashCodes(env.hashCitationRecord(_)).setMaxHashFraction(env.maxCitationHashFraction)
+    .setPhraseDuplicates(env.numCitationDups).setSimilarities(env.minCitationSim, env.maxCitationSim)
+    .reinit().asInstanceOf[SimpleEntityRecord]
+  citationRecord.cacheAll()
+
+  for (dbo <- mentions.find(); mention = new Mention(dbo)) {
+    val allSegments = mention.fullSegments(citationRecord.name)
+    for (segment <- allSegments) {
+      val mentionPhrase = mention.words.slice(segment.begin, segment.end)
+      for (value <- citationRecord.getPossibleValues(mention.id, segment.begin, segment.end)
+           if value.valueId.isDefined) {
+        val valuePhrase = citationRecord.getValuePhrase(value.valueId)
+        if (!mention.isRecord && isCitationSimilar(valuePhrase, mentionPhrase)) {
+          logger.info("")
+          logger.info("similar[isRecord=" + mention.isRecord + ", similarity=" +
+            getCitationSimilarity(mentionPhrase, valuePhrase) + "]")
+          logger.info(quote(valuePhrase))
+          logger.info(quote(mentionPhrase))
+        }
+      }
+    }
+  }
+}
+
+object Rexa1kCheckCitationEquality extends ARexaCheckCitationEquality(Rexa1kEnv) with App
+
+object RexaCheckCitationEquality extends ARexaCheckCitationEquality(RexaEnv) with App
+
+class RexaRunMain(val env: ARexaEnv) extends HasLogger {
+  EntityMemcachedClient.flush()
+  val maxLengths = new MaxLengthsProcessor(env.mentions, true).run().asInstanceOf[HashMap[String, Int]]
+  println("maxLengthMap=" + maxLengths)
+
+  val repo = env.repo
+  val mentions = env.mentions
+
+  // create fields
+  val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
+  val authorField = new SimpleEntityField("author", repo)
+    .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
+    .setPhraseDuplicates(env.numAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
+    .setSimilarities(env.minAuthorSim, env.maxAuthorSim).reinit().asInstanceOf[SimpleEntityField]
+  val titleField = new SimpleEntityField("title", repo)
+    .setMaxSegmentLength(maxLengths("title")).setHashCodes(env.hashTitleField(_))
+    .setPhraseDuplicates(env.numTitleDups).setMaxHashFraction(env.maxTitleHashFraction)
+    .setSimilarities(env.minTitleSim, env.maxTitleSim).reinit().asInstanceOf[SimpleEntityField]
+  val booktitleField = new SimpleEntityField("booktitle", repo)
+    .setMaxSegmentLength(maxLengths("booktitle")).setHashCodes(env.hashVenueField(_))
+    .setPhraseDuplicates(env.numBooktitleDups).setMaxHashFraction(env.maxBooktitleHashFraction)
+    .setSimilarities(env.minBooktitleSim, env.maxBooktitleSim)
+    .setAllowAllRootValues(true).reinit().asInstanceOf[SimpleEntityField]
+  val journalField = new SimpleEntityField("journal", repo)
+    .setMaxSegmentLength(maxLengths("journal")).setHashCodes(env.hashVenueField(_))
+    .setPhraseDuplicates(env.numJournalDups).setMaxHashFraction(env.maxJournalHashFraction)
+    .setSimilarities(env.minJournalSim, env.maxJournalSim)
+    .setAllowAllRootValues(true).reinit().asInstanceOf[SimpleEntityField]
+
+  // create record entity
+  // TODO: check that allow all root values has correct behavior
+  val citationRecord = new SimpleEntityRecord("citation", repo, false)
+    .setHashCodes(env.hashCitationRecord(_)).setMaxHashFraction(env.maxCitationHashFraction) //.setAllowAllRootValues(true)
+    .setPhraseDuplicates(env.numCitationDups).setSimilarities(env.minCitationSim, env.maxCitationSim)
+    .reinit().asInstanceOf[SimpleEntityRecord]
+  citationRecord
+    .addField(otherField).addField(authorField).addField(titleField).addField(booktitleField).addField(journalField)
+
+  // initialize constraints
+  val constraintFns = new ArrayBuffer[ConstraintFunction]
+
+  // most author mentions are similar to entity values
+  authorField.cacheAll()
+  val authorMentionMatchesPredicate = new FieldMentionAlignPredicateProcessor(mentions, authorField,
+    "author_mention_matches_entity_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined &&
+        PersonNameHelper.isNameMatch(m.words.slice(begin, end), fv.field.getValuePhrase(fv.valueId))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  authorMentionMatchesPredicate.featureValue = -1
+  authorMentionMatchesPredicate.targetProportion = 0.9
+  authorField.clearAll()
+  constraintFns += authorMentionMatchesPredicate
+
+  // if mention differs most of the time it is not aligned with entity
+  val authorMentionDifferentPredicate = new NegationAlignSegmentPredicate("author_mention_differs_from_entity_value")
+  authorMentionDifferentPredicate ++= authorMentionMatchesPredicate
+  authorMentionDifferentPredicate.targetProportion = 0.1
+  constraintFns += authorMentionDifferentPredicate
+
+  // almost all title mentions are similar to entity values
+  titleField.cacheAll()
+  val titleMentionMatchesPredicate = new FieldMentionAlignPredicateProcessor(mentions, titleField,
+    "title_mention_matches_entity_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined &&
+        TitleHelper.isTitleSimilar(m.words.slice(begin, end), fv.field.getValuePhrase(fv.valueId))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  titleMentionMatchesPredicate.featureValue = -1
+  titleMentionMatchesPredicate.targetProportion = 0.99
+  titleField.clearAll()
+  constraintFns += titleMentionMatchesPredicate
+
+  // if mention differs almost all of the time it is not aligned with title entity
+  val titleMentionDifferentPredicate = new NegationAlignSegmentPredicate("title_mention_differs_from_entity_value")
+  titleMentionDifferentPredicate ++= titleMentionMatchesPredicate
+  titleMentionDifferentPredicate.targetProportion = 0.01
+  constraintFns += titleMentionDifferentPredicate
+
+  // most booktitle mentions that are similar are aligned
+  booktitleField.cacheAll()
+  val booktitleMentionMatchesPredicate = new FieldMentionAlignPredicateProcessor(mentions, booktitleField,
+    "booktitle_mention_matches_entity_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined &&
+        BooktitleHelper.isBooktitleSimilar(m.words.slice(begin, end), fv.field.getValuePhrase(fv.valueId))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  booktitleMentionMatchesPredicate.featureValue = -1
+  booktitleMentionMatchesPredicate.targetProportion = 0.7
+  booktitleField.clearAll()
+  constraintFns += booktitleMentionMatchesPredicate
+
+  val booktitleMentionDiffersPredicate = new NegationAlignSegmentPredicate("booktitle_mention_differs_from_entity_value")
+  booktitleMentionDiffersPredicate ++= booktitleMentionMatchesPredicate
+  booktitleMentionDiffersPredicate.targetProportion = 0.3
+  constraintFns += booktitleMentionDiffersPredicate
+
+  // most journal mentions that are similar are aligned
+  journalField.cacheAll()
+  val journalMentionMatchesPredicate = new FieldMentionAlignPredicateProcessor(mentions, journalField,
+    "journal_mention_matches_entity_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined &&
+        JournalHelper.isJournalSimilar(m.words.slice(begin, end), fv.field.getValuePhrase(fv.valueId))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  journalMentionMatchesPredicate.featureValue = -1
+  journalMentionMatchesPredicate.targetProportion = 0.7
+  journalField.clearAll()
+  constraintFns += journalMentionMatchesPredicate
+
+  val journalMentionDiffersPredicate = new NegationAlignSegmentPredicate("journal_mention_differs_from_entity_value")
+  journalMentionDiffersPredicate ++= journalMentionMatchesPredicate
+  journalMentionDiffersPredicate.targetProportion = 0.3
+  constraintFns += journalMentionDiffersPredicate
+
+  // most citation mentions that are similar are aligned
+  citationRecord.cacheAll()
+  val citationMentionMatchesPredicate = new FieldMentionAlignPredicateProcessor(mentions, citationRecord,
+    "citation_mention_matches_entity_value", (fv: FieldValue, m: Mention, begin: Int, end: Int) => {
+      fv.valueId.isDefined &&
+        CitationHelper.isCitationSimilar(m.words.slice(begin, end), fv.field.getValuePhrase(fv.valueId))
+    }).run().asInstanceOf[AlignSegmentPredicate]
+  citationMentionMatchesPredicate.featureValue = -1
+  citationMentionMatchesPredicate.targetProportion = 0.7
+  citationRecord.clearAll()
+  constraintFns += citationMentionMatchesPredicate
+
+  val citationMentionDiffersPredicate = new NegationAlignSegmentPredicate("citation_mention_differs_from_entity_value")
+  citationMentionDiffersPredicate ++= citationMentionMatchesPredicate
+  citationMentionDiffersPredicate.targetProportion = 0.3
+  constraintFns += citationMentionDiffersPredicate
+
+  val totalMentions = mentions.count.toInt
+  // there is at most one title segment
+  val countTitlePredicate = new CountFieldEmissionTypePredicate("title_count", titleField.name)
+  val likelyTitleCount = (1.1 * titleMentionMatchesPredicate.map(_.mentionSegment.mentionId).size) / totalMentions
+  logger.info("likely title count=" + likelyTitleCount)
+  countTitlePredicate.targetProportion = 1
+  constraintFns += countTitlePredicate
+
+  // very few citation records have null title
+  val noTitleEntityForCitationEntityPredicate = new RecordValuesFieldValueIsNullPredicate(
+    "title_entity_null_for_citation_entity", titleField.name, citationRecord.name)
+  noTitleEntityForCitationEntityPredicate.targetProportion = 0.1
+  constraintFns += noTitleEntityForCitationEntityPredicate
+
+  val noAuthorEntityForCitationEntityPredicate = new RecordValuesFieldValueIsNullPredicate(
+    "author_entity_null_for_citation_entity", authorField.name, citationRecord.name)
+  noAuthorEntityForCitationEntityPredicate.targetProportion = 0.1
+  constraintFns += noAuthorEntityForCitationEntityPredicate
+
+  val noBooktitleEntityForCitationEntityPredicate = new RecordValuesFieldValueIsNullPredicate(
+    "booktitle_entity_null_for_citation_entity", booktitleField.name, citationRecord.name)
+  noBooktitleEntityForCitationEntityPredicate.targetProportion = 0.5
+  constraintFns += noBooktitleEntityForCitationEntityPredicate
+
+  val noJournalEntityForCitationEntityPredicate = new RecordValuesFieldValueIsNullPredicate(
+    "journal_entity_null_for_citation_entity", journalField.name, citationRecord.name)
+  noJournalEntityForCitationEntityPredicate.targetProportion = 0.5
+  constraintFns += noJournalEntityForCitationEntityPredicate
+
+  val (params, constraintParams) = new SemiSupervisedJointSegmentationLearner(mentions, citationRecord)
+    .learn(5, 20, 20, constraintFns, textWeight = 1e-1, evalQuery = env.evalQuery)
+  logger.info("params: " + params)
+  val evalName = env.rexaName
+  val evalStats = new ConstrainedSegmentationEvaluator(evalName, mentions,
+    params, constraintParams, constraintFns, citationRecord, true, env.evalQuery).run()
+    .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+  TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
+  new MentionWebpageStorer(mentions, evalName, citationRecord, params, constraintParams, constraintFns, 1500, 5000).run()
+  EntityMemcachedClient.shutdown()
+}
+
+object Rexa1kMain extends RexaRunMain(Rexa1kEnv) with App
+

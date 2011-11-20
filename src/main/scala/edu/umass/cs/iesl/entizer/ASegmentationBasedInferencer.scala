@@ -69,6 +69,14 @@ class AlignSegmentPredicate(val predicateName: String)
     this(FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end)))
 }
 
+class NegationAlignSegmentPredicate(val predicateName: String)
+  extends HashSet[FieldValueMentionSegment] with DefaultConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    currFieldValue.valueId.isDefined &&
+      !this(FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end)))
+}
+
 class InstanceCountFieldEmissionType(val mentionId: ObjectId, val predicateName: String,
                                      val fieldType: String) extends DefaultConstraintFunction {
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
@@ -91,6 +99,21 @@ class CountFieldTransitionTypePredicate(val predicateName: String, val prevField
   def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
             mention: Mention, begin: Int, end: Int) =
     currFieldValue.field.name == currFieldType && prevFieldName == prevFieldType
+}
+
+class RecordValuesFieldValueIsNullPredicate(val predicateName: String, val fieldType: String, val recordType: String)
+  extends DefaultConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    rootFieldValue.valueId.isDefined && !currFieldValue.valueId.isDefined &&
+      rootFieldValue.field.name == recordType && currFieldValue.field.name == fieldType
+}
+
+class RecordValueIsNullPredicate(val predicateName: String, val recordType: String,
+                                 val startFieldName: String = "$START$") extends DefaultConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    !rootFieldValue.valueId.isDefined && prevFieldName == startFieldName && rootFieldValue.field.name == recordType
 }
 
 trait SparseConstraintFunction extends ConstraintFunction {
@@ -175,7 +198,24 @@ class SparseFieldValuePerRecordValue(val fieldType: String, val recordType: Stri
       rootFieldValue.field.name == recordType && currFieldValue.field.name == fieldType
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                        mention: Mention, begin: Int, end: Int) = ("sparse", fieldType, recordType, rootFieldValue.valueId)
+                        mention: Mention, begin: Int, end: Int) =
+    ("sparse_field_per_record", fieldType, recordType, rootFieldValue.valueId)
+
+  def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
+}
+
+class SparseRecordValueFieldValuePerMention(val fieldType: String, val recordType: String,
+                                            val sigma: Double = 1.0, val noise: Double = 1e-4)
+  extends SparseConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    rootFieldValue.valueId.isDefined && currFieldValue.valueId.isDefined &&
+      rootFieldValue.field.name == recordType && currFieldValue.field.name == fieldType
+
+  override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                        mention: Mention, begin: Int, end: Int) =
+    ("sparse_record_field_per_mention", fieldType, recordType, rootFieldValue.valueId, mention.id)
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                  mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
@@ -358,13 +398,16 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
         }
       }
     }
-    // logger.debug("possible values: " + rootPossibleValues)
+    // logger.info("possible values: " + rootPossibleValues + " for mention: " + example.words.mkString(" "))
     rootPossibleValues
   }
 
   def getRootPossibleValues(rootValue: FieldValue): HashSet[FieldValue] = {
-    if (root.isInstanceOf[SimpleEntityRecord]) getEntityRootPossibleValues(rootValue)
-    else null.asInstanceOf[HashSet[FieldValue]]
+    if (root.isInstanceOf[SimpleEntityRecord]) {
+      val rootEntity = root.asInstanceOf[SimpleEntityRecord]
+      if (rootValue.valueId.isDefined || !rootEntity.allowAllRootValues) getEntityRootPossibleValues(rootValue)
+      else null.asInstanceOf[HashSet[FieldValue]]
+    } else null.asInstanceOf[HashSet[FieldValue]]
   }
 
   def createHypergraph(H: Hypergraph[Widget]) {
@@ -379,9 +422,20 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
           for (currField <- root.getFields) {
             for (end <- (begin + 1) to math.min(begin + currField.maxSegmentLength, N)
                  if isAllowed(currField, begin, end)) {
-              for (currFieldValue <- currField.getPossibleValues(mentionId, begin, end)
-                   if rootPossibleValues == null || rootPossibleValues(currFieldValue)) {
+              val currFieldValues: Seq[FieldValue] = {
+                if (currField.isInstanceOf[EntityField]) {
+                  val currEntField = currField.asInstanceOf[EntityField]
+                  if (currEntField.allowAllRootValues && rootPossibleValues != null)
+                    rootPossibleValues.filter(_.field.name == currField.name).toSeq
+                  else
+                    currField.getPossibleValues(mentionId, begin, end)
+                } else {
+                  currField.getPossibleValues(mentionId, begin, end)
+                }
+              }
+              for (currFieldValue <- currFieldValues if rootPossibleValues == null || rootPossibleValues(currFieldValue)) {
                 tmpadded += 1
+                // if (currFieldValue.valueId.isDefined)
                 // logger.info("Using " + Seq(rootValue, currFieldValue) + " for generating '" + words.slice(begin, end).mkString(" ") + "'")
                 H.addEdge(node, gen(rootValue, rootPossibleValues, currFieldValue, end), new Info {
                   def getWeight = score(rootValue, prevFieldValue.field.name, currFieldValue, begin, end)
@@ -417,6 +471,7 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
                if isAllowed(currField, begin, end)) {
             for (currFieldValue <- currField.getPossibleValues(mentionId, begin, end)
                  if rootPossibleValues == null || rootPossibleValues(currFieldValue)) {
+              // if (currFieldValue.valueId.isDefined)
               // logger.info("Using " + Seq(rootValue, currFieldValue) + " for generating '" + words.slice(begin, end).mkString(" ") + "'")
               H.addEdge(H.sumStartNode(), gen(rootValue, rootPossibleValues, currFieldValue, end), new Info {
                 def getWeight = score(rootValue, startFieldName, currFieldValue, begin, end)
@@ -449,7 +504,17 @@ class DefaultSegmentationInferencer(val root: FieldCollection, val example: Ment
                                     val params: Params, val counts: Params, val ispec: SimpleInferSpec,
                                     val startFieldName: String = "$START$")
   extends ASegmentationBasedInferencer {
-  override def getRootValues(begin: Int, end: Int) = super.getRootValues(begin, end).filter(!_.valueId.isDefined)
+  override def getRootValues(begin: Int, end: Int) = {
+    val possibleRootValues = new HashSet[FieldValue]
+    possibleRootValues += FieldValue(root, None)
+    possibleRootValues
+  }
+
+  override def getRootPossibleValues(rootValue: FieldValue) = {
+    val possibleValues = new HashSet[FieldValue]
+    for (field <- root.getFields) possibleValues += FieldValue(field, None)
+    possibleValues
+  }
 
   def score(rootValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
             begin: Int, end: Int) = {

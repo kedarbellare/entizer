@@ -11,6 +11,7 @@ trait StringSimilarityHelper {
   val JWINK = new JaroWinkler
   val LEVENSTEIN = new Levenshtein
   val QGRAMSIM = new QGramsDistance()
+  val COSINESIM = new CosineSimilarity()
   val SMITHWATERMAN_AFFINE = new SmithWatermanGotohWindowedAffine()
 
   def quote(phr: Seq[String]) = phr.mkString("'", " ", "'")
@@ -406,8 +407,8 @@ object JournalHelper extends StringSimilarityHelper {
 
   def getJournalSimilarity(phr1: Seq[String], phr2: Seq[String],
                            tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Double = {
-    val bag1 = new HashSet[String] ++ normalizeJournal(phr1)
-    val bag2 = new HashSet[String] ++ normalizeJournal(phr2)
+    val bag1 = new HashSet[String] ++ (if (normalize) normalizeJournal(phr1) else phr1)
+    val bag2 = new HashSet[String] ++ (if (normalize) normalizeJournal(phr2) else phr2)
     val bag1Size = 1.0 * bag1.size
     val bag2Size = 1.0 * bag2.size
     var numIntersection = 0.0
@@ -447,5 +448,22 @@ object JournalHelper extends StringSimilarityHelper {
       val phr2 = s2.split(" ")
       println(s1 + " -> " + s2 + ": " + getJournalSimilarity(phr1, phr2))
     }
+  }
+}
+
+object CitationHelper extends StringSimilarityHelper {
+  def normalizeCitation(phrase: Seq[String]) =
+    phrase.map(_.toLowerCase.replaceAll("[^a-z]+", "")).filter(s => {
+      s.length() > 0
+    })
+
+  def getCitationSimilarity(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Double = {
+    val citation1 = (if (normalize) normalizeCitation(phr1) else phr1).mkString(" ")
+    val citation2 = (if (normalize) normalizeCitation(phr2) else phr2).mkString(" ")
+    COSINESIM.getSimilarity(citation1, citation2)
+  }
+
+  def isCitationSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
+    getCitationSimilarity(phr1, phr2, normalize) >= 0.7
   }
 }

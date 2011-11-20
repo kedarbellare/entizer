@@ -219,7 +219,8 @@ class ConstrainedSegmentationEvaluator(val evalName: String, val inputColl: Mong
 
 class SupervisedSegmentationOnlyLearner(val mentionColl: MongoCollection, val root: FieldCollection,
                                         val useOracle: Boolean = false) extends HasLogger {
-  def learn(numIter: Int, initParams: Params = new Params, invVariance: Double = 1.0) = {
+  def learn(numIter: Int, initParams: Params = new Params, invVariance: Double = 1.0,
+            evalQuery: MongoDBObject = MongoDBObject("isRecord" -> false)) = {
     // initialize parameters first
     val params = new DefaultParameterInitializer(root, mentionColl, initParams).run()
       .asInstanceOf[(Params, ProbStats)]._1
@@ -397,7 +398,8 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
             constraintFns: Seq[ConstraintFunction] = Seq.empty[ConstraintFunction],
             initParams: Params = new Params, initConstraintParams: Params = new Params,
             invVariance: Double = 1, constraintInvVariance: Double = 0,
-            recordWeight: Double = 1, textWeight: Double = 1e-2) = {
+            recordWeight: Double = 1, textWeight: Double = 1e-2,
+            evalQuery: MongoDBObject = MongoDBObject("isRecord" -> false)) = {
     // initialize parameters first
     val params = new DefaultParameterInitializer(root, mentionColl, initParams).run()
       .asInstanceOf[(Params, ProbStats)]._1
@@ -413,7 +415,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
 
       paramLearn(numParamIter, constraintFns, params, constraintParams, recordWeight, textWeight, invVariance)
       val paramEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
-        params, constraintParams, constraintFns, root).run()
+        params, constraintParams, constraintFns, root, evalQuery = evalQuery).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
         paramEvalStats, logger.info(_))
@@ -421,7 +423,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
       constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight)
       // logger.info("constraintParams:" + constraintParams)
       val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
-        params, constraintParams, constraintFns, root).run()
+        params, constraintParams, constraintFns, root, evalQuery = evalQuery).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-constraint-iteration-" + iter,
         constraintEvalStats, logger.info(_))
