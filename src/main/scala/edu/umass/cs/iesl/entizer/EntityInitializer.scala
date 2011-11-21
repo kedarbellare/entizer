@@ -2,6 +2,7 @@ package edu.umass.cs.iesl.entizer
 
 import com.mongodb.casbah.Imports._
 import collection.mutable.{HashMap, HashSet}
+import com.mongodb.casbah.Imports
 
 /**
  * @author kedar
@@ -89,7 +90,7 @@ class EntityIdToPhraseProcessor(val fieldName: String, val phraseType: String,
 }
 
 class EntityIdToMentionSegmentProcessor(val fieldName: String, val inputColl: MongoCollection)
-extends ParallelCollectionProcessor {
+  extends ParallelCollectionProcessor {
   def name = "entityIdToMentionSegment[name=" + fieldName + "]"
 
   def inputJob = JobCenter.Job(select = MongoDBObject("mentionId" -> 1, "begin" -> 1, "end" -> 1))
@@ -147,7 +148,7 @@ class EntityFieldMentionPossibleValueProcessor(val inputColl: MongoCollection, v
   extends FieldMentionSegmentAlignProcessor {
   val entityField = field.asInstanceOf[EntityField]
   val logN = math.log(1.0 * entityField.size)
-  
+
   def name = "entityPossibleValues[field=" + fieldName + "]"
 
   // (mentionId, begin, end) -> Seq(valueId)
@@ -223,5 +224,43 @@ class FieldMentionAlignPredicateProcessor(val inputColl: MongoCollection, val fi
         partialAlignPredicate += FieldValueMentionSegment(fieldValue, mentionSegment)
       }
     }
+  }
+}
+
+class InferenceAlignSegmentProcessor(val inputColl: MongoCollection, val root: FieldCollection, val field: Field,
+                                     val predicateName: String,
+                                     val predicateFn: (FieldValue, Mention, Int, Int) => Boolean)
+  extends ParallelCollectionProcessor {
+  def name = "inferedAlignSegmentProcessor[field=" + field.name + "][predicate=" + predicateName + "]"
+
+  def inputJob = JobCenter.Job(select = MongoDBObject("isRecord" -> 1, "words" -> 1, "bioLabels" -> 1,
+    "possibleEnds" -> 1, "features" -> 1, "cluster" -> 1))
+
+  override def newOutputParams(isMaster: Boolean = false) =
+    if (isMaster) new AlignSegmentPredicate(predicateName)
+    else new AlignSegmentPredicate(predicateName) {
+      override def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                         mention: Mention, begin: Int, end: Int) = {
+        val alignment = FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end))
+        if (!this.contains(alignment)) {
+          if (predicateFn(currFieldValue, mention, begin, end)) {
+            this += alignment
+            true
+          } else false
+        } else true
+      }
+    }
+
+  override def merge(outputParams: Any, partialOutputParams: Any) {
+    outputParams.asInstanceOf[AlignSegmentPredicate] ++= partialOutputParams.asInstanceOf[AlignSegmentPredicate]
+  }
+
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
+    val mention = new Mention(dbo).setFeatures(dbo)
+    val params = new Params
+    val constraintParams = new Params
+    new ConstrainedSegmentationInferencer(root, mention, params, params, constraintParams, constraintParams,
+      Seq(partialOutputParams.asInstanceOf[AlignSegmentPredicate]),
+      SimpleInferSpec(trueSegmentInfer = mention.isRecord, stepSize = 0))
   }
 }

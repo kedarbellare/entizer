@@ -353,7 +353,8 @@ object TitleHelper extends StringSimilarityHelper {
   }
 
   def isTitleSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
-    getTitleSimilarity(phr1, phr2, normalize) >= 0.95
+    if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
+    else getTitleSimilarity(phr1, phr2, normalize) >= 0.95
   }
 }
 
@@ -366,7 +367,7 @@ object BooktitleHelper extends StringSimilarityHelper {
     "|eightieth|nine?tieth|twentieth|hundredth" + ")"
 
   def normalizeBooktitle(phrase: Seq[String]) =
-    phrase.map(_.toLowerCase.replaceAll("[^a-z]+", "")).filter(s => {
+    phrase.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(s => {
       s.length() > 0 && !s.matches("(proc|proceedings|in|of|the|and|on|by|for|to|&)") &&
         !s.matches(ORDINAL1) && !s.matches(ORDINAL2)
     }).sortWith(_.compareTo(_) < 0)
@@ -382,7 +383,8 @@ object BooktitleHelper extends StringSimilarityHelper {
   }
 
   def isBooktitleSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
-    getBooktitleSimilarity(phr1, phr2, normalize) >= 0.95
+    if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
+    else getBooktitleSimilarity(phr1, phr2, normalize) >= 0.95
   }
 }
 
@@ -439,7 +441,8 @@ object JournalHelper extends StringSimilarityHelper {
 
   def isJournalSimilar(phr1: Seq[String], phr2: Seq[String],
                        tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Boolean = {
-    getJournalSimilarity(phr1, phr2, tokenMatchThreshold, normalize) >= 0.95
+    if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
+    else getJournalSimilarity(phr1, phr2, tokenMatchThreshold, normalize) >= 0.95
   }
 
   def main(args: Array[String]) {

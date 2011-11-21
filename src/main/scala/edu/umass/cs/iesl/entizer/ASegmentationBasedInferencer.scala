@@ -69,11 +69,11 @@ class AlignSegmentPredicate(val predicateName: String)
     this(FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end)))
 }
 
-class NegationAlignSegmentPredicate(val predicateName: String)
+class NegationAlignSegmentPredicate(val predicateName: String, val fieldType: String)
   extends HashSet[FieldValueMentionSegment] with DefaultConstraintFunction {
   def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
             mention: Mention, begin: Int, end: Int) =
-    currFieldValue.valueId.isDefined &&
+    currFieldValue.valueId.isDefined && currFieldValue.field.name == fieldType &&
       !this(FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end)))
 }
 

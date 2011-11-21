@@ -86,12 +86,8 @@ class MentionWebpageStorer(val inputColl: MongoCollection, val outputDirname: St
 
   def getEntityLink(fieldValue: FieldValue) = getEntityPage(fieldValue) + "#" + getEntityName(fieldValue)
 
-  def run() {
-    val start = now()
-
-    for (dbo <- inputColl.find(MongoDBObject("isRecord" -> true)).take(maxRecords) ++
-      inputColl.find(MongoDBObject("isRecord" -> false)).take(maxTexts); mention = new Mention(dbo).setFeatures(dbo)) {
-      val mentionLink = getMentionLink(mention.id)
+  def processMention(mention: Mention) {
+          val mentionLink = getMentionLink(mention.id)
       val mentionPhrase = mention.words.mkString(" ")
       writeTo(mentionsPage, "<li><a name='" + getMentionName(mention.id) + "'><b>mention " + mention.id + "</b></a><br>")
       writeTo(mentionsPage, "<b>true cluster</b>:&nbsp;" +
@@ -134,7 +130,20 @@ class MentionWebpageStorer(val inputColl: MongoCollection, val outputDirname: St
       writeTo(mentionsPage, "<br/>")
       writeTo(mentionsPage, "<b>predicted cluster</b>:&nbsp;<a href='" + getEntityLink(recordEntity) + "'>" + getEntityName(recordEntity) + "</a>")
       writeTo(mentionsPage, "</li><br>")
-    }
+  }
+
+  def run() {
+    val start = now()
+
+    var cursor = inputColl.find(MongoDBObject("isRecord" -> true)).limit(maxRecords)
+    cursor.options = 16
+    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(mention)
+    cursor.close()
+
+    cursor = inputColl.find(MongoDBObject("isRecord" -> false)).limit(maxTexts)
+    cursor.options = 16
+    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(mention)
+    cursor.close()
 
     for ((fieldValue, mentionValues) <- entityToMentionValue) {
       val entityPage = getEntityPage(fieldValue)
