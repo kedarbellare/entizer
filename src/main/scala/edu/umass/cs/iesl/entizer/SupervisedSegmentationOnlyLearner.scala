@@ -8,6 +8,7 @@ import optimization.gradientBasedMethods.stats.OptimizerStats
 import java.io.PrintWriter
 import optimization.linesearch.{InterpolationPickFirstStep, ArmijoLineSearchMinimizationAlongProjectionArc, ArmijoLineSearchMinimization}
 import optimization.gradientBasedMethods._
+import collection.mutable.HashMap
 
 /**
  * @author kedar
@@ -20,6 +21,30 @@ abstract class ParameterProcessor(root: FieldCollection, initParams: Params, use
     select = MongoDBObject("isRecord" -> 1, "words" -> 1, "features" -> 1, "bioLabels" -> 1,
       "possibleEnds" -> 1, "cluster" -> 1))
 
+  override def newOutputParams(isMaster: Boolean = false) = {
+    val params = new Params
+    params.copy(initParams)
+    (params, new ProbStats())
+  }
+
+  override def merge(outputParams: Any, partialOutputParams: Any) {
+    val output = outputParams.asInstanceOf[(Params, ProbStats)]
+    val partialOutput = partialOutputParams.asInstanceOf[(Params, ProbStats)]
+    output._1.increment(partialOutput._1, 1)
+    output._2 += partialOutput._2
+  }
+
+  def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats)
+
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
+    val mention = new Mention(dbo).setFeatures(dbo)
+    val partialOutput = partialOutputParams.asInstanceOf[(Params, ProbStats)]
+    processMention(mention, partialOutput._1, partialOutput._2)
+  }
+}
+
+abstract class NewParameterProcessor(root: FieldCollection, initParams: Params)
+  extends ParallelObjectSeqProcessor {
   override def newOutputParams(isMaster: Boolean = false) = {
     val params = new Params
     params.copy(initParams)
@@ -57,6 +82,32 @@ class ConstrainedParameterInitializer(val root: FieldCollection, val inputColl: 
                                       val useOracle: Boolean = true)
   extends ParameterProcessor(root, initConstraintParams, useOracle) {
   def name = "constrainedParameterInitializer"
+
+  def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats) {
+    new ConstrainedSegmentationInferencer(root, mention, params, params, partialParams, partialParams, constraintFns, SimpleInferSpec())
+  }
+}
+
+class NewConstrainedParameterInitializer(val root: FieldCollection, val inputColl: Seq[DBObject], val params: Params,
+                                         val initConstraintParams: Params, val constraintFns: Seq[ConstraintFunction])
+  extends NewParameterProcessor(root, initConstraintParams) {
+  def name = "constrainedParameterInitializer"
+
+  def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats) {
+    new ConstrainedSegmentationInferencer(root, mention, params, params, partialParams, partialParams, constraintFns, SimpleInferSpec())
+  }
+}
+
+class QueryConstrainedParameterInitializer(val root: FieldCollection, val inputColl: MongoCollection, val params: Params,
+                                           val initConstraintParams: Params, val constraintFns: Seq[ConstraintFunction],
+                                           val evalQuery: MongoDBObject = MongoDBObject("isRecord" -> false))
+  extends ParameterProcessor(root, initConstraintParams, true) {
+  def name = "queryConstrainedParameterInitializer[query=" + evalQuery + "]"
+
+  override def inputJob = JobCenter.Job(
+    query = evalQuery,
+    select = MongoDBObject("isRecord" -> 1, "words" -> 1, "features" -> 1, "bioLabels" -> 1,
+      "possibleEnds" -> 1, "cluster" -> 1))
 
   def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats) {
     new ConstrainedSegmentationInferencer(root, mention, params, params, partialParams, partialParams, constraintFns, SimpleInferSpec())
@@ -299,7 +350,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
         inferencer.updateCounts()
       }
     }.run().asInstanceOf[(Params, ProbStats)]._1
-    // logger.info("constraint target:" + constraintTarget)
+    logger.info("constraint target:" + constraintTarget.get("default"))
 
     val objective = new ACRFObjective(constraintParams, constraintInvVariance) {
       def getValueAndGradient = {
@@ -320,7 +371,7 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
         stats.logZ += constraintParams.dot(constraintTarget)
         // add constraints
         expectations.increment(constraintTarget, 1)
-        // logger.info("gradient: " + expectations)
+        logger.info("gradient: " + expectations.get("default"))
         (expectations, stats)
       }
     }
@@ -414,21 +465,244 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
       logger.info("=== starting outer iteration=" + iter)
 
       constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight)
-      // logger.info("constraintParams:" + constraintParams)
+      logger.info("constraintParams:" + constraintParams.get("default"))
       val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
-        params, constraintParams, constraintFns, root, true, evalQuery = evalQuery).run()
+        params, constraintParams, constraintFns, root, false, evalQuery = evalQuery).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-constraint-iteration-" + iter,
         constraintEvalStats, logger.info(_))
 
       paramLearn(numParamIter, constraintFns, params, constraintParams, recordWeight, textWeight, invVariance)
       val paramEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
-        params, constraintParams, constraintFns, root, true, evalQuery = evalQuery).run()
+        params, constraintParams, constraintFns, root, false, evalQuery = evalQuery).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
         paramEvalStats, logger.info(_))
     }
 
     (params, constraintParams)
+  }
+}
+
+class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, val root: FieldCollection,
+                                                       val weightsColl: MongoCollection, val useOracle: Boolean = true)
+  extends HasLogger {
+  weightsColl.ensureIndex(MongoDBObject("group" -> 1))
+  weightsColl.ensureIndex(MongoDBObject("group" -> 1, "feature" -> 1))
+
+  private def storeConstraintParams(constraintParams: Params) {
+    val startTime = System.currentTimeMillis()
+    logger.info("Starting storeConstraintParameters")
+    for (group <- constraintParams.keys) {
+      val wtvec = constraintParams.get(group)
+      for (feat <- wtvec.keys) {
+        val wt = wtvec.get(feat)
+        weightsColl.update(MongoDBObject("group" -> group, "feature" -> feat), $set("weight" -> wt), true, false)
+      }
+    }
+    logger.info("Completed storeConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
+  }
+
+  private def loadConstraintParams(constraintParams: Params) {
+    val startTime = System.currentTimeMillis()
+    logger.info("Starting loadConstraintParameters")
+    for (group <- constraintParams.keys) {
+      val wtvec = constraintParams.get(group)
+      // get all parameters related to the group
+      val key = "constraint_weights_group=" + group
+      var storedWts: Seq[(String, Double)] = null.asInstanceOf[Seq[(String, Double)]]
+      try {
+        storedWts = EntityMemcachedClient.get(key).asInstanceOf[Seq[(String, Double)]]
+      } catch {
+        case toe: Exception => {}
+      }
+      if (storedWts == null) {
+        val wtmap = new HashMap[String, Double]
+        for (feat <- wtvec.keys) wtmap(feat) = wtvec.get(feat)
+        for (dbo <- weightsColl.find(MongoDBObject("group" -> group))) {
+          val feat = dbo.as[String]("feature")
+          val wt = dbo.as[Double]("weight")
+          wtmap(feat) = wt
+        }
+        storedWts = wtmap.toSeq
+      }
+      EntityMemcachedClient.set(key, 3600, storedWts)
+      for ((feat, wt) <- storedWts) wtvec.set(feat, wt)
+    }
+    logger.info("Completed loadConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
+  }
+
+  protected def constraintLearn(numIter: Int, constraintFns: Seq[ConstraintFunction],
+                                params: Params, constraintParams: Params, constraintInvVariance: Double,
+                                recordWeight: Double, textWeight: Double, mentions: Seq[DBObject]) {
+    val constraintTarget = new NewParameterProcessor(root, constraintParams) {
+      def name = "semiSupConstraintTargetInitializer"
+
+      def inputColl = mentions
+
+      def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats) {
+        val constrStpSz = if (mention.isRecord) recordWeight else textWeight
+        val inferencer = new ConstrainedSegmentationInferencer(root, mention, params, params, constraintParams,
+          new Params, constraintFns, SimpleInferSpec(trueSegmentInfer = mention.isRecord, stepSize = 0, constraintStepSize = 0,
+            constraintTargetStepSize = constrStpSz), partialParams)
+        inferencer.updateCounts()
+      }
+    }.run().asInstanceOf[(Params, ProbStats)]._1
+    logger.info("constraint target:" + constraintTarget.get("default"))
+
+    val objective = new ACRFObjective(constraintParams, constraintInvVariance) {
+      def getValueAndGradient = {
+        val (expectations, stats) = new NewParameterProcessor(root, constraintParams) {
+          def name = "semiSupConstraintExpectationInitializer"
+
+          def inputColl = mentions
+
+          def processMention(mention: Mention, partialExpectations: Params, partialStats: ProbStats) {
+            val constrStpSz = if (mention.isRecord) recordWeight else textWeight
+            val predInferencer = new ConstrainedSegmentationInferencer(root, mention, params, params,
+              constraintParams, partialExpectations, constraintFns,
+              SimpleInferSpec(stepSize = 0, constraintStepSize = -constrStpSz))
+            partialStats -= predInferencer.stats * constrStpSz
+            predInferencer.updateCounts()
+          }
+        }.run().asInstanceOf[(Params, ProbStats)]
+        stats.logZ += constraintParams.dot(constraintTarget)
+        // add constraints
+        expectations.increment(constraintTarget, 1)
+        logger.info("gradient: " + expectations.get("default"))
+        (expectations, stats)
+      }
+    }
+
+    val ls = new ArmijoLineSearchMinimizationAlongProjectionArc(new InterpolationPickFirstStep(1))
+    val stop = new AverageValueDifference(1e-4)
+    val optimizer = new ProjectedGradientDescent(ls)
+    val stats = new OptimizerStats {
+      override def collectIterationStats(optimizer: Optimizer, objective: Objective) {
+        super.collectIterationStats(optimizer, objective)
+        logger.info("*** finished constraint alignment+segmentation learning only epoch=" +
+          (optimizer.getCurrentIteration + 1))
+      }
+    }
+    optimizer.setMaxIterations(numIter)
+    optimizer.optimize(objective, stats, stop)
+  }
+
+  protected def paramLearn(numIter: Int, constraintFns: Seq[ConstraintFunction],
+                           params: Params, constraintParams: Params,
+                           recordWeight: Double, textWeight: Double, invVariance: Double,
+                           mentions: Seq[DBObject]) {
+    // initialize constraints
+    val constraints = new NewParameterProcessor(root, params) {
+      def name = "semiSupParamConstraintsInitializer"
+
+      def inputColl = mentions
+
+      def processMention(mention: Mention, partialConstraints: Params, partialStats: ProbStats) {
+        val stpSz = if (mention.isRecord) recordWeight else textWeight
+        val inferencer = new ConstrainedSegmentationInferencer(root, mention, params, partialConstraints,
+          constraintParams, constraintParams, constraintFns,
+          SimpleInferSpec(trueSegmentInfer = mention.isRecord, stepSize = stpSz))
+        inferencer.updateCounts()
+      }
+    }.run().asInstanceOf[(Params, ProbStats)]._1
+
+    val objective = new ACRFObjective(params, invVariance) {
+      def getValueAndGradient = {
+        val (expectations, stats) = new NewParameterProcessor(root, params) {
+          def name = "semiSupParamExpectationsInitializer"
+
+          def inputColl = mentions
+
+          def processMention(mention: Mention, partialExpectations: Params, partialStats: ProbStats) {
+            val stpSz = if (mention.isRecord) recordWeight else textWeight
+            val predInferencer = new DefaultSegmentationInferencer(root, mention, params, partialExpectations,
+              SimpleInferSpec(stepSize = -stpSz))
+            partialStats -= predInferencer.stats * stpSz
+            predInferencer.updateCounts()
+          }
+        }.run().asInstanceOf[(Params, ProbStats)]
+        // logger.info("constraints * params=" + constraints.dot(params))
+        stats.logZ += constraints.dot(params)
+        // add constraints
+        expectations.increment(constraints, 1)
+        (expectations, stats)
+      }
+    }
+
+    // optimize
+    val ls = new ArmijoLineSearchMinimization
+    val stop = new AverageValueDifference(1e-4)
+    val optimizer = new LBFGS(ls, 4)
+    val stats = new OptimizerStats {
+      override def collectIterationStats(optimizer: Optimizer, objective: Objective) {
+        super.collectIterationStats(optimizer, objective)
+        logger.info("*** finished joint segmentation learning epoch=" + (optimizer.getCurrentIteration + 1))
+      }
+    }
+    optimizer.setMaxIterations(numIter)
+    optimizer.optimize(objective, stats, stop)
+  }
+
+  def learn(numBatchIter: Int = 5, numIter: Int = 5, numConstraintIter: Int = 50, numParamIter: Int = 50,
+            batchSize: Int = 10000, constraintFns: Seq[ConstraintFunction] = Seq.empty[ConstraintFunction],
+            initParams: Params = new Params, initConstraintParams: Params = new Params,
+            invVariance: Double = 1, constraintInvVariance: Double = 0,
+            recordWeight: Double = 1, textWeight: Double = 1e-2,
+            evalQuery: MongoDBObject = MongoDBObject("isRecord" -> false)) = {
+    // initialize parameters first
+    val params = new DefaultParameterInitializer(root, mentionColl, initParams).run()
+      .asInstanceOf[(Params, ProbStats)]._1
+    params.increment(initParams, 1)
+    logger.info("#parameters=" + params.numParams + " #paramGroups=" + params.size)
+    val totalMentions = mentionColl.count.toInt
+    val numBatches = (totalMentions + batchSize - 1) / batchSize
+    for (batchIter <- 1 to numBatchIter) {
+      logger.info("=== starting batch iteration=" + batchIter)
+      for (batch <- 0 until numBatches; skip = (batch * batchSize)) {
+        val currBatch = mentionColl.find().skip(skip).limit(batchSize).toSeq
+        val constraintParams = new NewConstrainedParameterInitializer(root, currBatch, params,
+          initConstraintParams, constraintFns).run().asInstanceOf[(Params, ProbStats)]._1
+        constraintParams.increment(initConstraintParams, 1)
+        loadConstraintParams(constraintParams)
+        logger.info("#constraintParameters=" + constraintParams.numParams + " #constraintParamGroups=" + constraintParams.size)
+
+        for (iter <- 1 to numIter) {
+          logger.info("=== starting outer iteration=" + iter)
+
+          constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight, currBatch)
+          logger.info("constraintParams:" + constraintParams.get("default"))
+
+          val initEvalConstraintParams = new Params
+          initEvalConstraintParams.copy(constraintParams, true)
+          val evalConstraintParams = new QueryConstrainedParameterInitializer(root, mentionColl, params, initEvalConstraintParams,
+            constraintFns, evalQuery).run().asInstanceOf[(Params, ProbStats)]._1
+          evalConstraintParams.increment(initEvalConstraintParams, 1)
+          loadConstraintParams(evalConstraintParams)
+
+          val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
+            params, evalConstraintParams, constraintFns, root, false, evalQuery = evalQuery).run()
+            .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+          TextSegmentationHelper.outputEval("semi-sup-segmentation-after-constraint-iteration-" + iter,
+            constraintEvalStats, logger.info(_))
+
+          paramLearn(numParamIter, constraintFns, params, constraintParams, recordWeight, textWeight, invVariance, currBatch)
+          val paramEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
+            params, evalConstraintParams, constraintFns, root, false, evalQuery = evalQuery).run()
+            .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+          TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
+            paramEvalStats, logger.info(_))
+        }
+
+        storeConstraintParams(constraintParams)
+      }
+    }
+
+    // load all constraint params and return
+    val finalConstraintParams = new ConstrainedParameterInitializer(root, mentionColl, params, initConstraintParams,
+      constraintFns, useOracle).run().asInstanceOf[(Params, ProbStats)]._1
+    finalConstraintParams.increment(initConstraintParams, 1)
+    loadConstraintParams(finalConstraintParams)
+    (params, finalConstraintParams)
   }
 }
