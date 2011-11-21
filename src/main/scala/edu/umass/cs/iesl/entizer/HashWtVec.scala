@@ -2,6 +2,7 @@ package edu.umass.cs.iesl.entizer
 
 import collection.mutable.{ArrayBuffer, HashMap}
 import optimization.projections.{BoundsProjection, SimplexProjection, Projection}
+import com.mongodb.casbah.Imports._
 
 /**
  * @author kedar
@@ -24,10 +25,10 @@ object SumZeroProjection extends Projection {
 object PositivityProjection extends BoundsProjection(0.0, Double.PositiveInfinity)
 
 class Params {
-  val dict = new HashMap[Any, Int]
+  val dict = new HashMap[String, Int]
   val vectors = new ArrayBuffer[HashWtVec]
 
-  def get(name: Any, projection: Projection = null): HashWtVec = {
+  def get(name: String, projection: Projection = null): HashWtVec = {
     if (!dict.contains(name)) {
       dict(name) = vectors.size
       val vec = new HashWtVec
@@ -37,7 +38,7 @@ class Params {
     vectors(dict(name))
   }
 
-  def contains(name: Any) = dict.contains(name)
+  def contains(name: String) = dict.contains(name)
 
   def increment(that: Params, scale: Double) {
     for (key <- that.keys) {
@@ -110,37 +111,37 @@ class Params {
 }
 
 class HashWtVec {
-  val dict = new HashMap[Any, Int]
+  val dict = new HashMap[String, Int]
   val weights = new ArrayBuffer[Double]
   var projection: Projection = null
 
-  private def _lookup(key: Any, defaultValue: Double = 0) {
+  private def _lookup(key: String, defaultValue: Double = 0) {
     if (!dict.contains(key)) {
       dict(key) = weights.size
       weights += defaultValue
     }
   }
 
-  def get(key: Any, defaultValue: Double = 0): Double = {
+  def get(key: String, defaultValue: Double = 0): Double = {
     _lookup(key, defaultValue)
     weights(dict(key))
   }
 
-  def contains(key: Any) = dict.contains(key)
+  def contains(key: String) = dict.contains(key)
 
   def keys = dict.keys
 
-  def increment(key: Any, value: Double) {
+  def increment(key: String, value: Double) {
     _lookup(key)
     weights(dict(key)) += value
   }
 
-  def set(key: Any, value: Double) {
+  def set(key: String, value: Double) {
     _lookup(key)
     weights(dict(key)) = value
   }
 
-  def increment(keys: Seq[Any], value: Double) {
+  def increment(keys: Seq[String], value: Double) {
     for (key <- keys) increment(key, value)
   }
 
@@ -148,7 +149,7 @@ class HashWtVec {
     for (key <- that.keys) increment(key, that.get(key) * scale)
   }
 
-  def dot(keys: Seq[Any]) = {
+  def dot(keys: Seq[String]) = {
     var sum = 0.0
     for (key <- keys) sum += get(key)
     sum
@@ -209,10 +210,10 @@ class HashWtVec {
 object HashWtVecTest extends App {
   val wt = new HashWtVec
   wt.projection = new SimplexProjection(1.0)
-  wt.increment(("name", "kedar"), 0.8)
-  wt.increment(("name", "bellare"), 0.7)
-  wt.increment(("name", "kedar"), 0.3)
-  wt.increment(("address", "kedar"), 0.1)
+  wt.increment(("name", "kedar").toString(), 0.8)
+  wt.increment(("name", "bellare").toString(), 0.7)
+  wt.increment(("name", "kedar").toString(), 0.3)
+  wt.increment(("address", "kedar").toString(), 0.1)
   wt.project()
   println(wt.dict)
   println(wt.weights)
@@ -229,10 +230,10 @@ object HashWtVecTest extends App {
 
   val zerowt = new HashWtVec
   zerowt.projection = SumZeroProjection
-  zerowt.increment(("name", "kedar"), 0.8)
-  zerowt.increment(("name", "bellare"), 0.7)
-  zerowt.increment(("name", "kedar"), -0.3)
-  zerowt.increment(("address", "kedar"), -0.1)
+  zerowt.increment(("name", "kedar").toString(), 0.8)
+  zerowt.increment(("name", "bellare").toString(), 0.7)
+  zerowt.increment(("name", "kedar").toString(), -0.3)
+  zerowt.increment(("address", "kedar").toString(), -0.1)
   zerowt.project()
   println(zerowt.dict)
   println(zerowt.weights)
@@ -245,4 +246,69 @@ object HashWtVecTest extends App {
   zerowt.mult(0.3)
   println(zerowt.weights)
 
+  val weightsColl = new MongoRepository("weights_test").collection("weights")
+  weightsColl.ensureIndex(MongoDBObject("group" -> 1))
+  weightsColl.ensureIndex(MongoDBObject("group" -> 1, "feature" -> 1))
+
+  def storeConstraintParams(constraintParams: Params) {
+    val startTime = System.currentTimeMillis()
+    println("Starting storeConstraintParameters")
+    for (group <- constraintParams.keys) {
+      val wtvec = constraintParams.get(group)
+      for (feat <- wtvec.keys) {
+        val wt = wtvec.get(feat)
+        weightsColl.update(MongoDBObject("group" -> group, "feature" -> feat), $set("weight" -> wt), true, false)
+      }
+    }
+    println("Completed storeConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
+  }
+
+  def loadConstraintParams(constraintParams: Params) {
+    val startTime = System.currentTimeMillis()
+    println("Starting loadConstraintParameters")
+    for (group <- constraintParams.keys) {
+      val wtvec = constraintParams.get(group)
+      // get all parameters related to the group
+      val key = "constraint_weights_group=" + group
+      var storedWts: Seq[(String, Double)] = null.asInstanceOf[Seq[(String, Double)]]
+      try {
+        storedWts = EntityMemcachedClient.get(key).asInstanceOf[Seq[(String, Double)]]
+      } catch {
+        case toe: Exception => {}
+      }
+      if (storedWts == null) {
+        val wtmap = new HashMap[String, Double]
+        for (feat <- wtvec.keys) wtmap(feat) = wtvec.get(feat)
+        for (dbo <- weightsColl.find(MongoDBObject("group" -> group))) {
+          val feat = dbo.as[String]("feature")
+          val wt = dbo.as[Double]("weight")
+          wtmap(feat) = wt
+        }
+        storedWts = wtmap.toSeq
+      }
+      EntityMemcachedClient.set(key, 3600, storedWts)
+      for ((feat, wt) <- storedWts) wtvec.set(feat, wt)
+    }
+    println("Completed loadConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
+  }
+  
+  EntityMemcachedClient.flush()
+  val tparams = new Params
+  tparams.get("1").set("a", 0.1)
+  tparams.get("1").set("b", 0.2)
+  tparams.get("1").set("c", 0.3)
+  tparams.get("2").set("a", 0.4)
+  tparams.get("2").set("b", 0.5)
+  storeConstraintParams(tparams)
+  println("storing: " + tparams)
+
+  val lparams = new Params
+  lparams.get("1").set("c", -0.1)
+  lparams.get("1").set("d", -0.2)
+  lparams.get("3").set("a", 0.6)
+  lparams.get("3").set("b", 0.7)
+  println("loading into: " + lparams)
+  loadConstraintParams(lparams)
+  println("loaded: " + lparams)
+  EntityMemcachedClient.shutdown()
 }

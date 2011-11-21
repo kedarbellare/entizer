@@ -41,6 +41,38 @@ trait StringSimilarityHelper {
 
     prev(tlen)
   }
+
+  def getApproxSetSimilarity(phr1: Seq[String], phr2: Seq[String],
+                           tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Double = {
+    val bag1 = new HashSet[String] ++ phr1
+    val bag2 = new HashSet[String] ++ phr2
+    val bag1Size = 1.0 * bag1.size
+    val bag2Size = 1.0 * bag2.size
+    var numIntersection = 0.0
+    bag1.foreach(w => {
+      if (bag2(w)) {
+        numIntersection += 1
+        bag2.remove(w)
+      } else {
+        var bestMatchTok: String = null
+        var bestMatchScore = Double.NegativeInfinity
+        bag2.foreach(ow => {
+          val matchScore = SMITHWATERMAN_AFFINE.getSimilarity(w, ow)
+          if (matchScore > bestMatchScore && matchScore >= tokenMatchThreshold) {
+            bestMatchTok = ow
+            bestMatchScore = matchScore
+          }
+        })
+        if (bestMatchScore >= tokenMatchThreshold) {
+          numIntersection += bestMatchScore
+          bag2.remove(bestMatchTok)
+        }
+      }
+    })
+    val numUnion = bag1Size + bag2Size - numIntersection
+    if (numUnion == 0) 0.0
+    else numIntersection / numUnion
+  }
 }
 
 object PersonNameHelper extends StringSimilarityHelper {
@@ -368,23 +400,23 @@ object BooktitleHelper extends StringSimilarityHelper {
 
   def normalizeBooktitle(phrase: Seq[String]) =
     phrase.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(s => {
-      s.length() > 0 && !s.matches("(proc|proceedings|in|of|the|and|on|by|for|to|&)") &&
+      s.length() > 0 && !s.matches("(in|of|the|and|on|by|for|to|&)") &&
         !s.matches(ORDINAL1) && !s.matches(ORDINAL2)
-    }).sortWith(_.compareTo(_) < 0)
+    })
 
   private def mkBooktitle(phrase: Seq[String], normalize: Boolean = true) =
     (if (normalize) normalizeBooktitle(phrase) else phrase).mkString(" ")
       .replaceAll("^\\s+", "").replaceAll("\\s+$", "").replaceAll("\\s+", " ")
 
-  def getBooktitleSimilarity(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Double = {
-    val booktitle1 = mkBooktitle(phr1, normalize)
-    val booktitle2 = mkBooktitle(phr2, normalize)
-    QGRAMSIM.getSimilarity(booktitle1, booktitle2)
+  def getBooktitleSimilarity(phr1: Seq[String], phr2: Seq[String], tokenMatchThreshold: Double = 0.9,
+                             normalize: Boolean = true): Double = {
+    getApproxSetSimilarity((if (normalize) normalizeBooktitle(phr1) else phr1),
+      (if (normalize) normalizeBooktitle(phr2) else phr2), tokenMatchThreshold, normalize)
   }
 
   def isBooktitleSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
     if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
-    else getBooktitleSimilarity(phr1, phr2, normalize) >= 0.95
+    else getBooktitleSimilarity(phr1, phr2, 0.9, normalize) >= 0.95
   }
 }
 
@@ -404,45 +436,20 @@ object JournalHelper extends StringSimilarityHelper {
 
   def normalizeJournal(phrase: Seq[String]) =
     phrase.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(s => {
-      s.length() > 0 && !s.matches("(j|journal|in|of|the|and|on|by|for|to|&)")
+      s.length() > 0 && !s.matches("(in|of|the|and|on|by|for|to|&)")
     })
 
   def getJournalSimilarity(phr1: Seq[String], phr2: Seq[String],
                            tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Double = {
-    val bag1 = new HashSet[String] ++ (if (normalize) normalizeJournal(phr1) else phr1)
-    val bag2 = new HashSet[String] ++ (if (normalize) normalizeJournal(phr2) else phr2)
-    val bag1Size = 1.0 * bag1.size
-    val bag2Size = 1.0 * bag2.size
-    var numIntersection = 0.0
-    bag1.foreach(w => {
-      if (bag2(w)) {
-        numIntersection += 1
-        bag2.remove(w)
-      } else {
-        var bestMatchTok: String = null
-        var bestMatchScore = Double.NegativeInfinity
-        bag2.foreach(ow => {
-          val matchScore = SMITHWATERMAN_AFFINE.getSimilarity(w, ow)
-          if (matchScore > bestMatchScore && matchScore >= tokenMatchThreshold) {
-            bestMatchTok = ow
-            bestMatchScore = matchScore
-          }
-        })
-        if (bestMatchScore >= tokenMatchThreshold) {
-          numIntersection += bestMatchScore
-          bag2.remove(bestMatchTok)
-        }
-      }
-    })
-    val numUnion = bag1Size + bag2Size - numIntersection
-    if (numUnion == 0) 0.0
-    else numIntersection / numUnion
+    getApproxSetSimilarity((if (normalize) normalizeJournal(phr1) else phr1),
+      (if (normalize) normalizeJournal(phr2) else phr2), tokenMatchThreshold, normalize)
   }
 
   def isJournalSimilar(phr1: Seq[String], phr2: Seq[String],
                        tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Boolean = {
     if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
-    else getJournalSimilarity(phr1, phr2, tokenMatchThreshold, normalize) >= 0.95
+    else getApproxSetSimilarity((if (normalize) normalizeJournal(phr1) else phr1),
+      (if (normalize) normalizeJournal(phr2) else phr2), tokenMatchThreshold, normalize) >= 0.95
   }
 
   def main(args: Array[String]) {

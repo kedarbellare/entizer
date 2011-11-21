@@ -17,7 +17,7 @@ case class SimpleInferSpec(viterbi: Boolean = false, trueSegmentInfer: Boolean =
 
 trait ConstraintFunction {
   def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-               mention: Mention, begin: Int, end: Int): Any = "default"
+               mention: Mention, begin: Int, end: Int): String = "default"
 
   def projection(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                  mention: Mention, begin: Int, end: Int): Projection = PositivityProjection
@@ -29,7 +29,7 @@ trait ConstraintFunction {
             mention: Mention, begin: Int, end: Int): Boolean
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int): Any
+                 mention: Mention, begin: Int, end: Int): String
 
   def targetKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                 mention: Mention, begin: Int, end: Int): Any = mention.id
@@ -80,7 +80,7 @@ class NegationAlignSegmentPredicate(val predicateName: String, val fieldType: St
 class InstanceCountFieldEmissionType(val mentionId: ObjectId, val predicateName: String,
                                      val fieldType: String) extends DefaultConstraintFunction {
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                        mention: Mention, begin: Int, end: Int) = "mention" -> mentionId
+                        mention: Mention, begin: Int, end: Int) = ("mention", mentionId).toString()
 
   def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
             mention: Mention, begin: Int, end: Int) =
@@ -142,10 +142,11 @@ class SparseFieldValuePerMention(val fieldType: String, val sigma: Double = 1.0,
     currFieldValue.valueId.isDefined && currFieldValue.field.name == fieldType
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                        mention: Mention, begin: Int, end: Int) = ("sparse_per_mention", fieldType, mention.id)
+                        mention: Mention, begin: Int, end: Int) =
+    ("sparse_per_mention", fieldType, mention.id).toString()
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
+                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId.toString
 }
 
 class SparseFieldValuesOverall(val fieldType: String, val sigma: Double = 1.0, val noise: Double = 1e-4)
@@ -155,10 +156,11 @@ class SparseFieldValuesOverall(val fieldType: String, val sigma: Double = 1.0, v
     currFieldValue.valueId.isDefined && currFieldValue.field.name == fieldType
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                        mention: Mention, begin: Int, end: Int) = ("sparse_overall", fieldType, currFieldValue.valueId)
+                        mention: Mention, begin: Int, end: Int) =
+    ("sparse_overall", fieldType, currFieldValue.valueId).toString()
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int) = mention.id
+                 mention: Mention, begin: Int, end: Int) = mention.id.toString
 }
 
 class SparseRecordValuePerMention(val recordType: String, val sigma: Double = 1.0, val noise: Double = 1e-4,
@@ -169,10 +171,11 @@ class SparseRecordValuePerMention(val recordType: String, val sigma: Double = 1.
     rootFieldValue.valueId.isDefined && prevFieldName == startFieldName && rootFieldValue.field.name == recordType
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                        mention: Mention, begin: Int, end: Int) = ("sparse_per_mention", recordType, mention.id)
+                        mention: Mention, begin: Int, end: Int) =
+    ("sparse_per_mention", recordType, mention.id).toString()
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int) = rootFieldValue.valueId
+                 mention: Mention, begin: Int, end: Int) = rootFieldValue.valueId.toString
 }
 
 class SparseRecordValuesOverall(val recordType: String, val sigma: Double = 1.0, val noise: Double = 1e-4,
@@ -183,10 +186,12 @@ class SparseRecordValuesOverall(val recordType: String, val sigma: Double = 1.0,
     rootFieldValue.valueId.isDefined && prevFieldName == startFieldName && rootFieldValue.field.name == recordType
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                        mention: Mention, begin: Int, end: Int) = ("sparse_overall", recordType, rootFieldValue.valueId)
+                        mention: Mention, begin: Int, end: Int) =
+    ("sparse_overall", recordType, rootFieldValue.valueId).toString()
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int) = mention.id
+                 mention: Mention, begin: Int, end: Int) =
+    mention.id.toString
 }
 
 class SparseFieldValuePerRecordValue(val fieldType: String, val recordType: String,
@@ -199,10 +204,10 @@ class SparseFieldValuePerRecordValue(val fieldType: String, val recordType: Stri
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                         mention: Mention, begin: Int, end: Int) =
-    ("sparse_field_per_record", fieldType, recordType, rootFieldValue.valueId)
+    ("sparse_field_per_record", fieldType, recordType, rootFieldValue.valueId).toString()
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
+                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId.toString
 }
 
 class SparseRecordValueFieldValuePerMention(val fieldType: String, val recordType: String,
@@ -215,10 +220,10 @@ class SparseRecordValueFieldValuePerMention(val fieldType: String, val recordTyp
 
   override def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                         mention: Mention, begin: Int, end: Int) =
-    ("sparse_record_field_per_mention", fieldType, recordType, rootFieldValue.valueId, mention.id)
+    ("sparse_record_field_per_mention", fieldType, recordType, rootFieldValue.valueId, mention.id).toString()
 
   def featureKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
-                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId
+                 mention: Mention, begin: Int, end: Int) = currFieldValue.valueId.toString
 }
 
 trait ASimpleHypergraphInferencer[Widget] extends HasLogger {
@@ -298,7 +303,7 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
     }
   }
 
-  def keyTransition(prevFieldName: String) = "transition" -> prevFieldName
+  def keyTransition(prevFieldName: String) = ("transition" -> prevFieldName).toString()
 
   def scoreTransition(prevFieldName: String, currFieldName: String): Double = {
     if (isRecord) 0.0 else params.get(keyTransition(prevFieldName)).get(currFieldName)
@@ -309,7 +314,7 @@ trait ASegmentationBasedInferencer extends ASimpleHypergraphInferencer[FieldValu
       counts.get(keyTransition(prevFieldName)).increment(currFieldName, ispec.stepSize * count)
   }
 
-  def keyEmission(currFieldName: String) = "emission" -> currFieldName
+  def keyEmission(currFieldName: String) = ("emission" -> currFieldName).toString()
 
   def scoreSingleEmission(currFieldName: String, position: Int): Double = {
     val emitKey = currFieldName -> position

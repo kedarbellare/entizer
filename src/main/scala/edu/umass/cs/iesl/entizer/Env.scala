@@ -41,6 +41,32 @@ trait Env extends HasLogger {
     logger.info("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
   }
 
+  def removeSupersegmentAligns(alignSegPred: AlignSegmentPredicate) {
+    val segmentToValues = new HashMap[MentionSegment, Seq[FieldValueMentionSegment]]
+    for (value <- alignSegPred) {
+      segmentToValues(value.mentionSegment) =
+        segmentToValues.getOrElse(value.mentionSegment, Seq.empty[FieldValueMentionSegment]) ++ Seq(value)
+    }
+    var numRemoved = 0
+    for (segment <- segmentToValues.keys) {
+      val begin = segment.begin
+      val end = segment.end
+      for (i <- begin until end; j <- (i + 1) to end if (j - i) < (end - begin)) {
+        val subsegment = MentionSegment(segment.mentionId, i, j)
+        if (segmentToValues.contains(subsegment)) {
+          // remove the segment corresponding to larger one
+          for (supervalue <- segmentToValues(segment)) {
+            if (alignSegPred.remove(supervalue)) {
+              logger.debug("Removing supersegment[" + segment + "] of segment[" + subsegment + "] value: " + supervalue)
+              numRemoved += 1
+            }
+          }
+        }
+      }
+    }
+    logger.info("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
+  }
+
   def isMentionPhraseApproxContainedInValue(fv: FieldValue, m: Mention, begin: Int, end: Int,
                                             transforms: Seq[(Seq[String], Seq[String])],
                                             simThreshold: Double = 0.9): Boolean = {

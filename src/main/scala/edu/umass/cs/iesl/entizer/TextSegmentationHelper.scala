@@ -99,28 +99,28 @@ object TextSegmentationHelper {
 
   def updateEval(truth: TextSegmentation, pred: TextSegmentation, stats: Params) {
     for (segment <- truth if segment.label != "O") {
-      stats.get("segment" -> "OVERALL").increment("true", 1)
-      stats.get("segment" -> segment.label).increment("true", 1)
+      stats.get(("segment" -> "OVERALL").toString()).increment("true", 1)
+      stats.get(("segment"-> segment.label).toString()).increment("true", 1)
       for (i <- segment.begin until segment.end) {
-        stats.get("token" -> "OVERALL").increment("true", 1)
-        stats.get("token" -> segment.label).increment("true", 1)
+        stats.get(("token" -> "OVERALL").toString()).increment("true", 1)
+        stats.get(("token" -> segment.label).toString()).increment("true", 1)
         val predlbl = pred.filter(seg => i >= seg.begin && i < seg.end).head.label
         if (segment.label == predlbl) {
-          stats.get("token" -> "OVERALL").increment("correct", 1)
-          stats.get("token" -> segment.label).increment("correct", 1)
+          stats.get(("token" -> "OVERALL").toString()).increment("correct", 1)
+          stats.get(("token" -> segment.label).toString()).increment("correct", 1)
         }
       }
       if (pred.contains(segment)) {
-        stats.get("segment" -> "OVERALL").increment("correct", 1)
-        stats.get("segment" -> segment.label).increment("correct", 1)
+        stats.get(("segment" -> "OVERALL").toString()).increment("correct", 1)
+        stats.get(("segment" -> segment.label).toString()).increment("correct", 1)
       }
     }
     for (segment <- pred if segment.label != "O") {
-      stats.get("segment" -> "OVERALL").increment("pred", 1)
-      stats.get("segment" -> segment.label).increment("pred", 1)
+      stats.get(("segment" -> "OVERALL").toString()).increment("pred", 1)
+      stats.get(("segment" -> segment.label).toString()).increment("pred", 1)
       for (i <- segment.begin until segment.end) {
-        stats.get("token" -> "OVERALL").increment("pred", 1)
-        stats.get("token" -> segment.label).increment("pred", 1)
+        stats.get(("token" -> "OVERALL").toString()).increment("pred", 1)
+        stats.get(("token" -> segment.label).toString()).increment("pred", 1)
       }
     }
   }
