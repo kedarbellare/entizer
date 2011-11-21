@@ -87,49 +87,52 @@ class MentionWebpageStorer(val inputColl: MongoCollection, val outputDirname: St
   def getEntityLink(fieldValue: FieldValue) = getEntityPage(fieldValue) + "#" + getEntityName(fieldValue)
 
   def processMention(mention: Mention) {
-          val mentionLink = getMentionLink(mention.id)
-      val mentionPhrase = mention.words.mkString(" ")
-      writeTo(mentionsPage, "<li><a name='" + getMentionName(mention.id) + "'><b>mention " + mention.id + "</b></a><br>")
-      writeTo(mentionsPage, "<b>true cluster</b>:&nbsp;" +
-        (if (mention.trueClusterOption.isDefined) mention.trueClusterOption.get else "unknown") + "<br>")
-      writeTo(mentionsPage, "<b>" + (if (mention.isRecord) "record" else "text") + "</b>:&nbsp;" + mentionPhrase + "<br>")
+    val mentionLink = getMentionLink(mention.id)
+    val mentionPhrase = mention.words.mkString(" ")
+    writeTo(mentionsPage, "<li><a name='" + getMentionName(mention.id) + "'><b>mention " + mention.id + "</b></a><br>")
+    writeTo(mentionsPage, "<b>true cluster</b>:&nbsp;" +
+      (if (mention.trueClusterOption.isDefined) mention.trueClusterOption.get else "unknown") + "<br>")
+    writeTo(mentionsPage, "<b>" + (if (mention.isRecord) "record" else "text") + "</b>:&nbsp;" + mentionPhrase + "<br>")
 
-      writeTo(mentionsPage, "<b>true segmentation</b>:&nbsp;")
-      for (segment <- mention.trueWidget) {
-        val lbl = segment.label
-        val begin = segment.begin
-        val end = segment.end
-        val phrase = mention.words.slice(begin, end).mkString(" ")
-        if (lbl == "O") writeTo(mentionsPage, phrase + "&nbsp;")
-        else writeTo(mentionsPage, "<i>" + lbl + "</i>[" + phrase + "]&nbsp;")
+    writeTo(mentionsPage, "<b>true segmentation</b>:&nbsp;")
+    for (segment <- mention.trueWidget) {
+      val lbl = segment.label
+      val begin = segment.begin
+      val end = segment.end
+      val phrase = mention.words.slice(begin, end).mkString(" ")
+      if (lbl == "O") writeTo(mentionsPage, phrase + "&nbsp;")
+      else writeTo(mentionsPage, "<i>" + lbl + "</i>[" + phrase + "]&nbsp;")
+    }
+    writeTo(mentionsPage, "<br>")
+    val inferencer = decode(mention)
+    var recordEntity = FieldValue(root, None)
+    writeTo(mentionsPage, "<b>predicted alignment+segmentation</b>:&nbsp;")
+    for (alignSegment <- inferencer.bestFieldValueTextSegmentation) {
+      val alignment = alignSegment.values
+      recordEntity = alignment(0)
+      val fieldEntity = alignment(1)
+      val segment = alignSegment.segment
+      val lbl = segment.label
+      val begin = segment.begin
+      val end = segment.end
+      val fieldPhrase = mention.words.slice(begin, end).mkString(" ")
+      entityToMentionValue(recordEntity) =
+        entityToMentionValue.getOrElse(recordEntity, new HashSet[(String, String)]) ++ Seq(mentionLink -> mentionPhrase)
+      if (fieldEntity.field.name == "O") {
+        writeTo(mentionsPage, fieldPhrase + "&nbsp;")
+      } else {
+        entityToMentionValue(fieldEntity) =
+          entityToMentionValue.getOrElse(fieldEntity, new HashSet[(String, String)]) ++ Seq(mentionLink -> fieldPhrase)
+        writeTo(mentionsPage, "<a href='" + getEntityLink(fieldEntity) + "'>" + getEntityName(fieldEntity) + "</a>&nbsp;<i>" +
+          lbl + "</i>[" + fieldPhrase + "]&nbsp;")
       }
-      writeTo(mentionsPage, "<br>")
-      val inferencer = decode(mention)
-      var recordEntity = FieldValue(root, None)
-      writeTo(mentionsPage, "<b>predicted alignment+segmentation</b>:&nbsp;")
-      for (alignSegment <- inferencer.bestFieldValueTextSegmentation) {
-        val alignment = alignSegment.values
-        recordEntity = alignment(0)
-        val fieldEntity = alignment(1)
-        val segment = alignSegment.segment
-        val lbl = segment.label
-        val begin = segment.begin
-        val end = segment.end
-        val fieldPhrase = mention.words.slice(begin, end).mkString(" ")
-        entityToMentionValue(recordEntity) =
-          entityToMentionValue.getOrElse(recordEntity, new HashSet[(String, String)]) ++ Seq(mentionLink -> mentionPhrase)
-        if (fieldEntity.field.name == "O") {
-          writeTo(mentionsPage, fieldPhrase + "&nbsp;")
-        } else {
-          entityToMentionValue(fieldEntity) =
-            entityToMentionValue.getOrElse(fieldEntity, new HashSet[(String, String)]) ++ Seq(mentionLink -> fieldPhrase)
-          writeTo(mentionsPage, "<a href='" + getEntityLink(fieldEntity) + "'>" + getEntityName(fieldEntity) + "</a>&nbsp;<i>" +
-            lbl + "</i>[" + fieldPhrase + "]&nbsp;")
-        }
-      }
-      writeTo(mentionsPage, "<br/>")
-      writeTo(mentionsPage, "<b>predicted cluster</b>:&nbsp;<a href='" + getEntityLink(recordEntity) + "'>" + getEntityName(recordEntity) + "</a>")
-      writeTo(mentionsPage, "</li><br>")
+    }
+    println("MENTION_CLUSTER_OUTPUT\t" + mention.id + "\t" + mention.isRecord +
+      "\t" + (if (mention.trueClusterOption.isDefined) mention.trueClusterOption.get.toString else "") +
+      "\t" + (if (recordEntity.valueId.isDefined) recordEntity.valueId.get.toString else ""));
+    writeTo(mentionsPage, "<br/>")
+    writeTo(mentionsPage, "<b>predicted cluster</b>:&nbsp;<a href='" + getEntityLink(recordEntity) + "'>" + getEntityName(recordEntity) + "</a>")
+    writeTo(mentionsPage, "</li><br>")
   }
 
   def run() {

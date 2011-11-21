@@ -411,22 +411,22 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
     logger.info("#constraintParameters=" + constraintParams.numParams + " #constraintParamGroups=" + constraintParams.size)
 
     for (iter <- 1 to numIter) {
-      logger.info("starting outer iteration=" + iter)
-
-      paramLearn(numParamIter, constraintFns, params, constraintParams, recordWeight, textWeight, invVariance)
-      val paramEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
-        params, constraintParams, constraintFns, root, evalQuery = evalQuery).run()
-        .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
-      TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
-        paramEvalStats, logger.info(_))
+      logger.info("=== starting outer iteration=" + iter)
 
       constraintLearn(numConstraintIter, constraintFns, params, constraintParams, constraintInvVariance, recordWeight, textWeight)
       // logger.info("constraintParams:" + constraintParams)
       val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
-        params, constraintParams, constraintFns, root, evalQuery = evalQuery).run()
+        params, constraintParams, constraintFns, root, true, evalQuery = evalQuery).run()
         .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
       TextSegmentationHelper.outputEval("semi-sup-segmentation-after-constraint-iteration-" + iter,
         constraintEvalStats, logger.info(_))
+
+      paramLearn(numParamIter, constraintFns, params, constraintParams, recordWeight, textWeight, invVariance)
+      val paramEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
+        params, constraintParams, constraintFns, root, true, evalQuery = evalQuery).run()
+        .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
+      TextSegmentationHelper.outputEval("semi-sup-segmentation-after-param-iteration-" + iter,
+        paramEvalStats, logger.info(_))
     }
 
     (params, constraintParams)
