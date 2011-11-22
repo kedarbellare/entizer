@@ -86,10 +86,11 @@ class MentionWebpageStorer(val inputColl: MongoCollection, val outputDirname: St
 
   def getEntityLink(fieldValue: FieldValue) = getEntityPage(fieldValue) + "#" + getEntityName(fieldValue)
 
-  def processMention(mention: Mention) {
+  def processMention(src: String, mention: Mention) {
     val mentionLink = getMentionLink(mention.id)
     val mentionPhrase = mention.words.mkString(" ")
     writeTo(mentionsPage, "<li><a name='" + getMentionName(mention.id) + "'><b>mention " + mention.id + "</b></a><br>")
+    writeTo(mentionsPage, "<b>source</b>:&nbsp;" + src + "<br>")
     writeTo(mentionsPage, "<b>true cluster</b>:&nbsp;" +
       (if (mention.trueClusterOption.isDefined) mention.trueClusterOption.get else "unknown") + "<br>")
     writeTo(mentionsPage, "<b>" + (if (mention.isRecord) "record" else "text") + "</b>:&nbsp;" + mentionPhrase + "<br>")
@@ -140,12 +141,12 @@ class MentionWebpageStorer(val inputColl: MongoCollection, val outputDirname: St
 
     var cursor = inputColl.find(MongoDBObject("isRecord" -> true)).limit(maxRecords)
     cursor.options = 16
-    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(mention)
+    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(dbo.as[String]("source"), mention)
     cursor.close()
 
     cursor = inputColl.find(MongoDBObject("isRecord" -> false)).limit(maxTexts)
     cursor.options = 16
-    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(mention)
+    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(dbo.as[String]("source"), mention)
     cursor.close()
 
     for ((fieldValue, mentionValues) <- entityToMentionValue) {
