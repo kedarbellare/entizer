@@ -122,7 +122,7 @@ class BFTBasicMain(val useOracle: Boolean) extends HasLogger {
 
   import BFTestEnv._
 
-  EntityMemcachedClient.flush()
+  EntizerMemcachedClient.flush()
   // get maxlengths
   val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
@@ -145,7 +145,7 @@ class BFTBasicMain(val useOracle: Boolean) extends HasLogger {
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, null, null).run()
-  EntityMemcachedClient.shutdown()
+  EntizerMemcachedClient.shutdown()
 }
 
 object BFTRecordSegmentationOnlyMain extends BFTBasicMain(false) with App
@@ -156,7 +156,7 @@ object BFTConstrainedSegmentationOnlyMain extends App with HasLogger {
 
   import BFTestEnv._
 
-  EntityMemcachedClient.flush()
+  EntizerMemcachedClient.flush()
   // get maxlengths
   val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
@@ -233,7 +233,7 @@ object BFTConstrainedSegmentationOnlyMain extends App with HasLogger {
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, constraintParams, constraintFns).run()
-  EntityMemcachedClient.shutdown()
+  EntizerMemcachedClient.shutdown()
 }
 
 class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: Int, val numListingDups: Int,
@@ -241,7 +241,7 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
 
   import BFTestEnv._
 
-  EntityMemcachedClient.flush()
+  EntizerMemcachedClient.flush()
   // get maxlengths
   val maxLengths = BFTMaxLengths.run().asInstanceOf[HashMap[String, Int]]
   println("maxLengthMap=" + maxLengths)
@@ -387,7 +387,7 @@ class BFTConstrainedAlignSegmentation(val numHotelDups: Int, val numAreaDups: In
     .asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]._1
   TextSegmentationHelper.outputEval(evalName, evalStats, logger.info(_))
   new MentionWebpageStorer(mentions, evalName, listingRecord, params, constraintParams, constraintFns).run()
-  EntityMemcachedClient.shutdown()
+  EntizerMemcachedClient.shutdown()
 }
 
 object BFTConstrainedAlignSegmentationSimpleMain extends BFTConstrainedAlignSegmentation(1, 1, 1, false, false) with App

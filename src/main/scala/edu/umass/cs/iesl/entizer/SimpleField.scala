@@ -41,7 +41,7 @@ case class SimpleField(name: String) extends Field {
   def getValueMentionSegment(valueId: Option[ObjectId]) = None
 }
 
-object EntityMemcachedClient extends MemcachedClient(
+object EntizerMemcachedClient extends MemcachedClient(
   new InetSocketAddress(Conf.get[String]("memcached-host", "localhost"), Conf.get[Int]("memcached-port", 11211))) with HasLogger {
   def entityGet[T <: AnyRef](fieldName: String, id: ObjectId, keyName: String,
                              default: String => T, expire: Int = 3600): T = {
@@ -63,7 +63,7 @@ object EntityMemcachedClient extends MemcachedClient(
 }
 
 trait EntityField extends Field {
-  private val cacheClient = EntityMemcachedClient
+  private val cacheClient = EntizerMemcachedClient
   var hashToDocFreq: HashMap[String, Int] = null
   var hashToIds: HashMap[String, Seq[ObjectId]] = null
   var numPhraseDuplicates: Int = 50

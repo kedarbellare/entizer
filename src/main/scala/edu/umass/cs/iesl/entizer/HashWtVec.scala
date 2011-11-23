@@ -272,7 +272,7 @@ object HashWtVecTest extends App {
       val key = "constraint_weights_group=" + group
       var storedWts: Seq[(String, Double)] = null.asInstanceOf[Seq[(String, Double)]]
       try {
-        storedWts = EntityMemcachedClient.get(key).asInstanceOf[Seq[(String, Double)]]
+        storedWts = EntizerMemcachedClient.get(key).asInstanceOf[Seq[(String, Double)]]
       } catch {
         case toe: Exception => {}
       }
@@ -286,13 +286,13 @@ object HashWtVecTest extends App {
         }
         storedWts = wtmap.toSeq
       }
-      EntityMemcachedClient.set(key, 3600, storedWts)
+      EntizerMemcachedClient.set(key, 3600, storedWts)
       for ((feat, wt) <- storedWts) wtvec.set(feat, wt)
     }
     println("Completed loadConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
   }
   
-  EntityMemcachedClient.flush()
+  EntizerMemcachedClient.flush()
   val tparams = new Params
   tparams.get("1").set("a", 0.1)
   tparams.get("1").set("b", 0.2)
@@ -310,5 +310,5 @@ object HashWtVecTest extends App {
   println("loading into: " + lparams)
   loadConstraintParams(lparams)
   println("loaded: " + lparams)
-  EntityMemcachedClient.shutdown()
+  EntizerMemcachedClient.shutdown()
 }
