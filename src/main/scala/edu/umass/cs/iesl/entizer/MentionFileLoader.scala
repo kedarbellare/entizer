@@ -141,12 +141,14 @@ class MentionWebpageStorer(val inputColl: MongoCollection, val outputDirname: St
 
     var cursor = inputColl.find(MongoDBObject("isRecord" -> true)).limit(maxRecords)
     cursor.options = 16
-    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(dbo.as[String]("source"), mention)
+    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo))
+      processMention(dbo.as[String]("source"), mention)
     cursor.close()
 
     cursor = inputColl.find(MongoDBObject("isRecord" -> false)).limit(maxTexts)
     cursor.options = 16
-    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo)) processMention(dbo.as[String]("source"), mention)
+    for (dbo <- cursor; mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo))
+      processMention(dbo.as[String]("source"), mention)
     cursor.close()
 
     for ((fieldValue, mentionValues) <- entityToMentionValue) {

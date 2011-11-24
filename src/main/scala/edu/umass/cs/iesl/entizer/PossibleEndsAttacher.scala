@@ -35,6 +35,16 @@ abstract class FeaturesAttacher(val inputColl: MongoCollection, val name: String
   }
 }
 
+class FeaturesEraser(val inputColl: MongoCollection, val featuresType: String) extends ParallelCollectionProcessor {
+  def name = "clearFeatures[name=" + inputColl.name + "][type=" + featuresType + "]"
+
+  def inputJob = JobCenter.Job()
+
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
+    inputColl.update(MongoDBObject("_id" -> dbo._id.get), $unset(featuresType), false, false)
+  }
+}
+
 class SchemaNormalizer(val inputColl: MongoCollection, val schemaMappings: Map[String, String])
   extends ParallelCollectionProcessor {
   def name = "schemaNormalizer[transforms=" + schemaMappings + "]"

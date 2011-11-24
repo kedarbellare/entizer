@@ -4,7 +4,7 @@ import com.mongodb.casbah.Imports._
 import cc.refectorie.user.kedarb.dynprog.AExample
 import MongoHelper._
 import TextSegmentationHelper._
-import collection.mutable.ArrayBuffer
+import collection.mutable.{HashSet, ArrayBuffer}
 
 /**
  * @author kedar
@@ -13,6 +13,7 @@ import collection.mutable.ArrayBuffer
 case class Mention(id: ObjectId, isRecord: Boolean, words: Seq[String], possibleEnds: Seq[Boolean],
                    trueWidget: TextSegmentation, trueClusterOption: Option[String]) extends AExample[TextSegmentation] {
   var features: Seq[Seq[String]] = null
+  var alignFeatures: HashSet[AlignmentFeature] = null
 
   def this(dbo: DBObject) = {
     this (dbo._id.get, getAttr[Boolean](dbo, "isRecord"), getListAttr[String](dbo, "words"),
@@ -22,6 +23,21 @@ case class Mention(id: ObjectId, isRecord: Boolean, words: Seq[String], possible
 
   def setFeatures(dbo: DBObject) = {
     if (dbo.contains("features")) features = getListOfListAttr[String](dbo, "features")
+    this
+  }
+
+  def setAlignFeatures(dbo: DBObject) = {
+    if (dbo.contains("alignFeatures")) {
+      alignFeatures = new HashSet[AlignmentFeature]()
+      for (featDbo <- MongoHelper.getListAttr[DBObject](dbo, "alignFeatures")) {
+        val predicateName = featDbo.as[String]("name")
+        val fieldType = featDbo.as[String]("field")
+        val valueName = featDbo.as[String]("value")
+        val begin = featDbo.as[Int]("begin")
+        val end = featDbo.as[Int]("end")
+        alignFeatures += AlignmentFeature(predicateName, fieldType, valueName, this.id, begin, end)
+      }
+    }
     this
   }
 

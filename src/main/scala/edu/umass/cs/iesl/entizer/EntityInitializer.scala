@@ -233,8 +233,7 @@ class InferenceAlignSegmentProcessor(val inputColl: MongoCollection, val root: F
   extends ParallelCollectionProcessor {
   def name = "inferedAlignSegmentProcessor[field=" + field.name + "][predicate=" + predicateName + "]"
 
-  def inputJob = JobCenter.Job(select = MongoDBObject("isRecord" -> 1, "words" -> 1, "bioLabels" -> 1,
-    "possibleEnds" -> 1, "features" -> 1, "cluster" -> 1))
+  def inputJob = JobCenter.Job()
 
   override def newOutputParams(isMaster: Boolean = false) =
     if (isMaster) new AlignSegmentPredicate(predicateName)
@@ -256,11 +255,86 @@ class InferenceAlignSegmentProcessor(val inputColl: MongoCollection, val root: F
   }
 
   def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
-    val mention = new Mention(dbo).setFeatures(dbo)
+    val mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo)
     val params = new Params
     val constraintParams = new Params
     new ConstrainedSegmentationInferencer(root, mention, params, params, constraintParams, constraintParams,
       Seq(partialOutputParams.asInstanceOf[AlignSegmentPredicate]),
       SimpleInferSpec(trueSegmentInfer = mention.isRecord, stepSize = 0))
+  }
+}
+
+trait AlignPredicateAttacher {
+  def predicatePruner: AlignSegmentPredicate => AlignSegmentPredicate
+
+  def predicateName: String
+
+  def predicateFn: (FieldValue, Mention, Int, Int) => Boolean
+
+  def inputColl: MongoCollection
+
+  def newAlignSegmentPredicate(isMaster: Boolean = false) =
+    if (isMaster) new AlignSegmentPredicate(predicateName)
+    else new AlignSegmentPredicate(predicateName) {
+      override def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+                         mention: Mention, begin: Int, end: Int) = {
+        val alignment = FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end))
+        if (!this.contains(alignment)) {
+          if (predicateFn(currFieldValue, mention, begin, end)) {
+            this += alignment
+            true
+          } else false
+        } else true
+      }
+    }
+
+  def attachAlignPredicates(mention: Mention, constraintPredicate: AlignSegmentPredicate) {
+    val prunedConstrainedPredicate = predicatePruner(constraintPredicate)
+    val allPredicates = new HashSet[MongoDBObject]()
+    for (alignment <- prunedConstrainedPredicate) {
+      val predicate = MongoDBObject("name" -> predicateName, "field" -> alignment.fieldValue.field.name,
+        "value" -> alignment.fieldValue.valueId.toString, "begin" -> alignment.mentionSegment.begin,
+        "end" -> alignment.mentionSegment.end)
+      inputColl.update(MongoDBObject("_id" -> mention.id), $push("alignFeatures" -> predicate), false, false)
+    }
+  }
+}
+
+class FieldMentionCachedAlignPredicateProcessor(val inputColl: MongoCollection, val field: Field,
+                                                val predicateName: String, val predicateFn: (FieldValue, Mention, Int, Int) => Boolean,
+                                                val predicatePruner: AlignSegmentPredicate => AlignSegmentPredicate = identity(_))
+  extends FieldMentionSegmentAlignProcessor with AlignPredicateAttacher {
+  def name = "cachedAlignmentPredicate[field=" + fieldName + "][predicate=" + predicateName + "]"
+
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
+    val mention = new Mention(dbo)
+    val constraintPredicate = newAlignSegmentPredicate()
+    for (segment <- getSegments(mention)) {
+      val mentionSegment = MentionSegment(mention.id, segment.begin, segment.end)
+      for (fieldValue <- field.getPossibleValues(mention.id, segment.begin, segment.end)
+           if predicateFn(fieldValue, mention, segment.begin, segment.end)) {
+        constraintPredicate += FieldValueMentionSegment(fieldValue, mentionSegment)
+      }
+    }
+    attachAlignPredicates(mention, constraintPredicate)
+  }
+}
+
+class InferenceCachedAlignSegmentProcessor(val inputColl: MongoCollection, val root: FieldCollection, val field: Field,
+                                           val predicateName: String, val predicateFn: (FieldValue, Mention, Int, Int) => Boolean,
+                                           val predicatePruner: AlignSegmentPredicate => AlignSegmentPredicate = identity(_))
+  extends ParallelCollectionProcessor with AlignPredicateAttacher {
+  def name = "inferedCachedAlignSegmentProcessor[field=" + field.name + "][predicate=" + predicateName + "]"
+
+  def inputJob = JobCenter.Job()
+
+  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
+    val mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo)
+    val params = new Params
+    val constraintParams = new Params
+    val constraintPredicate = newAlignSegmentPredicate()
+    new ConstrainedSegmentationInferencer(root, mention, params, params, constraintParams, constraintParams,
+      Seq(constraintPredicate), SimpleInferSpec(trueSegmentInfer = mention.isRecord, stepSize = 0))
+    attachAlignPredicates(mention, constraintPredicate)
   }
 }

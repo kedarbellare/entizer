@@ -15,6 +15,9 @@ case class SimpleInferSpec(viterbi: Boolean = false, trueSegmentInfer: Boolean =
                            bestUpdate: Boolean = false, stepSize: Double = 1,
                            constraintStepSize: Double = 0, constraintTargetStepSize: Double = 0)
 
+case class AlignmentFeature(predicateName: String, fieldType: String, valueName: String,
+                            mentionId: ObjectId, begin: Int, end: Int)
+
 trait ConstraintFunction {
   def groupKey(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
                mention: Mention, begin: Int, end: Int): String = "default"
@@ -67,6 +70,13 @@ class AlignSegmentPredicate(val predicateName: String)
   def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
             mention: Mention, begin: Int, end: Int) =
     this(FieldValueMentionSegment(currFieldValue, MentionSegment(mention.id, begin, end)))
+}
+
+class CachedAlignSegmentPredicate(val predicateName: String, val fieldType: String) extends DefaultConstraintFunction {
+  def apply(rootFieldValue: FieldValue, prevFieldName: String, currFieldValue: FieldValue,
+            mention: Mention, begin: Int, end: Int) =
+    currFieldValue.field.name == fieldType && mention.alignFeatures(AlignmentFeature(predicateName, fieldType,
+      currFieldValue.valueId.toString, mention.id, begin, end))
 }
 
 class NegationAlignSegmentPredicate(val predicateName: String, val fieldType: String)

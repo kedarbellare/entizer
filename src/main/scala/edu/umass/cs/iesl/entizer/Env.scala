@@ -16,7 +16,7 @@ trait Env extends HasLogger {
 
   def mentions: MongoCollection
 
-  def removeSubsegmentAligns(alignSegPred: AlignSegmentPredicate) {
+  def removeSubsegmentAligns(alignSegPred: AlignSegmentPredicate) = {
     val segmentToValues = new HashMap[MentionSegment, Seq[FieldValueMentionSegment]]
     for (value <- alignSegPred) {
       segmentToValues(value.mentionSegment) =
@@ -38,10 +38,12 @@ trait Env extends HasLogger {
         }
       }
     }
-    logger.info("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
+    if (numRemoved > 0)
+      logger.debug("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
+    alignSegPred
   }
 
-  def removeSupersegmentAligns(alignSegPred: AlignSegmentPredicate) {
+  def removeSupersegmentAligns(alignSegPred: AlignSegmentPredicate) = {
     val segmentToValues = new HashMap[MentionSegment, Seq[FieldValueMentionSegment]]
     for (value <- alignSegPred) {
       segmentToValues(value.mentionSegment) =
@@ -64,7 +66,9 @@ trait Env extends HasLogger {
         }
       }
     }
-    logger.info("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
+    if (numRemoved > 0)
+      logger.debug("Deleted " + numRemoved + " (overlapping) alignments from " + alignSegPred.predicateName)
+    alignSegPred
   }
 
   def isMentionPhraseApproxContainedInValue(fv: FieldValue, m: Mention, begin: Int, end: Int,
