@@ -17,9 +17,7 @@ import collection.mutable.HashMap
 abstract class ParameterProcessor(root: FieldCollection, initParams: Params, useOracle: Boolean)
   extends ParallelCollectionProcessor {
   def inputJob = JobCenter.Job(
-    query = (if (useOracle) MongoDBObject() else MongoDBObject("isRecord" -> true)),
-    select = MongoDBObject("isRecord" -> 1, "words" -> 1, "features" -> 1, "bioLabels" -> 1,
-      "possibleEnds" -> 1, "cluster" -> 1))
+    query = (if (useOracle) MongoDBObject() else MongoDBObject("isRecord" -> true)))
 
   override def newOutputParams(isMaster: Boolean = false) = {
     val params = new Params
@@ -37,7 +35,7 @@ abstract class ParameterProcessor(root: FieldCollection, initParams: Params, use
   def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats)
 
   def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
-    val mention = new Mention(dbo).setFeatures(dbo)
+    val mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo)
     val partialOutput = partialOutputParams.asInstanceOf[(Params, ProbStats)]
     processMention(mention, partialOutput._1, partialOutput._2)
   }
@@ -61,7 +59,7 @@ abstract class NewParameterProcessor(root: FieldCollection, initParams: Params)
   def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats)
 
   def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
-    val mention = new Mention(dbo).setFeatures(dbo)
+    val mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo)
     val partialOutput = partialOutputParams.asInstanceOf[(Params, ProbStats)]
     processMention(mention, partialOutput._1, partialOutput._2)
   }
@@ -191,10 +189,7 @@ trait SegmentationEvaluator extends ParallelCollectionProcessor {
 
   def evalQuery: MongoDBObject
 
-  def inputJob = JobCenter.Job(
-    query = evalQuery,
-    select = MongoDBObject("isRecord" -> 1, "words" -> 1, "features" -> 1, "bioLabels" -> 1, "possibleEnds" -> 1,
-      "cluster" -> 1))
+  def inputJob = JobCenter.Job(query = evalQuery)
 
   override def newOutputParams(isMaster: Boolean = false) = {
     val oid = new ObjectId
@@ -231,7 +226,7 @@ trait SegmentationEvaluator extends ParallelCollectionProcessor {
 
   def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
     import TextSegmentationHelper._
-    val mention = new Mention(dbo).setFeatures(dbo)
+    val mention = new Mention(dbo).setFeatures(dbo).setAlignFeatures(dbo)
     val partialOutput = partialOutputParams.asInstanceOf[(Params, Option[PrintWriter], Option[PrintWriter])]
     val partialEvalStats = partialOutput._1
     val trueWidget = getTrueWidget(mention)
@@ -484,35 +479,38 @@ class SemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, v
   }
 }
 
-class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, val root: FieldCollection,
-                                                       val weightsColl: MongoCollection, val useOracle: Boolean = true)
-  extends HasLogger {
+class WeightsCache(val weightsColl: MongoCollection, val dropColl: Boolean = true) extends HasLogger {
+  if (dropColl) weightsColl.dropCollection()
+
   weightsColl.ensureIndex(MongoDBObject("group" -> 1))
   weightsColl.ensureIndex(MongoDBObject("group" -> 1, "feature" -> 1))
 
-  private def storeConstraintParams(constraintParams: Params) {
+  def name = weightsColl.name
+
+  def storeParams(params: Params) {
     val startTime = System.currentTimeMillis()
-    logger.info("Starting storeConstraintParameters")
-    for (group <- constraintParams.keys) {
-      val wtvec = constraintParams.get(group)
+    logger.info("Starting storeParams[name=" + name + "]")
+    for (group <- params.keys) {
+      val wtvec = params.get(group)
       for (feat <- wtvec.keys) {
         val wt = wtvec.get(feat)
         weightsColl.update(MongoDBObject("group" -> group, "feature" -> feat), $set("weight" -> wt), true, false)
       }
     }
-    logger.info("Completed storeConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
+    logger.info("Completed storeParams[name=" + name + "] in time=" +
+      (System.currentTimeMillis() - startTime) + " millis")
   }
 
-  private def loadConstraintParams(constraintParams: Params) {
+  def loadParams(params: Params) {
     val startTime = System.currentTimeMillis()
-    logger.info("Starting loadConstraintParameters")
-    for (group <- constraintParams.keys) {
-      val wtvec = constraintParams.get(group)
+    logger.info("Starting loadParams[name=" + name + "]")
+    for (group <- params.keys) {
+      val wtvec = params.get(group)
       // get all parameters related to the group
-      val key = "constraint_weights_group=" + group
+      val key = "weights[name=" + name + "][group=" + group + "]"
       var storedWts: Seq[(String, Double)] = null.asInstanceOf[Seq[(String, Double)]]
       try {
-        storedWts = EntityMemcachedClient.get(key).asInstanceOf[Seq[(String, Double)]]
+        storedWts = EntizerMemcachedClient.get(key).asInstanceOf[Seq[(String, Double)]]
       } catch {
         case toe: Exception => {}
       }
@@ -526,12 +524,17 @@ class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCol
         }
         storedWts = wtmap.toSeq
       }
-      EntityMemcachedClient.set(key, 3600, storedWts)
+      EntizerMemcachedClient.set(key, 3600, storedWts)
       for ((feat, wt) <- storedWts) wtvec.set(feat, wt)
     }
-    logger.info("Completed loadConstraintParameters in time=" + (System.currentTimeMillis() - startTime) + " millis")
+    logger.info("Completed loadParams[name=" + name + "] in time=" + (System.currentTimeMillis() - startTime) + " millis")
   }
+}
 
+class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCollection, val root: FieldCollection,
+                                                       val paramsCache: WeightsCache, val constraintParamsCache: WeightsCache,
+                                                       val useOracle: Boolean = true)
+  extends HasLogger {
   protected def constraintLearn(numIter: Int, constraintFns: Seq[ConstraintFunction],
                                 params: Params, constraintParams: Params, constraintInvVariance: Double,
                                 recordWeight: Double, textWeight: Double, mentions: Seq[DBObject]) {
@@ -654,17 +657,20 @@ class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCol
     val params = new DefaultParameterInitializer(root, mentionColl, initParams).run()
       .asInstanceOf[(Params, ProbStats)]._1
     params.increment(initParams, 1)
+    paramsCache.loadParams(params)
     logger.info("#parameters=" + params.numParams + " #paramGroups=" + params.size)
+
     val totalMentions = mentionColl.count.toInt
     val numBatches = (totalMentions + batchSize - 1) / batchSize
     for (batchIter <- 1 to numBatchIter) {
       logger.info("=== starting batch iteration=" + batchIter)
       for (batch <- 0 until numBatches; skip = (batch * batchSize)) {
         val currBatch = mentionColl.find().skip(skip).limit(batchSize).toSeq
+
         val constraintParams = new NewConstrainedParameterInitializer(root, currBatch, params,
           initConstraintParams, constraintFns).run().asInstanceOf[(Params, ProbStats)]._1
         constraintParams.increment(initConstraintParams, 1)
-        loadConstraintParams(constraintParams)
+        constraintParamsCache.loadParams(constraintParams)
         logger.info("#constraintParameters=" + constraintParams.numParams + " #constraintParamGroups=" + constraintParams.size)
 
         for (iter <- 1 to numIter) {
@@ -678,7 +684,7 @@ class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCol
           val evalConstraintParams = new QueryConstrainedParameterInitializer(root, mentionColl, params, initEvalConstraintParams,
             constraintFns, evalQuery).run().asInstanceOf[(Params, ProbStats)]._1
           evalConstraintParams.increment(initEvalConstraintParams, 1)
-          loadConstraintParams(evalConstraintParams)
+          constraintParamsCache.loadParams(evalConstraintParams)
 
           val constraintEvalStats = new ConstrainedSegmentationEvaluator("semi-sup-segmentation-iteration-" + iter, mentionColl,
             params, evalConstraintParams, constraintFns, root, false, evalQuery = evalQuery).run()
@@ -694,15 +700,18 @@ class LargeScaleSemiSupervisedJointSegmentationLearner(val mentionColl: MongoCol
             paramEvalStats, logger.info(_))
         }
 
-        storeConstraintParams(constraintParams)
+        constraintParamsCache.storeParams(constraintParams)
       }
     }
+
+    // store all params
+    paramsCache.storeParams(params)
 
     // load all constraint params and return
     val finalConstraintParams = new ConstrainedParameterInitializer(root, mentionColl, params, initConstraintParams,
       constraintFns, useOracle).run().asInstanceOf[(Params, ProbStats)]._1
     finalConstraintParams.increment(initConstraintParams, 1)
-    loadConstraintParams(finalConstraintParams)
+    constraintParamsCache.loadParams(finalConstraintParams)
     (params, finalConstraintParams)
   }
 }

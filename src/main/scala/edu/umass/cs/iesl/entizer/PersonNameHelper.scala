@@ -42,8 +42,36 @@ trait StringSimilarityHelper {
     prev(tlen)
   }
 
-  def getApproxSetSimilarity(phr1: Seq[String], phr2: Seq[String],
-                           tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Double = {
+  def getApproxSetContainedSimilarity(phrFrom: Seq[String], phrTo: Seq[String], tokenMatchThreshold: Double = 0.9): Double = {
+    val bagFrom = new HashSet[String] ++ phrFrom
+    val bagTo = new HashSet[String] ++ phrTo
+    val bagToSize = 1.0 * bagTo.size
+    var numIntersection = 0.0
+    bagFrom.foreach(w => {
+      if (bagTo(w)) {
+        numIntersection += 1
+        bagTo.remove(w)
+      } else {
+        var bestMatchTok: String = null
+        var bestMatchScore = Double.NegativeInfinity
+        bagTo.foreach(ow => {
+          val matchScore = SMITHWATERMAN_AFFINE.getSimilarity(w, ow)
+          if (matchScore > bestMatchScore && matchScore >= tokenMatchThreshold) {
+            bestMatchTok = ow
+            bestMatchScore = matchScore
+          }
+        })
+        if (bestMatchScore >= tokenMatchThreshold) {
+          numIntersection += bestMatchScore
+          bagTo.remove(bestMatchTok)
+        }
+      }
+    })
+    if (bagToSize == 0) 0.0
+    else numIntersection / bagToSize
+  }
+
+  def getApproxSetSimilarity(phr1: Seq[String], phr2: Seq[String], tokenMatchThreshold: Double = 0.9): Double = {
     val bag1 = new HashSet[String] ++ phr1
     val bag2 = new HashSet[String] ++ phr2
     val bag1Size = 1.0 * bag1.size
@@ -393,30 +421,73 @@ object TitleHelper extends StringSimilarityHelper {
 object BooktitleHelper extends StringSimilarityHelper {
   val ORDINAL1 = "(?ii)[0-9]*(?:st|nd|rd|th)"
   val ORDINAL2 = "(?ii)(?:" +
-    "first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth" +
-    "|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth" +
-    "|eighteenth|nineteenth|twentieth|thirtieth|fou?rtieth|fiftieth|sixtieth|seventieth" +
-    "|eightieth|nine?tieth|twentieth|hundredth" + ")"
+    "[Ff]irst|[Ss]econd|[Tt]hird|[Ff]ourth|[Ff]ifth|[Ss]ixth|[Ss]eventh|[Ee]ighth|[Nn]inth|[Tt]enth" +
+    "|[Ee]leventh|[Tt]welfth|[Tt]hirteenth|[Ff]ourteenth|[Ff]ifteenth|[Ss]ixteenth" +
+    "|[Ss]eventeenth|[Ee]ighteenth|[Nn]ineteenth" +
+    "|[Tt]wentieth|[Tt]hirtieth|[Ff]ou?rtieth|[Ff]iftieth|[Ss]ixtieth|[Ss]eventieth" +
+    "|[Ee]ightieth|[Nn]ine?tieth|[Tt]wentieth|[Hh]undredth" +
+    ")"
+
+  val confusingBooktitlePairs = Seq(
+    "In Proceedings of International Joint Conference on Artificial Intelligence" -> "IJCAI",
+    "in proc. of International Joint Conference on Artificial Intelligence" -> "ICAI",
+    "Intl Conf . on Machine Learning" -> "ML",
+    "Intl Conf . on Machine Learning" -> "ICML",
+    "in Proceedings of the 6th International Conference on Data Engineering ," -> "ICDE",
+    "In Proc. ACM Conf . on Computer Human Interaction ," -> "CHI",
+    "Proceedings of the 22rd International Conference on Software Engineering ," -> "ICSE",
+    "Proc. 2nd Int . Conf . on AI Planning Systems ," -> "ICAPS",
+    "Advances in Neural Information Processing Systems 10 ," -> "NIPS",
+    "In Proceedings of the 8th IEEE International Symposium on High Performance Distributed Computing" -> "HPDC",
+    "In Proceedings of the 8th IEEE International Symposium on High Performance Distributed Computing" -> "IEEE"
+  )
 
   def normalizeBooktitle(phrase: Seq[String]) =
-    phrase.map(_.toLowerCase.replaceAll("[^a-z0-9]+", "")).filter(s => {
-      s.length() > 0 && !s.matches("(in|of|the|and|on|by|for|to|&)") &&
-        !s.matches(ORDINAL1) && !s.matches(ORDINAL2)
+    phrase.map(_.replaceAll("[^A-Za-z0-9]+", "")).filter(s => {
+      s.length() > 0 && !s.matches("([Ii]n|of|the|and|on|by|for|to|at|&)") &&
+        !s.matches(ORDINAL1) && !s.matches(ORDINAL2) && !s.matches("(19|20)\\d\\d") &&
+        !s.matches("[Pp]roc\\.|[Pp]roceedings")
     })
 
-  private def mkBooktitle(phrase: Seq[String], normalize: Boolean = true) =
-    (if (normalize) normalizeBooktitle(phrase) else phrase).mkString(" ")
-      .replaceAll("^\\s+", "").replaceAll("\\s+$", "").replaceAll("\\s+", " ")
+  def abbreviateBooktitle(phrase: Seq[String]): String = normalizeBooktitle(phrase).map(word => {
+    if (word.replaceAll("[^A-Z]+", "").length() > 0) word.replaceAll("[^A-Z]+", "")
+    else word.head.toString.toUpperCase
+  }).mkString("")
 
   def getBooktitleSimilarity(phr1: Seq[String], phr2: Seq[String], tokenMatchThreshold: Double = 0.9,
                              normalize: Boolean = true): Double = {
-    getApproxSetSimilarity((if (normalize) normalizeBooktitle(phr1) else phr1),
-      (if (normalize) normalizeBooktitle(phr2) else phr2), tokenMatchThreshold, normalize)
+    val modphr1 = (if (normalize) normalizeBooktitle(phr1) else phr1)
+    val modphr2 = (if (normalize) normalizeBooktitle(phr2) else phr2)
+    getApproxSetSimilarity(modphr1.map(_.toLowerCase), modphr2.map(_.toLowerCase), tokenMatchThreshold)
   }
 
-  def isBooktitleSimilar(phr1: Seq[String], phr2: Seq[String], normalize: Boolean = true): Boolean = {
-    if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
-    else getBooktitleSimilarity(phr1, phr2, 0.9, normalize) >= 0.95
+  def isBooktitleSimilar(phrFrom: Seq[String], phrTo: Seq[String], normalize: Boolean = true): Boolean = {
+    val modphrFrom = (if (normalize) normalizeBooktitle(phrFrom) else phrFrom)
+    val modphrTo = (if (normalize) normalizeBooktitle(phrTo) else phrTo)
+    if (phrFrom.head.matches("^\\p{Punct}*$") || phrTo.head.matches("^\\p{Punct}*$")) false
+    else if (getBooktitleSimilarity(modphrFrom, modphrTo, 0.9, false) >= 0.95) true
+    else if (modphrTo.length >= 2 &&
+      getApproxSetContainedSimilarity(modphrFrom.map(_.toLowerCase), modphrTo.map(_.toLowerCase), 0.9) >= 0.95) true
+    else if (modphrFrom.length == 1 && modphrFrom.head.matches("[A-Z]{3,}")) {
+      val abbr1 = modphrFrom.head
+      val abbr2 = abbreviateBooktitle(modphrTo)
+      // println(abbr1 + " <=> " + abbr2)
+      abbr1.length() >= 3 && abbr2.length() >= 3 && LEVENSTEIN.getSimilarity(abbr1, abbr2) >= 0.95
+    } else if (modphrTo.length == 1 && modphrTo.head.matches("[A-Z]{3,}")) {
+      // check for abbreviations
+      val abbr1 = modphrTo.head
+      val abbr2 = abbreviateBooktitle(modphrFrom)
+      // println(abbr1 + " <=> " + abbr2)
+      abbr1.length() >= 3 && abbr2.length() >= 3 && LEVENSTEIN.getSimilarity(abbr1, abbr2) >= 0.95
+    } else false
+  }
+
+  def main(args: Array[String]) {
+    for ((s1, s2) <- confusingBooktitlePairs) {
+      val phr1 = s1.split(" ")
+      val phr2 = s2.split(" ")
+      println(s1 + " -> " + s2 + ": " + isBooktitleSimilar(phr1, phr2))
+    }
   }
 }
 
@@ -442,14 +513,14 @@ object JournalHelper extends StringSimilarityHelper {
   def getJournalSimilarity(phr1: Seq[String], phr2: Seq[String],
                            tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Double = {
     getApproxSetSimilarity((if (normalize) normalizeJournal(phr1) else phr1),
-      (if (normalize) normalizeJournal(phr2) else phr2), tokenMatchThreshold, normalize)
+      (if (normalize) normalizeJournal(phr2) else phr2), tokenMatchThreshold)
   }
 
   def isJournalSimilar(phr1: Seq[String], phr2: Seq[String],
                        tokenMatchThreshold: Double = 0.9, normalize: Boolean = true): Boolean = {
     if (phr1.head.matches("^\\p{Punct}*$") || phr2.head.matches("^\\p{Punct}*$")) false
     else getApproxSetSimilarity((if (normalize) normalizeJournal(phr1) else phr1),
-      (if (normalize) normalizeJournal(phr2) else phr2), tokenMatchThreshold, normalize) >= 0.95
+      (if (normalize) normalizeJournal(phr2) else phr2), tokenMatchThreshold) >= 0.95
   }
 
   def main(args: Array[String]) {
