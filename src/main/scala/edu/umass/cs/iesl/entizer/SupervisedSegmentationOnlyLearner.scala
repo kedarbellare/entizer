@@ -16,8 +16,7 @@ import collection.mutable.HashMap
 
 abstract class ParameterProcessor(root: FieldCollection, initParams: Params, useOracle: Boolean)
   extends ParallelCollectionProcessor {
-  def inputJob = JobCenter.Job(
-    query = (if (useOracle) MongoDBObject() else MongoDBObject("isRecord" -> true)))
+  def inputJob = JobCenter.Job(query = (if (useOracle) MongoDBObject() else MongoDBObject("isRecord" -> true)))
 
   override def newOutputParams(isMaster: Boolean = false) = {
     val params = new Params
@@ -102,10 +101,7 @@ class QueryConstrainedParameterInitializer(val root: FieldCollection, val inputC
   extends ParameterProcessor(root, initConstraintParams, true) {
   def name = "queryConstrainedParameterInitializer[query=" + evalQuery + "]"
 
-  override def inputJob = JobCenter.Job(
-    query = evalQuery,
-    select = MongoDBObject("isRecord" -> 1, "words" -> 1, "features" -> 1, "bioLabels" -> 1,
-      "possibleEnds" -> 1, "cluster" -> 1))
+  override def inputJob = JobCenter.Job(query = evalQuery)
 
   def processMention(mention: Mention, partialParams: Params, partialStats: ProbStats) {
     new ConstrainedSegmentationInferencer(root, mention, params, params, partialParams, partialParams, constraintFns, SimpleInferSpec())
