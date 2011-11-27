@@ -967,23 +967,23 @@ class RexaRunMain(val env: ARexaEnv, val doRecordClustering: Boolean, val useSpa
   }
 
   if (useSparsity) {
-    constraintFns += new RexaSparseFieldValuesOverall(authorField.name, 10.0, 1e-3)
-    constraintFns += new RexaSparseFieldValuesOverall(titleField.name, 50.0, 1e-3)
-    constraintFns += new RexaSparseFieldValuesOverall(journalField.name, 50.0, 1e-3)
-    constraintFns += new RexaSparseFieldValuesOverall(booktitleField.name, 50.0, 1e-3)
+    constraintFns += new RexaSparseFieldValuesOverall(authorField.name, 1.0, 1e-3)
+    constraintFns += new RexaSparseFieldValuesOverall(titleField.name, 5.0, 1e-3)
+    constraintFns += new RexaSparseFieldValuesOverall(journalField.name, 5.0, 1e-3)
+    constraintFns += new RexaSparseFieldValuesOverall(booktitleField.name, 5.0, 1e-3)
 
-    constraintFns += new RexaSparseFieldValuePerMention(authorField.name, 5.0)
-    constraintFns += new RexaSparseFieldValuePerMention(titleField.name, 10.0)
-    constraintFns += new RexaSparseFieldValuePerMention(journalField.name, 10.0)
-    constraintFns += new RexaSparseFieldValuePerMention(booktitleField.name, 10.0)
+    constraintFns += new RexaSparseFieldValuePerMention(authorField.name, 0.5)
+    constraintFns += new RexaSparseFieldValuePerMention(titleField.name, 1.0)
+    constraintFns += new RexaSparseFieldValuePerMention(journalField.name, 1.0)
+    constraintFns += new RexaSparseFieldValuePerMention(booktitleField.name, 1.0)
 
     if (doRecordClustering) {
-      constraintFns += new RexaSparseRecordValuesOverall(citationRecord.name, 50.0, 1e-3)
-      constraintFns += new RexaSparseRecordValuePerMention(citationRecord.name, 5.0)
-      constraintFns += new RexaSparseFieldValuePerRecordValue(authorField.name, citationRecord.name, 5.0)
-      constraintFns += new RexaSparseFieldValuePerRecordValue(titleField.name, citationRecord.name, 10.0)
-      constraintFns += new RexaSparseFieldValuePerRecordValue(booktitleField.name, citationRecord.name, 10.0)
-      constraintFns += new RexaSparseFieldValuePerRecordValue(journalField.name, citationRecord.name, 10.0)
+      constraintFns += new RexaSparseRecordValuesOverall(citationRecord.name, 5.0, 1e-3)
+      constraintFns += new RexaSparseRecordValuePerMention(citationRecord.name, 0.5)
+      constraintFns += new RexaSparseFieldValuePerRecordValue(authorField.name, citationRecord.name, 0.5)
+      constraintFns += new RexaSparseFieldValuePerRecordValue(titleField.name, citationRecord.name, 1.0)
+      constraintFns += new RexaSparseFieldValuePerRecordValue(booktitleField.name, citationRecord.name, 1.0)
+      constraintFns += new RexaSparseFieldValuePerRecordValue(journalField.name, citationRecord.name, 1.0)
     }
   }
 
