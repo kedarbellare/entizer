@@ -124,7 +124,7 @@ trait ARexaEnv extends Env {
     ends
   }
 
-  def hashAuthorField(phrase: Seq[String]) = PersonNameHelper.hashName(phrase)
+  def hashAuthorField(phrase: Seq[String]): Seq[String]
 
   def hashTitleField(phrase: Seq[String]) = PhraseHash.ngramWordHash(phrase, 1).toSeq
 
@@ -191,6 +191,8 @@ object Rexa1kEnv extends ARexaEnv {
   val minAuthorSim = 0.4
   val maxAuthorSim = 0.9
 
+  def hashAuthorField(phrase: Seq[String]) = PersonNameHelper.hashName(phrase)
+
   val numTitleDups = 1
   val maxTitleHashFraction = 0.05
   val minTitleSim = 0.8
@@ -223,6 +225,8 @@ object RexaEnv extends ARexaEnv {
   val maxAuthorHashFraction = 1e-3
   val minAuthorSim = 0.4
   val maxAuthorSim = 0.9
+
+  def hashAuthorField(phrase: Seq[String]) = PersonNameHelper.hashName2(phrase)
 
   val numTitleDups = 1
   val maxTitleHashFraction = 1e-5

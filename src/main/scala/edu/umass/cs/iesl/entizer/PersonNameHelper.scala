@@ -273,6 +273,12 @@ object PersonNameHelper extends StringSimilarityHelper {
     (word_hash ++ char_hash).toSeq
   }
 
+  def hashName2(phrase: Seq[String]): Seq[String] = {
+    import PhraseHash._
+    val pruned_phrase = phrase.map(normalize(_)).filter(_.length() > 1)
+    ngramWordHash(pruned_phrase, 1).toSeq
+  }
+
   def matchesName(str: String): Boolean = str.matches(PERSON_NAME_REGEX)
 
   def matchesName(phrase: Seq[String], normalize: Boolean = true): Boolean = {
