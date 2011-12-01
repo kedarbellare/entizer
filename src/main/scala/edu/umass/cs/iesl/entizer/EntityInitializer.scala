@@ -144,12 +144,17 @@ class FieldMentionExtractPredicateProcessor(val inputColl: MongoCollection, val 
   }
 }
 
-class EntityFieldMentionPossibleValueProcessor(val inputColl: MongoCollection, val field: Field, val simThreshold: Double)
+class EntityFieldMentionPossibleValueProcessor(val inputColl: MongoCollection, val field: Field,
+                                               val simThreshold: Double, override val useOracle: Boolean = true,
+                                               val possibleCoreValues: HashSet[FieldValue] = null)
   extends FieldMentionSegmentAlignProcessor {
   val entityField = field.asInstanceOf[EntityField]
   val logN = math.log(1.0 * entityField.size)
 
-  def name = "entityPossibleValues[field=" + fieldName + "]"
+  def name = "entityPossibleValues[field=" + fieldName + "][oracle=" + useOracle +
+    "][possible=" + (if (possibleCoreValues == null) "EMPTY" else "SIZE=%d".format(possibleCoreValues.size)) + "]"
+
+  override def useAllRecordSegments = false
 
   // (mentionId, begin, end) -> Seq(valueId)
   override def newOutputParams(isMaster: Boolean = false) = new MentionSegmentToEntityValues
@@ -193,67 +198,7 @@ class EntityFieldMentionPossibleValueProcessor(val inputColl: MongoCollection, v
         allFieldValues ++= entityField.hashToIds(phraseHash).map(id => FieldValue(entityField, Some(id)))
       }
       val mentionSegment = MentionSegment(mention.id, segment.begin, segment.end)
-      for (fieldValue <- allFieldValues) {
-        val valueHashes = entityField.getValueHashes(fieldValue.valueId)
-        if (getSimilarity(valueHashes, phraseHashes) >= simThreshold) {
-          partialAligns(mentionSegment) = partialAligns.getOrElse(mentionSegment, new HashSet[FieldValue]) ++ Seq(fieldValue)
-        }
-      }
-    }
-  }
-}
-
-class EntityFieldMentionPossibleCanopyValueProcessor(val inputColl: MongoCollection, val field: Field,
-                                                     val allCanopyValues: HashSet[FieldValue], val simThreshold: Double)
-  extends FieldMentionSegmentAlignProcessor {
-  val entityField = field.asInstanceOf[EntityField]
-  val logN = math.log(1.0 * entityField.size)
-
-  def name = "entityPossibleCanopyValues[field=" + fieldName + "]"
-
-  // (mentionId, begin, end) -> Seq(valueId)
-  override def newOutputParams(isMaster: Boolean = false) = new MentionSegmentToEntityValues
-
-  override def merge(outputParams: Any, partialOutputParams: Any) {
-    val outputAligns = outputParams.asInstanceOf[MentionSegmentToEntityValues]
-    for ((mentionSegment, fieldValues) <- partialOutputParams.asInstanceOf[MentionSegmentToEntityValues]) {
-      outputAligns(mentionSegment) = outputAligns.getOrElse(mentionSegment, new HashSet[FieldValue]) ++ fieldValues
-    }
-  }
-
-  protected def toUnitVector(hashes: Seq[String]): HashMap[String, Double] = {
-    val vec = new HashMap[String, Double]
-    for (hash <- hashes) {
-      vec(hash) = vec.getOrElse(hash, 0.0) + (logN - math.log(1.0 * entityField.hashToDocFreq.getOrElse(hash, 1)))
-    }
-    val norm = math.sqrt(vec.values.map(x => x * x).foldLeft(0.0)(_ + _))
-    for ((hash, value) <- vec) vec(hash) = value / norm
-    vec
-  }
-
-  protected def getSimilarity(h1: Seq[String], h2: Seq[String]): Double = {
-    val (vec1, vec2) = {
-      if (h1.size <= h2.size) (toUnitVector(h1), toUnitVector(h2))
-      else (toUnitVector(h2), toUnitVector(h1))
-    }
-    var sim = 0.0
-    for ((key, value) <- vec1 if vec2.contains(key)) sim += value * vec2(key)
-    sim
-  }
-
-  def process(dbo: DBObject, inputParams: Any, partialOutputParams: Any) {
-    val mention = new Mention(dbo)
-    val partialAligns = partialOutputParams.asInstanceOf[MentionSegmentToEntityValues]
-    // collect field values first
-    for (segment <- getSegments(mention)) {
-      val phrase = mention.words.slice(segment.begin, segment.end)
-      val phraseHashes = entityField.hashCodes(phrase)
-      val allFieldValues = new HashSet[FieldValue]
-      for (phraseHash <- phraseHashes if entityField.hashToIds.contains(phraseHash)) {
-        allFieldValues ++= entityField.hashToIds(phraseHash).map(id => FieldValue(entityField, Some(id)))
-      }
-      val mentionSegment = MentionSegment(mention.id, segment.begin, segment.end)
-      for (fieldValue <- allFieldValues if allCanopyValues(fieldValue)) {
+      for (fieldValue <- allFieldValues if possibleCoreValues == null || possibleCoreValues(fieldValue)) {
         val valueHashes = entityField.getValueHashes(fieldValue.valueId)
         if (getSimilarity(valueHashes, phraseHashes) >= simThreshold) {
           partialAligns(mentionSegment) = partialAligns.getOrElse(mentionSegment, new HashSet[FieldValue]) ++ Seq(fieldValue)

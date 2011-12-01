@@ -138,6 +138,8 @@ trait ARexaEnv extends Env {
   // field parameters
   def numAuthorDups: Int
 
+  def fracAuthorDups: Double
+
   def maxAuthorHashFraction: Double
 
   def minAuthorSim: Double
@@ -184,6 +186,7 @@ object Rexa1kEnv extends ARexaEnv {
 
   // field parameters
   val numAuthorDups = 20
+  val fracAuthorDups = 0.5
   val maxAuthorHashFraction = 0.1
   val minAuthorSim = 0.4
   val maxAuthorSim = 0.9
@@ -216,27 +219,28 @@ object RexaEnv extends ARexaEnv {
 
   // field parameters
   val numAuthorDups = 20
-  val maxAuthorHashFraction = 0.1
+  val fracAuthorDups = 0.5
+  val maxAuthorHashFraction = 1e-3
   val minAuthorSim = 0.4
   val maxAuthorSim = 0.9
 
   val numTitleDups = 1
-  val maxTitleHashFraction = 0.01
+  val maxTitleHashFraction = 1e-5
   val minTitleSim = 0.8
   val maxTitleSim = 0.9
 
   val numBooktitleDups = 1
-  val maxBooktitleHashFraction = 0.1
+  val maxBooktitleHashFraction = 1e-3
   val minBooktitleSim = 0.7
   val maxBooktitleSim = 0.9
 
   val numJournalDups = 1
-  val maxJournalHashFraction = 0.1
+  val maxJournalHashFraction = 1e-3
   val minJournalSim = 0.7
   val maxJournalSim = 0.9
 
   val numCitationDups = 1
-  val maxCitationHashFraction = 0.01
+  val maxCitationHashFraction = 1e-5
   val minCitationSim = 0.6
   val maxCitationSim = 0.8
 }
@@ -327,7 +331,7 @@ class ARexaInitEntitiesMain(val env: ARexaEnv) {
   val numMentions = repo.mentionColl.count.toInt
   new SimpleEntityField("author", repo)
     .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
-    .setPhraseDuplicates(env.numAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
+    .setPhraseDuplicates(env.numAuthorDups).setFractionPhraseDuplicates(env.fracAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
     .setSimilarities(env.minAuthorSim, env.maxAuthorSim).init()
   new SimpleEntityField("title", repo)
     .setMaxSegmentLength(maxLengths("title")).setHashCodes(env.hashTitleField(_))
@@ -402,7 +406,7 @@ class ARexaCheckNameEquality(val env: ARexaEnv) extends HasLogger {
   // create fields
   val authorField = new SimpleEntityField("author", repo)
     .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
-    .setPhraseDuplicates(env.numAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
+    .setPhraseDuplicates(env.numAuthorDups).setFractionPhraseDuplicates(env.fracAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
     .setSimilarities(env.minAuthorSim, env.maxAuthorSim).reinit().asInstanceOf[SimpleEntityField]
   authorField.cacheAll()
 
@@ -676,7 +680,7 @@ class ARexaCacheAlignFeatures(val env: ARexaEnv) extends HasLogger {
   val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
   val authorField = new SimpleEntityField("author", repo)
     .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
-    .setPhraseDuplicates(env.numAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
+    .setPhraseDuplicates(env.numAuthorDups).setFractionPhraseDuplicates(env.fracAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
     .setSimilarities(env.minAuthorSim, env.maxAuthorSim).reinit().asInstanceOf[SimpleEntityField]
   val titleField = new SimpleEntityField("title", repo)
     .setMaxSegmentLength(maxLengths("title")).setHashCodes(env.hashTitleField(_))
@@ -805,7 +809,7 @@ class RexaRunMain(val env: ARexaEnv, val doRecordClustering: Boolean, val useSpa
   val otherField = SimpleField("O").setMaxSegmentLength(maxLengths("O")).init()
   val authorField = new SimpleEntityField("author", repo)
     .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
-    .setPhraseDuplicates(env.numAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
+    .setPhraseDuplicates(env.numAuthorDups).setFractionPhraseDuplicates(env.fracAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
     .setSimilarities(env.minAuthorSim, env.maxAuthorSim).reinit().asInstanceOf[SimpleEntityField]
   val titleField = new SimpleEntityField("title", repo)
     .setMaxSegmentLength(maxLengths("title")).setHashCodes(env.hashTitleField(_))
