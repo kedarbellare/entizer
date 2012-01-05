@@ -124,7 +124,7 @@ trait ARexaEnv extends Env {
     ends
   }
 
-  def hashAuthorField(phrase: Seq[String]): Seq[String]
+  def hashAuthorField(phrase: Seq[String]) = PersonNameHelper.hashName2(phrase)
 
   def hashTitleField(phrase: Seq[String]) = PhraseHash.ngramWordHash(phrase, 1).toSeq
 
@@ -188,14 +188,12 @@ object Rexa1kEnv extends ARexaEnv {
   val numAuthorDups = 20
   val fracAuthorDups = 0.5
   val maxAuthorHashFraction = 0.1
-  val minAuthorSim = 0.4
+  val minAuthorSim = 0.6
   val maxAuthorSim = 0.9
-
-  def hashAuthorField(phrase: Seq[String]) = PersonNameHelper.hashName(phrase)
 
   val numTitleDups = 1
   val maxTitleHashFraction = 0.05
-  val minTitleSim = 0.8
+  val minTitleSim = 0.7
   val maxTitleSim = 0.9
 
   val numBooktitleDups = 1
@@ -210,7 +208,7 @@ object Rexa1kEnv extends ARexaEnv {
 
   val numCitationDups = 1
   val maxCitationHashFraction = 0.05
-  val minCitationSim = 0.6
+  val minCitationSim = 0.3
   val maxCitationSim = 0.8
 }
 
@@ -223,29 +221,27 @@ object RexaEnv extends ARexaEnv {
   val numAuthorDups = 20
   val fracAuthorDups = 0.5
   val maxAuthorHashFraction = 1e-3
-  val minAuthorSim = 0.4
+  val minAuthorSim = 0.6
   val maxAuthorSim = 0.9
 
-  def hashAuthorField(phrase: Seq[String]) = PersonNameHelper.hashName2(phrase)
-
   val numTitleDups = 1
-  val maxTitleHashFraction = 1e-5
-  val minTitleSim = 0.8
+  val maxTitleHashFraction = 5e-3
+  val minTitleSim = 0.7
   val maxTitleSim = 0.9
 
   val numBooktitleDups = 1
-  val maxBooktitleHashFraction = 1e-3
+  val maxBooktitleHashFraction = 1e-2
   val minBooktitleSim = 0.7
   val maxBooktitleSim = 0.9
 
   val numJournalDups = 1
-  val maxJournalHashFraction = 1e-3
+  val maxJournalHashFraction = 1e-2
   val minJournalSim = 0.7
   val maxJournalSim = 0.9
 
   val numCitationDups = 1
-  val maxCitationHashFraction = 1e-5
-  val minCitationSim = 0.6
+  val maxCitationHashFraction = 5e-3
+  val minCitationSim = 0.3
   val maxCitationSim = 0.8
 }
 
@@ -337,18 +333,33 @@ class ARexaInitEntitiesMain(val env: ARexaEnv) {
     .setMaxSegmentLength(maxLengths("author")).setHashCodes(env.hashAuthorField(_))
     .setPhraseDuplicates(env.numAuthorDups).setFractionPhraseDuplicates(env.fracAuthorDups).setMaxHashFraction(env.maxAuthorHashFraction)
     .setSimilarities(env.minAuthorSim, env.maxAuthorSim).init()
+  System.gc()
+  System.gc()
+  System.gc()
+
   new SimpleEntityField("title", repo)
     .setMaxSegmentLength(maxLengths("title")).setHashCodes(env.hashTitleField(_))
     .setPhraseDuplicates(env.numTitleDups).setMaxHashFraction(env.maxTitleHashFraction)
     .setSimilarities(env.minTitleSim, env.maxTitleSim).init()
+  System.gc()
+  System.gc()
+  System.gc()
+
   new SimpleEntityField("booktitle", repo)
     .setMaxSegmentLength(maxLengths("booktitle")).setHashCodes(env.hashVenueField(_))
     .setPhraseDuplicates(env.numBooktitleDups).setMaxHashFraction(env.maxBooktitleHashFraction)
     .setSimilarities(env.minBooktitleSim, env.maxBooktitleSim).setAllowAllRootValues(true).init()
+  System.gc()
+  System.gc()
+  System.gc()
+
   new SimpleEntityField("journal", repo)
     .setMaxSegmentLength(maxLengths("journal")).setHashCodes(env.hashVenueField(_))
     .setPhraseDuplicates(env.numJournalDups).setMaxHashFraction(env.maxJournalHashFraction)
     .setSimilarities(env.minJournalSim, env.maxJournalSim).setAllowAllRootValues(true).init()
+  System.gc()
+  System.gc()
+  System.gc()
 
   // create record entity
   new SimpleEntityRecord("citation", repo, false)

@@ -2,7 +2,10 @@ package edu.umass.cs.iesl.entizer
 
 import com.mongodb.casbah.Imports._
 import collection.mutable.{HashMap, HashSet}
-import com.mongodb.casbah.Imports
+import org.apache.lucene.search.IndexSearcher
+import org.apache.lucene.queryParser.{ParseException, QueryParser}
+import org.apache.lucene.analysis.standard.StandardAnalyzer
+import org.apache.lucene.util.Version
 
 /**
  * @author kedar
@@ -144,17 +147,21 @@ class FieldMentionExtractPredicateProcessor(val inputColl: MongoCollection, val 
   }
 }
 
-class EntityFieldMentionPossibleValueProcessor(val inputColl: MongoCollection, val field: Field,
-                                               val simThreshold: Double, override val useOracle: Boolean = true,
-                                               val possibleCoreValues: HashSet[FieldValue] = null)
+class EntityFieldMentionPossibleValueProcessor2(val inputColl: MongoCollection, val field: Field,
+                                                val simThreshold: Double, override val useOracle: Boolean = true,
+                                                val searcher: IndexSearcher, val version: Version, val analyzer: StandardAnalyzer,
+                                                val possibleCoreValues: HashSet[FieldValue] = null)
   extends FieldMentionSegmentAlignProcessor {
   val entityField = field.asInstanceOf[EntityField]
   val logN = math.log(1.0 * entityField.size)
+  val maxHits = 5 * entityField.numPhraseDuplicates
 
   def name = "entityPossibleValues[field=" + fieldName + "][oracle=" + useOracle +
     "][possible=" + (if (possibleCoreValues == null) "EMPTY" else "SIZE=%d".format(possibleCoreValues.size)) + "]"
 
   override def useAllRecordSegments = false
+
+  // override def numWorkers = 1
 
   // (mentionId, begin, end) -> Seq(valueId)
   override def newOutputParams(isMaster: Boolean = false) = new MentionSegmentToEntityValues
@@ -193,15 +200,30 @@ class EntityFieldMentionPossibleValueProcessor(val inputColl: MongoCollection, v
     for (segment <- getSegments(mention)) {
       val phrase = mention.words.slice(segment.begin, segment.end)
       val phraseHashes = entityField.hashCodes(phrase)
-      val allFieldValues = new HashSet[FieldValue]
-      for (phraseHash <- phraseHashes if entityField.hashToIds.contains(phraseHash)) {
-        allFieldValues ++= entityField.hashToIds(phraseHash).map(id => FieldValue(entityField, Some(id)))
-      }
-      val mentionSegment = MentionSegment(mention.id, segment.begin, segment.end)
-      for (fieldValue <- allFieldValues if possibleCoreValues == null || possibleCoreValues(fieldValue)) {
-        val valueHashes = entityField.getValueHashes(fieldValue.valueId)
-        if (getSimilarity(valueHashes, phraseHashes) >= simThreshold) {
-          partialAligns(mentionSegment) = partialAligns.getOrElse(mentionSegment, new HashSet[FieldValue]) ++ Seq(fieldValue)
+      if (phraseHashes.length > 0) {
+        try {
+          // search for the query
+          val parser = new QueryParser(version, "content", analyzer)
+          val hits = searcher.search(parser.parse(phraseHashes.mkString(" ")), maxHits).scoreDocs
+          for (i <- 0 until hits.length) {
+            val scoreDoc = hits(i)
+            val docId = scoreDoc.doc
+            val docScore = scoreDoc.score
+            val doc = searcher.doc(docId)
+            val id = new ObjectId(doc.getBinaryValue("id"))
+            val fieldValue = FieldValue(entityField, Some(id))
+            if (possibleCoreValues == null || possibleCoreValues(fieldValue)) {
+              val valueHashes = entityField.getValueHashes(fieldValue.valueId)
+              if (getSimilarity(valueHashes, phraseHashes) >= simThreshold) {
+                // if (!mention.isRecord) logger.info("Found: value='" + entityField.getValuePhrase(fieldValue.valueId).mkString(" ") +
+                //  "' for phrase='" + phrase.mkString(" ") + "' with score=" + docScore)
+                val mentionSegment = MentionSegment(mention.id, segment.begin, segment.end)
+                partialAligns(mentionSegment) = partialAligns.getOrElse(mentionSegment, new HashSet[FieldValue]) ++ Seq(fieldValue)
+              }
+            }
+          }
+        } catch {
+          case pe: ParseException => pe.printStackTrace()
         }
       }
     }

@@ -7,6 +7,14 @@ import java.net.InetSocketAddress
 import org.riedelcastro.nurupo.HasLogger
 import System.{currentTimeMillis => now}
 import scala.util.Random
+import java.io.IOException
+import org.apache.lucene.analysis.standard.StandardAnalyzer
+import org.apache.lucene.util.Version
+import org.apache.lucene.document.{Document, Field => LuceneField}
+import org.apache.lucene.search.IndexSearcher
+import org.apache.lucene.queryParser.QueryParser
+import org.apache.lucene.store.RAMDirectory
+import org.apache.lucene.index.{IndexWriterConfig, IndexReader, IndexWriter}
 
 /**
  * @author kedar
@@ -226,69 +234,98 @@ trait EntityField extends Field {
   }
 
   private def initCanopies(debug: Boolean = false) {
-    // cache all id -> * mappings
     cacheAll()
-    // get mentionId -> Seq(ids)
-    cacheMentionToValues()
     val startTime = now()
     logger.info("")
     logger.info("Starting canopyGeneration[field=" + name + "]")
-    // first identify centroids
-    val segmentToEntityCoreValues = new EntityFieldMentionPossibleValueProcessor(mentionColl, this, maxSimilarity,
-      false).run().asInstanceOf[MentionSegmentToEntityValues]
-    // for each value select a small set of core values
-    val possibleCoreValues = new HashSet[FieldValue]
-    val rnd = new Random()
-    // create all field values and shuffle for canopy
-    val allValues = new ArrayBuffer[FieldValue] ++ idToPhrase.keys.map(id => FieldValue(this, Some(id)))
-    rnd.shuffle(allValues)
-    val removedValues = new HashSet[FieldValue]
-    for (canopyValue <- allValues if !removedValues(canopyValue)) {
-      val canopySegment = idToMentionSegment(canopyValue.valueId.get)
-      // canopy core
-      val canopyCoreValues = segmentToEntityCoreValues.getOrElse(canopySegment, new HashSet[FieldValue])
-      val numCoreValuesToTake = math.min(canopyCoreValues.size * fracPhraseDuplicates, numPhraseDuplicates).toInt
-      val prunedCoreValues = canopyCoreValues.filter(!removedValues(_)).toSeq //.sortWith(_.hashCode() < _.hashCode())
-        .take(numCoreValuesToTake - 1) ++ Seq(canopyValue)
-      // logger.info("Canopy value: " + simpleValueString(canopyValue) + " core=" + canopyCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
-      if (prunedCoreValues.size < canopyCoreValues.size) {
-        logger.info("Filtering '%s' before=%d, after=%d".format(canopyValue.toString,
-          canopyCoreValues.size, prunedCoreValues.size))
+    // first index all field hash codes
+    var idx = new RAMDirectory
+    val version = Version.LUCENE_35
+    val analyzer = new StandardAnalyzer(version)
+    try {
+      var idxWriter = new IndexWriter(idx, new IndexWriterConfig(version, analyzer))
+      for ((id, hashCodes) <- idToHashCodes) {
+        val doc = new Document
+        doc.add(new LuceneField("id", id.toByteArray))
+        doc.add(new LuceneField("content", hashCodes.mkString(" "), LuceneField.Store.YES, LuceneField.Index.ANALYZED))
+        idxWriter.addDocument(doc)
       }
-      require(prunedCoreValues.size > 0, "#coreValues=0 for canopy value=" + canopyValue)
-      possibleCoreValues ++= prunedCoreValues
-      removedValues ++= canopyCoreValues
-    }
-    // next for all segments find minimally similar to possible core values
-    val segmentToAllValues = new EntityFieldMentionPossibleValueProcessor(mentionColl, this, minSimilarity, true,
-      possibleCoreValues).run().asInstanceOf[MentionSegmentToEntityValues]
-    // attach values to mention segments
-    val numSegmentsTotal = segmentToAllValues.size
-    var numSegmentsProcessed = 0
-    val segmentStartTime = now()
-    logger.info("")
-    logger.info("Starting entityValueSegmentsAttacher[field=" + name + "]")
-    for ((segment, segmentRelatedValues) <- segmentToAllValues) {
-      // debugging: print canopy information
-      if (debug) {
-        val dbo = mentionColl.findOneByID(segment.mentionId, MongoDBObject("words" -> 1, "isRecord" -> 1, "source" -> 1)).get
-        val segmentWords = MongoHelper.getListAttr[String](dbo, "words").slice(segment.begin, segment.end)
-        val source = dbo.as[String]("source")
-        logger.info("")
-        logger.info("Generating [isRecord=" + dbo.as[Boolean]("isRecord") + ", source=" + source + ", mentionId=" + dbo._id + "]: " +
-          segmentWords.mkString("'", " ", "'") + " using:\n\t" + segmentRelatedValues.mkString("\n\t"))
+      idxWriter.close(true)
+      // create index searcher
+      var searcher = new IndexSearcher(IndexReader.open(idx, true))
+      // first identify centroids
+      val segmentToEntityCoreValues = new EntityFieldMentionPossibleValueProcessor2(mentionColl, this, maxSimilarity,
+        false, searcher, version, analyzer).run().asInstanceOf[MentionSegmentToEntityValues]
+      // for each value select a small set of core values
+      val possibleCoreValues = new HashSet[FieldValue]
+      val rnd = new Random()
+      // create all field values and shuffle for canopy
+      val allValues = new ArrayBuffer[FieldValue] ++ idToHashCodes.keys.map(id => FieldValue(this, Some(id)))
+      rnd.shuffle(allValues)
+      val removedValues = new HashSet[FieldValue]
+      for (canopyValue <- allValues if !removedValues(canopyValue)) {
+        val canopySegment = idToMentionSegment(canopyValue.valueId.get)
+        // canopy core
+        val canopyCoreValues = segmentToEntityCoreValues.getOrElse(canopySegment, new HashSet[FieldValue])
+        val numCoreValuesToTake = math.min(canopyCoreValues.size * fracPhraseDuplicates, numPhraseDuplicates).toInt
+        val prunedCoreValues = canopyCoreValues.filter(!removedValues(_)).toSeq //.sortWith(_.hashCode() < _.hashCode())
+          .take(numCoreValuesToTake - 1) ++ Seq(canopyValue)
+        // logger.info("Canopy value: " + simpleValueString(canopyValue) + " core=" + canopyCoreValues.map(simpleValueString(_)).mkString("[", ", ", "]"))
+        if (prunedCoreValues.size < canopyCoreValues.size) {
+          logger.info("Filtering '%s' before=%d, after=%d".format(canopyValue.toString,
+            canopyCoreValues.size, prunedCoreValues.size))
+        }
+        require(prunedCoreValues.size > 0, "#coreValues=0 for canopy value=" + canopyValue)
+        possibleCoreValues ++= prunedCoreValues
+        removedValues ++= canopyCoreValues
       }
+      // create core index
+      idx = new RAMDirectory
+      idxWriter = new IndexWriter(idx, new IndexWriterConfig(version, analyzer))
+      for (value <- possibleCoreValues) {
+        val doc = new Document
+        doc.add(new LuceneField("id", value.valueId.get.toByteArray))
+        doc.add(new LuceneField("content", getValueHashes(value.valueId).mkString(" "), LuceneField.Store.YES, LuceneField.Index.ANALYZED))
+        idxWriter.addDocument(doc)
+      }
+      idxWriter.close(true)
+      searcher = new IndexSearcher(IndexReader.open(idx, true))
+      // next for all segments find minimally similar to possible core values
+      val segmentToAllValues = new EntityFieldMentionPossibleValueProcessor2(mentionColl, this, minSimilarity, true,
+        searcher, version, analyzer, possibleCoreValues).run().asInstanceOf[MentionSegmentToEntityValues]
+      logger.info("Total unique mentions: " + segmentToAllValues.keySet.map(_.mentionId).size)
+      val numSegmentsTotal = segmentToAllValues.size
+      var numSegmentsProcessed = 0
+      val valueToAllSegments = new HashMap[FieldValue, Seq[MentionSegment]]
+      for ((segment, segmentRelatedValues) <- segmentToAllValues) {
+        for (value <- segmentRelatedValues if value.valueId.isDefined) {
+          valueToAllSegments(value) = valueToAllSegments.getOrElse(value, Seq.empty[MentionSegment]) ++ Seq(segment)
+        }
 
-      val segmentDbo = MongoDBObject("mentionId" -> segment.mentionId, "begin" -> segment.begin, "end" -> segment.end)
-      for (value <- segmentRelatedValues if value.valueId.isDefined) {
-        entityColl.update(MongoDBObject("_id" -> value.valueId.get), $push("segments" -> segmentDbo), false, false)
+        numSegmentsProcessed += 1
+        if (numSegmentsProcessed % 1000 == 0)
+          logger.info("Processed segment -> values: " + numSegmentsProcessed + "/" + numSegmentsTotal)
       }
+      // attach values to mention segments
+      val numValuesTotal = valueToAllSegments.size
+      var numValuesProcessed = 0
+      val segmentStartTime = now()
+      logger.info("")
+      logger.info("Starting entityValueSegmentsAttacher[field=" + name + "]")
+      for ((value, valueRelatedSegments) <- valueToAllSegments) {
+        for (segment <- valueRelatedSegments) {
+          val segmentDbo = MongoDBObject("mentionId" -> segment.mentionId, "begin" -> segment.begin, "end" -> segment.end)
+          entityColl.update(MongoDBObject("_id" -> value.valueId.get), $push("segments" -> segmentDbo), false, false)
+        }
 
-      numSegmentsProcessed += 1
-      if (numSegmentsProcessed % 1000 == 0)
-        logger.info("Processed segment -> values: " + numSegmentsProcessed + "/" + numSegmentsTotal)
+        numValuesProcessed += 1
+        if (numValuesProcessed % 1000 == 0)
+          logger.info("Processed value -> segments: " + numValuesProcessed + "/" + numValuesTotal)
+      }
+      logger.info("Completed entityValueSegmentsAttacher[field=" + name + "] in time=" + (now() - segmentStartTime) + " millis")
+    } catch {
+      case ioe: IOException => ioe.printStackTrace()
     }
-    logger.info("Completed entityValueSegmentsAttacher[field=" + name + "] in time=" + (now() - segmentStartTime) + " millis")
     logger.info("Completed canopyGeneration[field=" + name + "] in time=" + (now() - startTime) + " millis")
     // clear caches
     clearAll()
